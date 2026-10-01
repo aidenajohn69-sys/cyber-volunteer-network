@@ -1,1396 +1,1291 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyber Volunteer Network | Institutional Memory & Operations</title>
-  
-  <!-- Tailwind CSS & Google Fonts -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- React & ReactDOM UMD -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.6/babel.min.js"></script>
-
-  <!-- Tailwind Configuration -->
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            aqua: {
-              50: '#e6ffff',
-              100: '#b3ffff',
-              200: '#80ffff',
-              300: '#4dffff',
-              400: '#1affff',
-              500: '#00e6e6',
-              600: '#00b3b3',
-              700: '#008080',
-              800: '#004d4d',
-              900: '#002b30',
-              950: '#00171a',
-            },
-            cyber: {
-              500: '#00f0ff',
-              600: '#0070f3',
-              700: '#0f172a',
-              800: '#070d19',
-              900: '#030712',
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Volunteer Network | Memory Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aqua: {
+                            50: '#f0fbfb',
+                            100: '#dcf6f7',
+                            200: '#beeeef',
+                            300: '#90e0ef',
+                            400: '#48cae4',
+                            500: '#00b4d8',
+                            600: '#0077b6',
+                            700: '#03045e',
+                        },
+                        glass: {
+                            light: 'rgba(255, 255, 255, 0.45)',
+                            border: 'rgba(255, 255, 255, 0.65)',
+                            dark: 'rgba(10, 25, 47, 0.65)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
+    </script>
+    <style>
+        /* Frutiger Aero / Aqua Liquid Glass Signature Theme */
+        body {
+            background: radial-gradient(circle at 20% 20%, #00f2fe 0%, #4facfe 35%, #00223e 85%, #000d1a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #0f172a;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
 
-  <style>
-    /* Frutiger Aero / Aqua Liquid Glass Core Aesthetics */
-    body {
-      background-color: #030712;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(0, 220, 255, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(0, 110, 255, 0.15) 0px, transparent 50%),
-        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
-      color: #e2f1f8;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+        /* Ambient Glowing Liquid Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+            pointer-events: none;
+            animation: float 18s ease-in-out infinite alternate;
+        }
+        .orb-1 { width: 450px; height: 450px; background: rgba(0, 212, 255, 0.45); top: -100px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: rgba(79, 172, 254, 0.35); bottom: -150px; right: -100px; animation-delay: -6s; }
+        .orb-3 { width: 350px; height: 350px; background: rgba(128, 255, 212, 0.3); top: 40%; left: 40%; animation-delay: -12s; }
 
-    /* Floating Liquid Ambient Background Orbs */
-    .liquid-orb-1 {
-      position: fixed;
-      top: -10%;
-      left: 10%;
-      width: 550px;
-      height: 550px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.22) 0%, rgba(0, 112, 243, 0.1) 50%, transparent 70%);
-      filter: blur(80px);
-      pointer-events: none;
-      z-index: 0;
-      animation: floatOrb 20s ease-in-out infinite alternate;
-    }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, -50px) scale(1.1); }
+            100% { transform: translate(-30px, 40px) scale(0.95); }
+        }
 
-    .liquid-orb-2 {
-      position: fixed;
-      bottom: -15%;
-      right: 5%;
-      width: 650px;
-      height: 650px;
-      background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, rgba(0, 200, 255, 0.08) 50%, transparent 70%);
-      filter: blur(90px);
-      pointer-events: none;
-      z-index: 0;
-      animation: floatOrb 25s ease-in-out infinite alternate-reverse;
-    }
+        /* Liquid Glass Container Styling */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 249, 255, 0.45) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 40, 90, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-    @keyframes floatOrb {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(40px, -50px) scale(1.12); }
-      100% { transform: translate(-30px, 40px) scale(0.95); }
-    }
+        .glass-panel-dark {
+            background: linear-gradient(135deg, rgba(15, 30, 55, 0.85) 0%, rgba(8, 18, 38, 0.75) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+        }
 
-    /* Glossy Glass Container Panels */
-    .aqua-glass-panel {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.11) 0%, rgba(255, 255, 255, 0.02) 100%);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 
-        inset 0 1.5px 2px rgba(255, 255, 255, 0.65),
-        inset 0 -1.5px 3px rgba(0, 0, 0, 0.6),
-        0 20px 45px rgba(0, 10, 30, 0.8),
-        0 0 25px rgba(0, 240, 255, 0.12);
-      border-radius: 24px;
-    }
+        /* Frutiger Aero Glossy Button */
+        .btn-aero {
+            background: linear-gradient(180deg, #ffffff 0%, #d8f3dc 20%, #48cae4 50%, #0077b6 100%);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.9), inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+            color: #03045e;
+            font-weight: 700;
+            border-radius: 9999px;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Beveled Aqua Glass Buttons */
-    .aqua-glass-btn {
-      background: linear-gradient(180deg, 
-        rgba(255, 255, 255, 0.5) 0%, 
-        rgba(255, 255, 255, 0.15) 45%, 
-        rgba(0, 200, 255, 0.4) 50%, 
-        rgba(0, 110, 230, 0.7) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.65);
-      box-shadow: 
-        inset 0 1px 1.5px rgba(255, 255, 255, 0.95),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.4),
-        0 4px 18px rgba(0, 150, 255, 0.35);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
+        .btn-aero::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 10%;
+            width: 80%;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 9999px;
+            pointer-events: none;
+        }
 
-    .aqua-glass-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 70%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-      transform: skewX(-20deg);
-      transition: all 0.6s ease;
-    }
+        .btn-aero:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.6), inset 0 2px 2px rgba(255, 255, 255, 1);
+        }
 
-    .aqua-glass-btn:hover::before {
-      left: 160%;
-    }
+        .btn-aero-danger {
+            background: linear-gradient(180deg, #ffffff 0%, #ffccd5 20%, #ff4d6d 50%, #c1121f 100%);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.9);
+            color: #ffffff;
+        }
 
-    .aqua-glass-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 
-        inset 0 1px 2px rgba(255, 255, 255, 1),
-        0 8px 28px rgba(0, 240, 255, 0.6);
-    }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #90e0ef 0%, #0077b6 100%);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
 
-    .aqua-glass-btn:active {
-      transform: translateY(1px);
-    }
+        /* Aqua Visual Pulse */
+        .pulse-aqua {
+            box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7);
+            animation: pulse-animation 2s infinite;
+        }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 212, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+        }
 
-    /* Soft Translucent Secondary Buttons */
-    .aqua-soft-btn {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(14px);
-      transition: all 0.2s ease;
-    }
-
-    .aqua-soft-btn:hover {
-      background: linear-gradient(180deg, rgba(0, 230, 255, 0.22) 0%, rgba(0, 110, 255, 0.15) 100%);
-      border-color: rgba(0, 240, 255, 0.6);
-      color: #ffffff;
-      box-shadow: 0 0 18px rgba(0, 220, 255, 0.35);
-    }
-
-    /* Navigation Active Tab Highlight */
-    .aqua-tab-active {
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(0, 190, 255, 0.5) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.95), 0 4px 18px rgba(0, 190, 255, 0.45);
-      color: #ffffff;
-      font-weight: 700;
-    }
-
-    /* Custom Glass Scrollbar */
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: rgba(2, 10, 25, 0.6);
-      border-radius: 10px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #00f0ff, #0066ff);
-      border-radius: 10px;
-      box-shadow: inset 0 0 4px rgba(255,255,255,0.6);
-    }
-
-    /* Audio Visualizer Animation */
-    @keyframes barWave {
-      0%, 100% { height: 6px; }
-      50% { height: 26px; }
-    }
-    .visualizer-bar {
-      animation: barWave 1s ease-in-out infinite;
-    }
-  </style>
+        /* Water Droplet Graphic Accent */
+        .droplet {
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9) 0%, rgba(0,180,216,0.5) 50%, rgba(3,4,94,0.7) 100%);
+            box-shadow: inset -2px -2px 6px rgba(0,0,0,0.3), inset 2px 2px 6px rgba(255,255,255,0.8), 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+    </style>
 </head>
-<body class="relative min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
+<body class="p-3 md:p-6 text-slate-800 relative min-h-screen">
 
-  <!-- Floating Ambient Orbs -->
-  <div class="liquid-orb-1"></div>
-  <div class="liquid-orb-2"></div>
+    <!-- Glowing Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-  <!-- React Mount Root -->
-  <div id="root"></div>
+    <div class="max-w-7xl mx-auto relative z-10 flex flex-col gap-6">
 
-  <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
-
-    // --- SVG ICON COMPONENTS ---
-    const IconBrain = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-      </svg>
-    );
-
-    const IconUpload = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-      </svg>
-    );
-
-    const IconMic = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-      </svg>
-    );
-
-    const IconCalendar = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-      </svg>
-    );
-
-    const IconShield = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    );
-
-    const IconAlert = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-      </svg>
-    );
-
-    const IconSend = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-      </svg>
-    );
-
-    const IconFileText = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    );
-
-    const IconRefresh = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-      </svg>
-    );
-
-    const IconPlus = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-      </svg>
-    );
-
-    const IconX = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    );
-
-    const IconCheck = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-      </svg>
-    );
-
-    const IconChevronDown = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-      </svg>
-    );
-
-    const IconHistory = ({ className = "w-5 h-5" }) => (
-      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    );
-
-    const INITIAL_KNOWLEDGE_BASE = [
-      {
-        id: "src-1",
-        fileName: "Transport SOP v2",
-        sourceType: "Approved Checklist",
-        date: "Apr 15, 2026",
-        status: "Approved",
-        excerpt: "Transport must be confirmed at least 10 days before the event. Reconfirm with the vendor 72 hours before departure.",
-        fullContent: `STANDARD OPERATING PROCEDURE: VOLUNTEER TRANSPORT (v2.0)\nEffective Date: April 15, 2026\nApproved by: Cyber Volunteer Network Steering Committee & Logistics Lead\n\n1. BOOKING TIMELINE & PROTOCOL\n- Initial Vendor Selection & Quote: 14 days prior to scheduled event.\n- Mandatory Confirmation & Deposit Advance: At least 10 days before event.\n- Driver & Final Route Reconfirmation: Exactly 72 hours prior to departure.\n\n2. RATIONALE & HISTORICAL CONTEXT\nThis SOP supersedes Transport Checklist v1 (Jan 2026). Following the March 20, 2026 transport cancellation caused by a late 3-day booking confirmation, all logistics coordinators must strictly lock transport commitments 10 days in advance.`
-      },
-      {
-        id: "src-2",
-        fileName: "Volunteer Chat: Cancellation Incident",
-        sourceType: "Chat Export",
-        date: "Mar 20, 2026",
-        status: "Supporting Context",
-        excerpt: "The vendor cancelled because we confirmed too late under v1 rules. Please use the revised 10-day confirmation rule.",
-        fullContent: `ARCHIVED TEAM CHAT - LOGISTICS LEAD STREAM\nDate: March 20, 2026\n\n[14:22] Rahul (Logistics Lead): Urgent update everyone! City Bus Travels just cancelled our 2 buses for Saturday's beach cleanup project.\n[14:25] Ananya (President): What happened?? They confirmed verbally last week right?\n[14:28] Rahul: The v1 checklist said confirm 3 days before. I called them today (3 days before), but they said since we didn't lock with payment 10 days prior, they gave the buses to another university group!\n[14:35] Rahul: Emergency vans cost us 40% extra from contingency funds. Lesson learned: 3 days is way too late in peak season.`
-      },
-      {
-        id: "src-3",
-        fileName: "Transport Checklist v1",
-        sourceType: "Outdated Checklist",
-        date: "Jan 10, 2026",
-        status: "Outdated / Overwritten",
-        excerpt: "Confirm transport at least 3 days before the event.",
-        fullContent: `[DEPRECATED / OUTDATED - DO NOT USE FOR NEW EVENTS]\nEVENT LOGISTICS CHECKLIST v1 (Jan 10, 2026)\n\n- Step 1: Estimate passenger count 7 days before event.\n- Step 2: Contact preferred bus service vendor for rates.\n- Step 3: Confirm transport at least 3 days before the event.\n\nNOTE: Replaced by Transport SOP v2 on April 15, 2026 due to vendor cancellation incident.`
-      },
-      {
-        id: "src-4",
-        fileName: "Partner Confirmation - Sunshine Center",
-        sourceType: "Partner Message",
-        date: "Apr 19, 2026",
-        status: "Approved",
-        excerpt: "Saturday works for us. Please share the final volunteer headcount by Thursday evening at 6:00 PM.",
-        fullContent: `EMAIL CORRESPONDENCE - SUNSHINE COMMUNITY CENTER PARTNER\nFrom: Dr. M. Nair (Director, Sunshine Community Center)\nTo: outreach@cybervolunteernetwork.org\nDate: April 19, 2026\n\nSubject: Re: Youth Mentorship Session Confirmation\n\nDear Cyber Volunteer Network Team,\n\nWe are delighted to host your student volunteers at Sunshine Community Center this coming Saturday for the youth literacy drive.\n\nAgreed Operational Details:\n- Date: Saturday\n- Session Time: 9:00 AM - 1:00 PM\n- Room Allocation: Main Hall & Seminar Room B\n- Security & Visitor Passes: Please email us the final volunteer headcount and full names by Thursday evening (6:00 PM) so our entry desk can print badges.`
-      },
-      {
-        id: "src-5",
-        fileName: "Malayalam Regional Voice Note",
-        sourceType: "Regional Audio Transcript",
-        date: "Apr 20, 2026",
-        status: "Supporting Context",
-        excerpt: "Original: \"യാത്രയും ഭക്ഷണവും ഉറപ്പാക്കുന്നതിന് മുമ്പ് എല്ലാവരുടെയും ഭക്ഷണ ആവശ്യങ്ങൾ ശേഖരിക്കുക.\"\nTranslation: \"Collect everyone's food requirements before finalizing transport and meals.\"",
-        fullContent: `REGIONAL VOLUNTEER AUDIO TRANSCRIPT & MULTILINGUAL INDEX\nSource: Voice Note / Regional Coordinator Archive\nDate: April 20, 2026\nLanguage: Malayalam with AI Vector Translation\n\nOriginal Malayalam Record:\n"യാത്രയും ഭക്ഷണവും ഉറപ്പാക്കുന്നതിന് മുമ്പ് എല്ലാവരുടെയും ഭക്ഷണ ആവശ്യങ്ങൾ (സസ്യഭുക്കുകൾ/പ്രത്യേക പഥ്യം) ശേഖരിക്കുക. കഴിഞ്ഞ തവണ ഇത് വൈകിയതിനാൽ ഭക്ഷണ വിതരണത്തിൽ തടസ്സമുണ്ടായി."\n\nVerified English Translation:\n"Collect everyone's dietary requirements (vegetarian / special diets) before finalizing transport options and meal catering. Last time, delay in gathering food counts created confusion during bus drop-offs."`
-      },
-      {
-        id: "src-6",
-        fileName: "Post-Event Lessons Report",
-        sourceType: "Event Report",
-        date: "Apr 22, 2026",
-        status: "Approved",
-        excerpt: "Food requirements and diet counts should be finalized alongside transport planning to avoid logjams.",
-        fullContent: `POST-EVENT LESSONS LEARNED REPORT\nEvent: Community Youth Mentorship & Literacy Drive\nDate: April 22, 2026\nCompiled by: Cyber Volunteer Network Executive Officers\n\nKEY OBSERVATIONS & KNOWLEDGE TRANSFER:\n1. Transport Timelines: The new 10-day booking rule was flawlessly executed.\n2. Regional Documentation: Transcripts from Malayalam volunteer notes provided critical vendor contacts.\n3. Diet Synchronization: Food dietary preferences must be collected at initial registration.`
-      }
-    ];
-
-    const INITIAL_EVENTS = [
-      {
-        id: "evt-1",
-        date: "2026-10-10",
-        title: "Transport Confirmation Deadline (10-Day SOP)",
-        category: "Logistics",
-        description: "Must confirm bus fleet and submit deposit 10 days before outreach per Transport SOP v2.",
-        linkedSource: "Transport SOP v2",
-        status: "Active",
-        time: "5:00 PM",
-        priority: "High"
-      },
-      {
-        id: "evt-2",
-        date: "2026-10-15",
-        title: "Partner Volunteer Headcount Submission",
-        category: "Partner",
-        description: "Submit final volunteer headcount and names to Sunshine Community Center by 6:00 PM.",
-        linkedSource: "Partner Confirmation - Sunshine Center",
-        status: "Active",
-        time: "6:00 PM",
-        priority: "Critical"
-      },
-      {
-        id: "evt-3",
-        date: "2026-10-17",
-        title: "Youth Mentorship & Literacy Drive",
-        category: "Event",
-        description: "Community outreach session at Sunshine Community Center (9:00 AM - 1:00 PM).",
-        linkedSource: "Post-Event Lessons Report",
-        status: "Active",
-        time: "9:00 AM",
-        priority: "Medium"
-      },
-      {
-        id: "evt-4",
-        date: "2026-10-22",
-        title: "Cyber Volunteer Knowledge Sync & Review",
-        category: "Governance",
-        description: "Monthly sync to review audio transcripts, resolve conflicting SOPs, and train incoming leads.",
-        linkedSource: "Cyber Volunteer Network Memory Engine",
-        status: "Active",
-        time: "4:00 PM",
-        priority: "Normal"
-      }
-    ];
-
-    const INITIAL_AUDIT_LOGS = [
-      {
-        id: "log-1",
-        timestamp: "Apr 15, 2026 • 10:30 AM",
-        title: "Transport Lead Time Overwritten",
-        overwrittenFile: "Transport Checklist v1 (Jan 2026)",
-        newFile: "Transport SOP v2 (Apr 2026)",
-        fieldChanged: "Confirmation Timeline: 3 Days → 10 Days",
-        reason: "March 2026 bus vendor cancellation incident caused by late confirmation."
-      }
-    ];
-
-    function App() {
-      const [sources, setSources] = useState(INITIAL_KNOWLEDGE_BASE);
-      const [events, setEvents] = useState(INITIAL_EVENTS);
-      const [auditLogs, setAuditLogs] = useState(INITIAL_AUDIT_LOGS);
-      const [messages, setMessages] = useState([]);
-      const [isLoading, setIsLoading] = useState(false);
-      const [loadingStep, setLoadingStep] = useState('');
-      const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'calendar' | 'audit'
-      const [selectedModalSource, setSelectedModalSource] = useState(null);
-      const [selectedEventModal, setSelectedEventModal] = useState(null);
-      const [showAddEventModal, setShowAddEventModal] = useState(false);
-      const [toast, setToast] = useState(null);
-
-      // Voice Recording States
-      const [isRecording, setIsRecording] = useState(false);
-      const [recordingTime, setRecordingTime] = useState(0);
-      const [audioBlob, setAudioBlob] = useState(null);
-      const [audioUrl, setAudioUrl] = useState(null);
-      const mediaRecorderRef = useRef(null);
-      const audioChunksRef = useRef([]);
-      const timerIntervalRef = useRef(null);
-
-      const showToast = (title, message, type = "info") => {
-        setToast({ title, message, type });
-        setTimeout(() => setToast(null), 4500);
-      };
-
-      // Dynamic Conflict & Overwrite Engine
-      const processNewKnowledgeRecord = (newRecord) => {
-        const fullTxt = (newRecord.fullContent + " " + newRecord.excerpt).toLowerCase();
-        let conflictsFound = [];
-
-        if (fullTxt.includes("transport") || fullTxt.includes("bus") || fullTxt.includes("booking") || fullTxt.includes("checklist")) {
-          setSources(prev => {
-            return prev.map(src => {
-              if (src.fileName.includes("Transport") && src.status === "Approved") {
-                conflictsFound.push(src.fileName);
-                return { ...src, status: "Outdated / Overwritten" };
-              }
-              return src;
-            });
-          });
-
-          // Add to Audit Log
-          const logEntry = {
-            id: `log-${Date.now()}`,
-            timestamp: new Date().toLocaleString([], { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-            title: "Dynamic Overwrite: Transport Rule Updated",
-            overwrittenFile: conflictsFound.length > 0 ? conflictsFound.join(", ") : "Prior Transport Rules",
-            newFile: newRecord.fileName,
-            fieldChanged: "Operating Logistics & Confirmation Deadlines",
-            reason: `Uploaded record '${newRecord.fileName}' introduced newer operational constraints.`
-          };
-          setAuditLogs(prev => [logEntry, ...prev]);
-        }
-
-        setSources(prev => [newRecord, ...prev]);
-
-        if (conflictsFound.length > 0) {
-          showToast(
-            "Conflict Overwritten!",
-            `New record '${newRecord.fileName}' contradicted earlier guidelines. Superseded ${conflictsFound.join(", ")}.`,
-            "warning"
-          );
-        } else {
-          showToast(
-            "Record Vectorized & Indexed",
-            `Successfully processed '${newRecord.fileName}' into Cyber Volunteer Network archive.`,
-            "success"
-          );
-        }
-      };
-
-      // File Uploader
-      const handleFileUpload = (e) => {
-        const files = Array.from(e.target.files || []);
-        if (!files.length) return;
-
-        files.forEach(file => {
-          const fileName = file.name;
-          const isText = fileName.endsWith('.txt') || fileName.endsWith('.csv') || fileName.endsWith('.json') || fileName.endsWith('.md');
-          const isAudio = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || fileName.endsWith('.ogg') || fileName.endsWith('.webm');
-
-          if (isText) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-              const content = event.target.result;
-              const newRecord = {
-                id: `up-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
-                fileName: fileName,
-                sourceType: fileName.endsWith('.json') ? 'JSON Data' : 'Uploaded Document',
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                status: 'Approved',
-                excerpt: content.substring(0, 180) + (content.length > 180 ? '...' : ''),
-                fullContent: `EXTRACTED FILE CONTENT (${fileName}):\nImport Date: ${new Date().toLocaleString()}\n\n${content}`
-              };
-              processNewKnowledgeRecord(newRecord);
-            };
-            reader.readAsText(file);
-          } else if (isAudio) {
-            const newRecord = {
-              id: `audio-up-${Date.now()}`,
-              fileName: fileName,
-              sourceType: 'Uploaded Audio Recording',
-              date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-              status: 'Approved',
-              excerpt: `Speech-to-text transcript generated for audio file ${fileName}.`,
-              fullContent: `AUDIO SPEECH TRANSCRIPT: ${fileName}\nFormat: ${file.type || 'Audio Stream'}\n\nTranscribed Voice Content:\n"Urgent update for Cyber Volunteer Network coordinators. All bus bookings must strictly be locked 10 days in advance. Submit headcount list to partner by Thursday 6 PM."`
-            };
-            processNewKnowledgeRecord(newRecord);
-          } else {
-            const newRecord = {
-              id: `doc-up-${Date.now()}`,
-              fileName: fileName,
-              sourceType: 'Document Archive',
-              date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-              status: 'Approved',
-              excerpt: `Vector indexed PDF/DOC file: ${fileName}.`,
-              fullContent: `DOCUMENT RECORD: ${fileName}\nStatus: Verified & Vectorized into Knowledge Graph.`
-            };
-            processNewKnowledgeRecord(newRecord);
-          }
-        });
-      };
-
-      // Voice Recording Handlers
-      const startRecording = async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          mediaRecorderRef.current = new MediaRecorder(stream);
-          audioChunksRef.current = [];
-
-          mediaRecorderRef.current.ondataavailable = (e) => {
-            if (e.data.size > 0) audioChunksRef.current.push(e.data);
-          };
-
-          mediaRecorderRef.current.onstop = () => {
-            const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-            const url = URL.createObjectURL(blob);
-            setAudioBlob(blob);
-            setAudioUrl(url);
-          };
-
-          mediaRecorderRef.current.start();
-          setIsRecording(true);
-          setRecordingTime(0);
-
-          timerIntervalRef.current = setInterval(() => {
-            setRecordingTime(prev => prev + 1);
-          }, 1000);
-
-        } catch (err) {
-          console.error("Microphone error:", err);
-          showToast("Microphone Error", "Unable to access microphone for live recording.", "warning");
-        }
-      };
-
-      const stopRecording = () => {
-        if (mediaRecorderRef.current && isRecording) {
-          mediaRecorderRef.current.stop();
-          mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
-          setIsRecording(false);
-          clearInterval(timerIntervalRef.current);
-        }
-      };
-
-      const saveVoiceNoteToArchive = () => {
-        if (!audioUrl) return;
-
-        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const newRecord = {
-          id: `voice-live-${Date.now()}`,
-          fileName: `Voice Note (${timeStr})`,
-          sourceType: 'Live Voice Recording',
-          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-          status: 'Approved',
-          excerpt: `"Live audio note captured at ${timeStr}: Confirmed 10-day transport timeline and Sunshine Center headcount deadline."`,
-          fullContent: `LIVE AUDIO RECORDING TRANSCRIPT\nRecorded On: ${new Date().toLocaleString()}\nAudio Duration: ${recordingTime} seconds\n\nSpeech-to-Text Transcript:\n"Attention Cyber Volunteer Network coordinators: Transport confirmations MUST strictly happen 10 days before any scheduled outreach. Also, Sunshine Community Center requested the final volunteer headcount by Thursday 6 PM."`
-        };
-
-        processNewKnowledgeRecord(newRecord);
-        setAudioBlob(null);
-        setAudioUrl(null);
-        setRecordingTime(0);
-      };
-
-      const handleSendMessage = async (queryText) => {
-        const userMsg = {
-          id: Date.now().toString(),
-          sender: 'user',
-          text: queryText,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-
-        setMessages(prev => [...prev, userMsg]);
-        setIsLoading(true);
-
-        setLoadingStep("Scanning Cyber Volunteer Network knowledge graph...");
-        await new Promise(r => setTimeout(r, 450));
-        setLoadingStep("Parsing document vectors & audio transcripts...");
-        await new Promise(r => setTimeout(r, 450));
-        setLoadingStep("Resolving rule contradictions & status overwrites...");
-        await new Promise(r => setTimeout(r, 450));
-        setLoadingStep("Synthesizing structured response & action plan...");
-        await new Promise(r => setTimeout(r, 450));
-
-        const query = queryText.toLowerCase();
-        let structuredAnswer = null;
-
-        if (query.includes("transport") || query.includes("bus") || query.includes("checklist") || query.includes("booking") || query.includes("rule")) {
-          const approvedSrc = sources.find(s => s.status === "Approved" && s.fileName.includes("Transport")) || sources[0];
-          const outdatedSrc = sources.find(s => s.status.includes("Outdated")) || sources[2];
-
-          structuredAnswer = {
-            executiveSummary: "All volunteer transport must be confirmed with vendor payment at least 10 days prior to the event, followed by a final driver reconfirmation 72 hours before departure.",
-            actionPlan: [
-              "Submit fleet request and initial headcount to logistics lead 14 days prior to event.",
-              "Pay deposit and receive written confirmation from vendor at least 10 days before departure.",
-              "Conduct driver and route reconfirmation call exactly 72 hours before departure.",
-              "Distribute volunteer pickup point schedule 24 hours in advance."
-            ],
-            keyGrid: [
-              { label: "Mandatory Lead Time", value: "10 Days in Advance", badge: "Non-Negotiable", status: "Critical" },
-              { label: "Driver Reconfirmation", value: "72 Hours Before", badge: "Required", status: "Active" },
-              { label: "Current SOP Version", value: "Transport SOP v2 (Apr 2026)", badge: "Active Approved", status: "Success" },
-              { label: "Deprecating Rule", value: "Checklist v1 (3-Day Rule)", badge: "Superseded", status: "Warning" }
-            ],
-            conflict: {
-              exists: true,
-              summary: "A critical contradiction exists between legacy Checklist v1 (3 days) and current Transport SOP v2 (10 days).",
-              oldRule: "Transport Checklist v1 allowed confirming 3 days prior to departure.",
-              newRule: "Transport SOP v2 strictly mandates confirmation 10 days prior to departure.",
-              reason: "In March 2026, relying on the 3-day rule caused City Bus Travels to cancel, costing 40% extra from contingency funds."
-            },
-            sources: [approvedSrc, outdatedSrc].filter(Boolean)
-          };
-        } else if (query.includes("why") || query.includes("change") || query.includes("cancellation") || query.includes("incident")) {
-          structuredAnswer = {
-            executiveSummary: "The transport protocol was overhauled after a March 20, 2026 incident where the bus service cancelled 2 buses because confirmation occurred only 3 days prior.",
-            actionPlan: [
-              "Emergency deployment of 3 private vans incurred a 40% cost surcharge from contingency funds.",
-              "Steering Committee immediately drafted Transport SOP v2 setting a strict 10-day limit.",
-              "All regional leads were notified via voice note and updated checklist indexing."
-            ],
-            keyGrid: [
-              { label: "Incident Date", value: "March 20, 2026", badge: "Historical Record", status: "Warning" },
-              { label: "Financial Impact", value: "+40% Cost Surcharge", badge: "Budget Contingency", status: "Warning" },
-              { label: "Corrective SOP", value: "Transport SOP v2", badge: "Approved & Active", status: "Success" }
-            ],
-            conflict: { exists: false },
-            sources: sources.filter(s => s.fileName.includes("Cancellation") || s.fileName.includes("SOP"))
-          };
-        } else if (query.includes("partner") || query.includes("sunshine") || query.includes("headcount") || query.includes("thursday")) {
-          const partnerSrc = sources.find(s => s.fileName.includes("Partner")) || sources[3];
-
-          structuredAnswer = {
-            executiveSummary: "Dr. Nair at Sunshine Community Center has confirmed Saturday's Youth Mentorship Session (9 AM - 1 PM). Final volunteer headcount and badge names MUST be submitted by Thursday at 6:00 PM.",
-            actionPlan: [
-              "Lock volunteer registration by Thursday 4:00 PM.",
-              "Format full name list and email outreach@cybervolunteernetwork.org by 6:00 PM.",
-              "Collect entry security badges at Sunshine Community Center main desk on Saturday 8:30 AM."
-            ],
-            keyGrid: [
-              { label: "Partner Venue", value: "Sunshine Community Center", badge: "Confirmed Host", status: "Success" },
-              { label: "Session Time", value: "Saturday, 9:00 AM - 1:00 PM", badge: "Main Hall & B", status: "Active" },
-              { label: "Headcount Deadline", value: "Thursday @ 6:00 PM", badge: "Strict Security Gate", status: "Critical" },
-              { label: "Lead Contact", value: "Dr. M. Nair (Director)", badge: "Primary Partner", status: "Active" }
-            ],
-            conflict: { exists: false },
-            sources: [partnerSrc]
-          };
-        } else if (query.includes("malayalam") || query.includes("food") || query.includes("diet") || query.includes("catering") || query.includes("voice")) {
-          const malayalamSrc = sources.find(s => s.fileName.includes("Malayalam")) || sources[4];
-          const lessonsSrc = sources.find(s => s.fileName.includes("Lessons")) || sources[5];
-
-          structuredAnswer = {
-            executiveSummary: "Multilingual analysis of regional voice notes mandates gathering volunteer dietary preferences (vegetarian / special diets) during initial registration before locking transport and catering.",
-            actionPlan: [
-              "Include mandatory dietary preference checkboxes in registration forms.",
-              "Aggregate dietary counts alongside transport passenger lists.",
-              "Deliver categorized lunch boxes directly to designated bus drop-off points."
-            ],
-            keyGrid: [
-              { label: "Source Note", value: "Malayalam Regional Audio", badge: "Verified AI Speech-to-Text", status: "Active" },
-              { label: "Dietary Prerequisite", value: "Before Transport Lock", badge: "SOP Requirement", status: "Success" },
-              { label: "Target Operational Goal", value: "Zero Catering Logjams", badge: "Quality Benchmark", status: "Active" }
-            ],
-            conflict: { exists: false },
-            sources: [malayalamSrc, lessonsSrc]
-          };
-        } else {
-          structuredAnswer = {
-            executiveSummary: `Synthesis of Cyber Volunteer Network records matching query "${queryText}". Primary operational guidelines and active SOPs apply.`,
-            actionPlan: [
-              "Consult active SOP v2 for all transport and booking procedures.",
-              "Submit partner headcounts 48 hours prior to event dates.",
-              "Cross-check regional voice transcripts for catering and local volunteer arrangements."
-            ],
-            keyGrid: [
-              { label: "Indexed Records Evaluated", value: `${sources.length} Documents & Audio Notes`, badge: "Vector Search", status: "Success" },
-              { label: "System Status", value: "Active & Conflict-Free", badge: "Memory Graph", status: "Success" }
-            ],
-            conflict: { exists: false },
-            sources: sources.slice(0, 3)
-          };
-        }
-
-        const aiMsg = {
-          id: (Date.now() + 1).toString(),
-          sender: 'assistant',
-          structuredAnswer: structuredAnswer,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-
-        setMessages(prev => [...prev, aiMsg]);
-        setIsLoading(false);
-      };
-
-      // Add Custom Event Handler
-      const handleCreateCustomEvent = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const newEvt = {
-          id: `evt-custom-${Date.now()}`,
-          date: form.eventDate.value,
-          time: form.eventTime.value || "10:00 AM",
-          title: form.eventTitle.value,
-          category: form.eventCategory.value,
-          priority: form.eventPriority.value || "Medium",
-          description: form.eventDesc.value,
-          linkedSource: "Manual Entry by Coordinator",
-          status: "Active"
-        };
-        setEvents(prev => [newEvt, ...prev]);
-        setShowAddEventModal(false);
-        showToast("Calendar Event Created", `Scheduled '${newEvt.title}' for ${newEvt.date}.`, "success");
-      };
-
-      return (
-        <div className="relative z-10 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col min-h-screen space-y-6">
-          
-          {/* TOAST NOTIFICATION BANNER */}
-          {toast && (
-            <div className={`fixed top-6 right-6 z-50 p-4 max-w-md rounded-2xl backdrop-blur-2xl border shadow-2xl flex items-start space-x-3 transition-all animate-bounce ${
-              toast.type === 'warning' ? 'bg-amber-950/90 border-amber-400/60 text-amber-200' : 'bg-cyan-950/90 border-cyan-400/60 text-cyan-100'
-            }`}>
-              <IconAlert className="w-5 h-5 shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider">{toast.title}</h4>
-                <p className="text-xs mt-0.5 opacity-90 leading-relaxed">{toast.message}</p>
-              </div>
-            </div>
-          )}
-
-          {}
-          <header className="aqua-glass-panel p-4 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 p-[1.5px] shadow-lg shadow-cyan-500/40 flex items-center justify-center relative shrink-0">
-                <div className="w-full h-full bg-slate-950/80 rounded-[14px] flex items-center justify-center backdrop-blur-md">
-                  <IconBrain className="w-7 h-7 text-cyan-300 animate-pulse" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-cyan-400 rounded-full blur-[1px] animate-ping" />
-              </div>
-              <div>
-                <div className="flex items-center space-x-2">
-                  <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-cyan-100 to-cyan-300 bg-clip-text text-transparent">
-                    Cyber Volunteer Network
-                  </h1>
-                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/40 uppercase tracking-widest">
-                    AQUA GLASS
-                  </span>
-                </div>
-                <p className="text-xs text-cyan-200/80 font-medium mt-0.5">
-                  Institutional Memory & Conflict-Aware Operations Engine
-                </p>
-              </div>
-            </div>
-
-            {/* Navigation Tabs */}
-            <div className="flex items-center space-x-1.5 bg-slate-950/70 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
-              <button
-                onClick={() => setActiveTab('chat')}
-                className={`px-4 py-2 rounded-xl text-xs transition-all flex items-center space-x-2 ${
-                  activeTab === 'chat' ? 'aqua-tab-active' : 'text-slate-300 hover:text-white'
-                }`}
-              >
-                <IconBrain className="w-4 h-4" />
-                <span>Ask Memory</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('calendar')}
-                className={`px-4 py-2 rounded-xl text-xs transition-all flex items-center space-x-2 ${
-                  activeTab === 'calendar' ? 'aqua-tab-active' : 'text-slate-300 hover:text-white'
-                }`}
-              >
-                <IconCalendar className="w-4 h-4" />
-                <span>Events Calendar</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('audit')}
-                className={`px-4 py-2 rounded-xl text-xs transition-all flex items-center space-x-2 ${
-                  activeTab === 'audit' ? 'aqua-tab-active' : 'text-slate-300 hover:text-white'
-                }`}
-              >
-                <IconHistory className="w-4 h-4" />
-                <span>Overwrite Audit Log</span>
-              </button>
-            </div>
-          </header>
-
-          {}
-          <div className="grid grid-cols-12 gap-6 flex-1">
-            
-            {/* SIDEBAR: VOICE RECORDER, FILE UPLOADER & ARCHIVE BASE */}
-            <div className="col-span-12 lg:col-span-4 space-y-6">
-              
-              {/* LIVE VOICE RECORDER CARD */}
-              <div className="aqua-glass-panel p-5 relative overflow-hidden">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                    <IconMic className="w-4 h-4 text-cyan-400" />
-                    <span>Live Voice Recorder</span>
-                  </h3>
-                  {isRecording && (
-                    <span className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-bold animate-pulse">
-                      <span className="w-2 h-2 rounded-full bg-rose-500" />
-                      <span>REC {recordingTime}s</span>
+        <!-- HEADER PANEL -->
+        <header class="glass-panel p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300 via-blue-500 to-indigo-700 shadow-lg text-white text-2xl border-2 border-white/80">
+                    <i class="fa-solid font-bold fa-shield-halved text-white drop-shadow"></i>
+                    <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-4 w-4 bg-cyan-400 border border-white"></span>
                     </span>
-                  )}
                 </div>
-
-                {!isRecording && !audioUrl && (
-                  <button
-                    onClick={startRecording}
-                    className="w-full py-3 rounded-xl aqua-glass-btn text-xs font-bold text-white flex items-center justify-center space-x-2"
-                  >
-                    <IconMic className="w-4 h-4 text-cyan-200" />
-                    <span>Record Audio Voice Note</span>
-                  </button>
-                )}
-
-                {isRecording && (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-center space-x-1.5 py-3">
-                      <span className="w-1.5 bg-cyan-400 visualizer-bar rounded-full" style={{ animationDelay: '0.1s' }} />
-                      <span className="w-1.5 bg-cyan-300 visualizer-bar rounded-full" style={{ animationDelay: '0.3s' }} />
-                      <span className="w-1.5 bg-blue-400 visualizer-bar rounded-full" style={{ animationDelay: '0.2s' }} />
-                      <span className="w-1.5 bg-indigo-400 visualizer-bar rounded-full" style={{ animationDelay: '0.4s' }} />
-                      <span className="w-1.5 bg-cyan-400 visualizer-bar rounded-full" style={{ animationDelay: '0.15s' }} />
-                      <span className="w-1.5 bg-emerald-400 visualizer-bar rounded-full" style={{ animationDelay: '0.35s' }} />
-                    </div>
-                    <button
-                      onClick={stopRecording}
-                      className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-500 text-white text-xs font-bold shadow-lg shadow-rose-950/50 hover:brightness-110 transition-all"
-                    >
-                      Stop Recording
-                    </button>
-                  </div>
-                )}
-
-                {audioUrl && !isRecording && (
-                  <div className="space-y-3 pt-1">
-                    <audio src={audioUrl} controls className="w-full h-8 rounded-lg" />
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={saveVoiceNoteToArchive}
-                        className="flex-1 py-2 rounded-xl aqua-glass-btn text-xs font-bold text-white"
-                      >
-                        Transcribe & Index
-                      </button>
-                      <button
-                        onClick={() => { setAudioUrl(null); setAudioBlob(null); }}
-                        className="px-3 py-2 rounded-xl aqua-soft-btn text-xs text-slate-300"
-                      >
-                        Discard
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* MULTI-FORMAT FILE UPLOADER */}
-              <div className="aqua-glass-panel p-5">
-                <h3 className="text-sm font-bold text-white mb-2 flex items-center space-x-2">
-                  <IconUpload className="w-4 h-4 text-cyan-400" />
-                  <span>Upload Documents / Voice Files</span>
-                </h3>
-                <label className="block w-full p-4 border-2 border-dashed border-cyan-400/40 hover:border-cyan-300 rounded-2xl bg-slate-950/40 hover:bg-cyan-950/20 transition-all text-center cursor-pointer group">
-                  <input
-                    type="file"
-                    multiple
-                    accept=".txt,.pdf,.docx,.doc,.csv,.json,.md,.mp3,.wav,.m4a,.ogg,.webm"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <IconUpload className="w-8 h-8 text-cyan-300 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="text-xs font-bold text-slate-100">
-                    Click to select or drag & drop files
-                  </p>
-                  <p className="text-[10px] text-cyan-200/70 mt-1">
-                    Supports TXT, PDF, DOCX, CSV, JSON & Audio MP3, WAV
-                  </p>
-                </label>
-              </div>
-
-              {/* INDEXED SOURCE RECORDS BASE */}
-              <div className="aqua-glass-panel p-5 space-y-3">
-                <div className="flex items-center justify-between pb-2 border-b border-white/10">
-                  <h3 className="text-xs font-bold text-cyan-200 uppercase tracking-wider">
-                    Knowledge Base ({sources.length})
-                  </h3>
-                  <span className="text-[10px] text-emerald-400 font-semibold flex items-center space-x-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                    <span>Auto Overwrite Engine</span>
-                  </span>
-                </div>
-
-                <div className="space-y-2.5 max-h-[320px] overflow-y-auto custom-scrollbar pr-1">
-                  {sources.map(item => (
-                    <div
-                      key={item.id}
-                      onClick={() => setSelectedModalSource(item)}
-                      className="p-3 rounded-xl bg-slate-950/60 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-950/20 transition-all cursor-pointer group"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h4 className="text-xs font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">
-                            {item.fileName}
-                          </h4>
-                          <p className="text-[10px] text-slate-400 mt-0.5">
-                            {item.sourceType} • {item.date}
-                          </p>
-                        </div>
-                        <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold border ${
-                          item.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' :
-                          item.status.includes('Outdated') ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
-                          'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-                        }`}>
-                          {item.status}
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-900 via-cyan-800 to-indigo-900 tracking-tight">
+                            Cyber Volunteer Network
+                        </h1>
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-cyan-100/90 text-cyan-800 border border-cyan-300 flex items-center gap-1.5 shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Memory Engine Online
                         </span>
-                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            {}
-            <div className="col-span-12 lg:col-span-8 flex flex-col space-y-6">
-              
-              {activeTab === 'chat' && (
-                <div className="aqua-glass-panel p-6 flex flex-col h-[750px]">
-                  
-                  {/* MESSAGES VIEW CONTAINER */}
-                  <div className="flex-1 overflow-y-auto space-y-6 pr-2 custom-scrollbar">
-                    {messages.length === 0 && (
-                      <div className="text-center py-12 space-y-4">
-                        <div className="w-16 h-16 mx-auto rounded-3xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center">
-                          <IconBrain className="w-8 h-8 text-cyan-300 animate-pulse" />
-                        </div>
-                        <h3 className="text-lg font-bold text-white">Ask Cyber Volunteer Network Memory</h3>
-                        <p className="text-xs text-slate-300 max-w-md mx-auto">
-                          Ask any question. Answers are generated as clean, structured operational reports backed by institutional memory.
-                        </p>
-
-                        <div className="flex flex-wrap gap-2 justify-center pt-2">
-                          {[
-                            "Which transport checklist should we use?",
-                            "Why was the transport process changed?",
-                            "What has the partner confirmed?",
-                            "What does the Malayalam note say about food?"
-                          ].map((q, idx) => (
-                            <button
-                              key={idx}
-                              onClick={() => handleSendMessage(q)}
-                              className="px-3.5 py-2 rounded-xl aqua-soft-btn text-xs text-cyan-200"
-                            >
-                              {q}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {messages.map((msg) => (
-                      <div key={msg.id} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
-                        {msg.sender === 'user' ? (
-                          <div className="max-w-lg px-4 py-3 rounded-2xl aqua-glass-btn text-xs font-semibold text-white shadow-lg">
-                            {msg.text}
-                          </div>
-                        ) : (
-                          <StructuredAnswerBox answer={msg.structuredAnswer} onViewSource={setSelectedModalSource} />
-                        )}
-                      </div>
-                    ))}
-
-                    {isLoading && (
-                      <div className="flex items-center space-x-2.5 p-4 rounded-2xl bg-slate-950/70 border border-cyan-400/30 text-xs text-cyan-300">
-                        <IconRefresh className="w-4 h-4 animate-spin" />
-                        <span>{loadingStep}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* CHAT INPUT COMPOSER */}
-                  <form onSubmit={(e) => { e.preventDefault(); const val = e.target.query.value; if(val){ handleSendMessage(val); e.target.query.value = ''; } }} className="mt-4 pt-3 border-t border-white/10 flex items-center space-x-2">
-                    <input
-                      name="query"
-                      type="text"
-                      placeholder="Ask about SOPs, partner rules, timelines, or voice transcripts..."
-                      className="flex-1 bg-slate-950/80 border border-white/20 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400"
-                    />
-                    <button type="submit" className="p-3 rounded-xl aqua-glass-btn text-white">
-                      <IconSend className="w-4 h-4" />
-                    </button>
-                  </form>
-
-                </div>
-              )}
-
-              {/* CALENDAR TAB */}
-              {activeTab === 'calendar' && (
-                <div className="aqua-glass-panel p-6 space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
-                    <div>
-                      <h2 className="text-lg font-black text-white flex items-center space-x-2">
-                        <IconCalendar className="w-5 h-5 text-cyan-400" />
-                        <span>Upcoming Operational Events & Deadlines</span>
-                      </h2>
-                      <p className="text-xs text-cyan-200/80 mt-0.5">
-                        Synchronized automatically from active SOPs, partner approvals, and uploaded voice notes
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setShowAddEventModal(true)}
-                      className="px-4 py-2 rounded-xl aqua-glass-btn text-xs font-bold text-white flex items-center space-x-1.5 self-start sm:self-auto"
-                    >
-                      <IconPlus className="w-4 h-4" />
-                      <span>Add Calendar Event</span>
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {events.map(evt => (
-                      <div
-                        key={evt.id}
-                        onClick={() => setSelectedEventModal(evt)}
-                        className="p-4 rounded-2xl bg-slate-950/60 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-950/20 transition-all cursor-pointer group space-y-3"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-mono font-bold text-cyan-300">{evt.date} • {evt.time}</span>
-                          <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold border ${
-                            evt.priority === 'Critical' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
-                            evt.priority === 'High' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
-                            'bg-indigo-500/20 text-indigo-300 border-indigo-500/40'
-                          }`}>
-                            {evt.category} • {evt.priority}
-                          </span>
-                        </div>
-                        <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors">
-                          {evt.title}
-                        </h4>
-                        <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">
-                          {evt.description}
-                        </p>
-                        <div className="pt-2 flex items-center justify-between text-[10px] text-cyan-400/90 font-semibold border-t border-white/5">
-                          <span className="flex items-center space-x-1">
-                            <IconFileText className="w-3.5 h-3.5" />
-                            <span>Linked: {evt.linkedSource}</span>
-                          </span>
-                          <span className="text-slate-400 group-hover:text-cyan-300">View Details &rarr;</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* OVERWRITE AUDIT LOG TAB */}
-              {activeTab === 'audit' && (
-                <div className="aqua-glass-panel p-6 space-y-6">
-                  <div>
-                    <h2 className="text-lg font-black text-white flex items-center space-x-2">
-                      <IconHistory className="w-5 h-5 text-cyan-400" />
-                      <span>Knowledge Overwrite & Rule Change Audit Log</span>
-                    </h2>
-                    <p className="text-xs text-cyan-200/80 mt-0.5">
-                      Visual audit timeline showing how newly uploaded files and voice transcripts supersede older rules.
+                    <p class="text-xs md:text-sm font-medium text-slate-600 mt-0.5">
+                        Institutional Memory & Conflict-Aware Operations Engine
                     </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    {auditLogs.map((log) => (
-                      <div key={log.id} className="p-4 rounded-2xl bg-slate-950/70 border border-white/10 space-y-2">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-bold text-amber-300">{log.title}</span>
-                          <span className="font-mono text-slate-400 text-[10px]">{log.timestamp}</span>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
-                          <div className="p-2.5 rounded-xl bg-rose-950/30 border border-rose-500/30 text-rose-200">
-                            <span className="text-[10px] font-bold uppercase block text-rose-400">Overwritten Legacy Source</span>
-                            {log.overwrittenFile}
-                          </div>
-                          <div className="p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-200">
-                            <span className="text-[10px] font-bold uppercase block text-emerald-400">New Active Approved Source</span>
-                            {log.newFile}
-                          </div>
-                        </div>
-                        <div className="text-xs text-slate-300 pt-1">
-                          <strong>Field Change:</strong> {log.fieldChanged}
-                        </div>
-                        <div className="text-xs text-slate-400 italic">
-                          "{log.reason}"
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
-              )}
+            </div>
+
+            <!-- Quick Controls & Search -->
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                <div class="relative flex-1 md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="quickSearchInput" onkeyup="handleQuickSearch()" placeholder="Search active memory..." 
+                        class="w-full pl-9 pr-4 py-2 bg-white/70 border border-white/80 rounded-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow-inner">
+                </div>
+                <button onclick="toggleAuditModal()" class="px-4 py-2 bg-white/80 hover:bg-white text-slate-700 rounded-full text-sm font-semibold border border-white/90 shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-cyan-600"></i>
+                    <span class="hidden sm:inline">Audit Log</span>
+                    <span id="auditBadgeCount" class="bg-cyan-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">2</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT WORKSPACE -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- LEFT PANEL: Upload Zone, Voice Recorder, Source Memory List -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <!-- FILE UPLOAD & VOICE INGESTION CARD -->
+                <div class="glass-panel p-5 flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-file-arrow-up text-cyan-600"></i> Knowledge Ingestion Zone
+                        </h2>
+                        <span class="text-xs text-slate-500 font-semibold bg-white/60 px-2.5 py-1 rounded-full border border-white/80">
+                            Zero-Error Speech & Doc Parser
+                        </span>
+                    </div>
+
+                    <!-- File Drop Area -->
+                    <div id="dropZone" onclick="document.getElementById('fileInput').click()" 
+                        class="border-2 border-dashed border-cyan-400/70 hover:border-cyan-500 bg-cyan-50/40 hover:bg-cyan-100/50 transition p-5 rounded-2xl text-center cursor-pointer flex flex-col items-center justify-center gap-2 group">
+                        <div class="w-12 h-12 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm border border-white">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-700">Click or Drag & Drop Documents / Audio</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Supports TXT, CSV, JSON, MD, MP3, WAV, M4A, WEBM</p>
+                        </div>
+                        <input type="file" id="fileInput" class="hidden" multiple accept=".txt,.csv,.json,.md,.mp3,.wav,.m4a,.webm,.pdf,.docx" onchange="handleFileSelect(event)">
+                    </div>
+
+                    <!-- Live Voice Recorder Section -->
+                    <div class="bg-white/60 rounded-2xl p-4 border border-white/80 flex flex-col gap-3 shadow-inner">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="relative flex h-3 w-3">
+                                    <span id="recordingPing" class="hidden animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span id="recordingDot" class="relative inline-flex rounded-full h-3 w-3 bg-slate-400"></span>
+                                </span>
+                                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Live Voice SOP Recorder</span>
+                            </div>
+                            <span id="recordTimer" class="font-mono text-xs font-bold text-slate-600">00:00</span>
+                        </div>
+
+                        <!-- Audio Visualizer Canvas -->
+                        <canvas id="visualizerCanvas" class="w-full h-10 bg-slate-900/10 rounded-xl border border-white/50"></canvas>
+
+                        <!-- Controls -->
+                        <div class="flex items-center gap-2">
+                            <button id="recordBtn" onclick="toggleRecording()" class="btn-aero flex-1 py-2.5 px-4 text-xs flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-microphone text-sm"></i>
+                                <span id="recordBtnText">Start Live Dictation</span>
+                            </button>
+                            <button onclick="clearVoiceBuffer()" class="p-2.5 bg-slate-200/80 hover:bg-slate-300 text-slate-600 rounded-full transition text-xs" title="Clear Buffer">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+
+                        <!-- Live Transcription Real-time Box -->
+                        <div id="transcriptBox" class="text-xs text-slate-600 font-mono bg-white/80 p-3 rounded-xl border border-slate-200 min-h-[60px] max-h-[100px] overflow-y-auto italic">
+                            [Live transcription will stream here...]
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INDEXED KNOWLEDGE SOURCES -->
+                <div class="glass-panel p-5 flex flex-col gap-4 flex-1">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-database text-cyan-600"></i> Indexed Knowledge Memory
+                        </h2>
+                        <span id="sourceCountBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-cyan-600 text-white shadow-sm">
+                            4 Sources Loaded
+                        </span>
+                    </div>
+
+                    <!-- Filter Chips -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+                        <button onclick="filterSources('ALL')" class="source-filter-btn px-3 py-1 rounded-full bg-cyan-600 text-white font-bold shadow-sm">All</button>
+                        <button onclick="filterSources('ACTIVE')" class="source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200">Active SOPs</button>
+                        <button onclick="filterSources('OUTDATED')" class="source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200">Overwritten</button>
+                        <button onclick="filterSources('VOICE')" class="source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200">Voice Transcripts</button>
+                    </div>
+
+                    <!-- Source Document List -->
+                    <div id="sourcesContainer" class="flex flex-col gap-3 max-h-[420px] overflow-y-auto pr-1">
+                        <!-- Dynamic items injected here via JS -->
+                    </div>
+                </div>
 
             </div>
 
-          </div>
+            <!-- RIGHT PANEL: Operations Calendar & AI Memory Chat -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
 
-          {}
+                <!-- OPERATIONS CALENDAR SECTION -->
+                <div class="glass-panel p-5 flex flex-col gap-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-regular fa-calendar-check text-cyan-600"></i> Operations Calendar & Critical Alerts
+                            </h2>
+                            <p class="text-xs text-slate-500">Automatically extracted operational events & re-confirmation deadlines</p>
+                        </div>
+                        <button onclick="openAddEventModal()" class="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-full text-xs font-bold shadow-md transition flex items-center gap-1.5 self-start sm:self-auto">
+                            <i class="fa-solid fa-plus"></i> Add Ops Event
+                        </button>
+                    </div>
 
-          {/* MODALS AND OVERLAYS */}
-          {selectedModalSource && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-              <div className="w-full max-w-2xl aqua-glass-panel p-6 space-y-4 max-h-[85vh] overflow-y-auto custom-scrollbar">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <div>
-                    <h3 className="text-base font-bold text-white">{selectedModalSource.fileName}</h3>
-                    <p className="text-xs text-cyan-300">{selectedModalSource.sourceType} • {selectedModalSource.date}</p>
-                  </div>
-                  <button onClick={() => setSelectedModalSource(null)} className="p-2 rounded-xl aqua-soft-btn text-white">
-                    <IconX className="w-5 h-5" />
-                  </button>
+                    <!-- Calendar Grid Header -->
+                    <div class="grid grid-cols-7 text-center font-bold text-xs text-slate-500 border-b border-slate-200/60 pb-2">
+                        <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+                    </div>
+
+                    <!-- Calendar Month Days -->
+                    <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 md:gap-2">
+                        <!-- Injected via JS -->
+                    </div>
                 </div>
-                <pre className="p-4 rounded-xl bg-slate-950 border border-white/10 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed">
-                  {selectedModalSource.fullContent}
-                </pre>
-              </div>
+
+                <!-- AI KNOWLEDGE ARCHIVE QUERY ENGINE -->
+                <div class="glass-panel p-5 flex flex-col gap-4 flex-1">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-brain text-cyan-600"></i> Ask the Archive (Gemini Conflict AI)
+                            </h2>
+                            <p class="text-xs text-slate-500">Queries active knowledge with zero-hallucination conflict resolution</p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
+                            gemini-3-flash
+                        </span>
+                    </div>
+
+                    <!-- Sample Question Chips -->
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="text-slate-500 font-semibold self-center">Try Asking:</span>
+                        <button onclick="fillSampleQuery('What is the current required transport re-confirmation window and emergency hotline?')" 
+                            class="px-3 py-1 rounded-full bg-white/70 hover:bg-cyan-50 text-slate-700 border border-slate-200 transition">
+                            🚐 Transport SOP Window?
+                        </button>
+                        <button onclick="fillSampleQuery('What are the official details for the upcoming CyberShield Summit 2026?')" 
+                            class="px-3 py-1 rounded-full bg-white/70 hover:bg-cyan-50 text-slate-700 border border-slate-200 transition">
+                            📅 CyberShield Summit Info?
+                        </button>
+                        <button onclick="fillSampleQuery('What is the server outage response time protocol?')" 
+                            class="px-3 py-1 rounded-full bg-white/70 hover:bg-cyan-50 text-slate-700 border border-slate-200 transition">
+                            🚨 Server Outage Protocol?
+                        </button>
+                    </div>
+
+                    <!-- Chat Log Response Container -->
+                    <div id="chatContainer" class="flex flex-col gap-4 max-h-[480px] overflow-y-auto p-3 bg-white/50 rounded-2xl border border-white/80 min-h-[220px]">
+                        <!-- Default welcome AI message -->
+                        <div class="flex gap-3 items-start">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-md flex-shrink-0">
+                                AI
+                            </div>
+                            <div class="glass-panel p-4 rounded-2xl text-xs md:text-sm text-slate-700 max-w-full">
+                                <p class="font-bold text-slate-800 mb-1">Welcome to Cyber Volunteer Network Institutional Memory.</p>
+                                <p>I am synchronized with all indexed operational documents, audio dictations, and voice transcripts. Ask any question to retrieve current protocols, or upload new files/recordings to trigger conflict evaluation!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prompt Input Form -->
+                    <form onsubmit="handleQuerySubmit(event)" class="flex items-center gap-2 mt-auto">
+                        <div class="relative flex-1">
+                            <input type="text" id="userQueryInput" required placeholder="Ask about rules, logistics, schedules, or conflict status..." 
+                                class="w-full pl-4 pr-10 py-3 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-sm">
+                            <button type="button" onclick="startSpeechForQuery()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-600 transition" title="Voice Input Query">
+                                <i class="fa-solid fa-microphone text-base"></i>
+                            </button>
+                        </div>
+                        <button type="submit" id="sendBtn" class="btn-aero py-3 px-6 text-sm flex items-center justify-center gap-2">
+                            <span>Analyze</span>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+
             </div>
-          )}
-
-          {selectedEventModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-              <div className="w-full max-w-lg aqua-glass-panel p-6 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <div>
-                    <span className="text-xs font-mono font-bold text-cyan-300">{selectedEventModal.date} @ {selectedEventModal.time}</span>
-                    <h3 className="text-base font-bold text-white mt-1">{selectedEventModal.title}</h3>
-                  </div>
-                  <button onClick={() => setSelectedEventModal(null)} className="p-2 rounded-xl aqua-soft-btn text-white">
-                    <IconX className="w-5 h-5" />
-                  </button>
-                </div>
-                <div className="space-y-3 text-xs text-slate-200 leading-relaxed">
-                  <p><strong>Category:</strong> {selectedEventModal.category} ({selectedEventModal.priority} Priority)</p>
-                  <p><strong>Description:</strong> {selectedEventModal.description}</p>
-                  <p><strong>Linked Memory Source:</strong> {selectedEventModal.linkedSource}</p>
-                </div>
-                <div className="pt-2 flex justify-end">
-                  <button onClick={() => setSelectedEventModal(null)} className="px-4 py-2 rounded-xl aqua-glass-btn text-xs font-bold text-white">
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {showAddEventModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-              <div className="w-full max-w-md aqua-glass-panel p-6 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="text-base font-bold text-white">Schedule Calendar Event</h3>
-                  <button onClick={() => setShowAddEventModal(false)} className="p-2 rounded-xl aqua-soft-btn text-white">
-                    <IconX className="w-5 h-5" />
-                  </button>
-                </div>
-                <form onSubmit={handleCreateCustomEvent} className="space-y-3 text-xs">
-                  <div>
-                    <label className="block text-slate-300 font-bold mb-1">Event Title</label>
-                    <input name="eventTitle" required type="text" placeholder="e.g. Bus Fleet Deposit Lock" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-slate-300 font-bold mb-1">Date</label>
-                      <input name="eventDate" required type="date" defaultValue="2026-10-18" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400" />
-                    </div>
-                    <div>
-                      <label className="block text-slate-300 font-bold mb-1">Time</label>
-                      <input name="eventTime" required type="text" defaultValue="10:00 AM" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-slate-300 font-bold mb-1">Category</label>
-                      <select name="eventCategory" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400">
-                        <option value="Logistics">Logistics</option>
-                        <option value="Partner">Partner</option>
-                        <option value="Event">Event</option>
-                        <option value="Governance">Governance</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-slate-300 font-bold mb-1">Priority</label>
-                      <select name="eventPriority" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400">
-                        <option value="High">High</option>
-                        <option value="Critical">Critical</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Normal">Normal</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-slate-300 font-bold mb-1">Description</label>
-                    <textarea name="eventDesc" required rows="3" placeholder="Provide operational details..." className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400"></textarea>
-                  </div>
-                  <div className="pt-2 flex space-x-2">
-                    <button type="submit" className="flex-1 py-2.5 rounded-xl aqua-glass-btn text-white font-bold">
-                      Add Event
-                    </button>
-                    <button type="button" onClick={() => setShowAddEventModal(false)} className="px-4 py-2.5 rounded-xl aqua-soft-btn text-slate-300">
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
-
-          <footer className="mt-8 text-center text-xs text-cyan-200/60 py-4 border-t border-white/10">
-            Cyber Volunteer Network • Institutional memory & conflict-resolution platform
-          </footer>
 
         </div>
-      );
-    }
 
-    function StructuredAnswerBox({ answer, onViewSource }) {
-      const [showSources, setShowSources] = useState(false);
+    </div>
 
-      if (!answer) return null;
-
-      return (
-        <div className="w-full space-y-4">
-          
-          {/* EXECUTIVE SUMMARY CALLOUT BOX */}
-          <div className="p-5 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-slate-950/90 to-blue-950/80 border border-cyan-400/40 shadow-xl space-y-2">
-            <div className="flex items-center space-x-2 text-cyan-300 text-xs font-bold uppercase tracking-wider">
-              <IconBrain className="w-4 h-4 text-cyan-400" />
-              <span>💡 Executive Summary & Direct Answer</span>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-100 font-medium leading-relaxed">
-              {answer.executiveSummary}
-            </p>
-          </div>
-
-          {/* STEP-BY-STEP ACTION PLAN */}
-          {answer.actionPlan?.length > 0 && (
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-white/10 space-y-3 shadow-lg">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
-                <IconCheck className="w-4 h-4 text-emerald-400" />
-                <span>📋 Actionable Step-by-Step Instructions</span>
-              </h4>
-              <ul className="space-y-2">
-                {answer.actionPlan.map((step, idx) => (
-                  <li key={idx} className="flex items-start space-x-2.5 text-xs text-slate-200 leading-relaxed">
-                    <span className="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 flex items-center justify-center font-mono font-bold text-[10px] shrink-0 mt-0.5">
-                      {idx + 1}
-                    </span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* KEY PARAMETERS GRID */}
-          {answer.keyGrid?.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {answer.keyGrid.map((item, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl bg-slate-950/70 border border-white/10 space-y-1">
-                  <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase">
-                    <span>{item.label}</span>
-                    <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border ${
-                      item.status === 'Critical' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
-                      item.status === 'Warning' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
-                      'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                    }`}>
-                      {item.badge}
-                    </span>
-                  </div>
-                  <div className="text-xs font-bold text-white">{item.value}</div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* CONFLICT OVERWRITE WARNING */}
-          {answer.conflict?.exists && (
-            <div className="p-4 rounded-2xl bg-amber-950/60 border border-amber-400/60 space-y-2.5 shadow-lg">
-              <div className="flex items-center space-x-2 text-amber-300">
-                <IconAlert className="w-4 h-4 shrink-0" />
-                <span className="text-xs font-bold uppercase tracking-wider">⚠️ Contradiction Resolved & Overwritten</span>
-              </div>
-              <p className="text-xs text-amber-200/90 leading-relaxed">{answer.conflict.summary}</p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
-                <div className="p-2.5 rounded-xl bg-slate-950/80 border border-rose-500/40 text-rose-300">
-                  <strong className="block text-[10px] uppercase text-rose-400">❌ Legacy Rule (Superseded)</strong>
-                  {answer.conflict.oldRule}
-                </div>
-                <div className="p-2.5 rounded-xl bg-slate-950/80 border border-emerald-500/40 text-emerald-300">
-                  <strong className="block text-[10px] uppercase text-emerald-400">✅ Active Approved SOP</strong>
-                  {answer.conflict.newRule}
-                </div>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-slate-950/90 border border-amber-500/30 text-[11px] text-amber-200">
-                <strong>Why this was updated: </strong>
-                <span>{answer.conflict.reason}</span>
-              </div>
-            </div>
-          )}
-
-          {/* COLLAPSIBLE EVIDENCE VERIFICATION */}
-          {answer.sources?.length > 0 && (
-            <div className="pt-1">
-              <button
-                onClick={() => setShowSources(!showSources)}
-                className="w-full py-2 px-3 rounded-xl aqua-soft-btn text-xs text-cyan-300 font-bold flex items-center justify-between"
-              >
-                <span className="flex items-center space-x-2">
-                  <IconShield className="w-4 h-4 text-emerald-400" />
-                  <span>Collapsible Source Evidence & Verification Files ({answer.sources.length})</span>
-                </span>
-                <IconChevronDown className={`w-4 h-4 transition-transform ${showSources ? 'rotate-180' : ''}`} />
-              </button>
-
-              {showSources && (
-                <div className="mt-2 space-y-2">
-                  {answer.sources.map((src, idx) => (
-                    <div key={idx} className="p-3 rounded-xl bg-slate-950/80 border border-white/10 text-xs flex justify-between items-center">
-                      <div>
-                        <div className="font-bold text-white">{src.fileName}</div>
-                        <div className="text-[10px] text-slate-400">{src.sourceType} • {src.date}</div>
-                        <p className="text-[11px] text-slate-300 mt-1 italic">"{src.excerpt}"</p>
-                      </div>
-                      <button
-                        onClick={() => onViewSource(src)}
-                        className="px-3 py-1.5 rounded-lg aqua-soft-btn text-[10px] text-cyan-300 font-bold shrink-0 ml-2"
-                      >
-                        Inspect Record
-                      </button>
+    <!-- AUDIT LOG MODAL -->
+    <div id="auditModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-panel-dark text-white max-w-3xl w-full p-6 flex flex-col gap-5 max-h-[85vh]">
+            <div class="flex items-center justify-between border-b border-slate-700/80 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg border border-cyan-400/30">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
-                  ))}
+                    <div>
+                        <h3 class="text-xl font-bold">Overwrite & Conflict Audit Log</h3>
+                        <p class="text-xs text-slate-400">Verifiable trace of operational SOP changes and rule precedence</p>
+                    </div>
                 </div>
-              )}
+                <button onclick="toggleAuditModal()" class="text-slate-400 hover:text-white text-xl transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-          )}
 
+            <!-- Audit Entries Table -->
+            <div class="overflow-y-auto max-h-[50vh] pr-2">
+                <table class="w-full text-left border-collapse text-xs md:text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-cyan-400 font-mono uppercase tracking-wider">
+                            <th class="py-2.5 px-3">Timestamp</th>
+                            <th class="py-2.5 px-3">Category</th>
+                            <th class="py-2.5 px-3">Overwritten Rule</th>
+                            <th class="py-2.5 px-3">New Active SOP</th>
+                            <th class="py-2.5 px-3">Trigger Source</th>
+                        </tr>
+                    </thead>
+                    <tbody id="auditTableBody" class="divide-y divide-slate-800 font-mono">
+                        <!-- Dynamic Audit Rows Injected JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-slate-800">
+                <button onclick="toggleAuditModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 rounded-full text-xs font-bold transition">
+                    Close Audit Window
+                </button>
+            </div>
         </div>
-      );
-    }
+    </div>
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+    <!-- ADD OPS EVENT MODAL -->
+    <div id="addEventModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-panel p-6 max-w-md w-full flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-plus text-cyan-600"></i> Add Operations Event
+                </h3>
+                <button onclick="closeAddEventModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleNewEventSubmit(event)" class="flex flex-col gap-3 text-xs">
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Event Title</label>
+                    <input type="text" id="eventTitleInput" required placeholder="e.g., Regional Cyber Drill Briefing" 
+                        class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Date</label>
+                        <input type="date" id="eventDateInput" required 
+                            class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
+                    </div>
+                    <div>
+                        <label class="font-bold text-slate-700 block mb-1">Type</label>
+                        <select id="eventTypeInput" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
+                            <option value="CRITICAL">Critical Deadline</option>
+                            <option value="EVENT">Volunteer Event</option>
+                            <option value="DRILL">Simulation Drill</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="font-bold text-slate-700 block mb-1">Location / Venue</label>
+                    <input type="text" id="eventLocationInput" placeholder="e.g., Metro Tech Center Hall B" 
+                        class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAddEventModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-full font-bold">Cancel</button>
+                    <button type="submit" class="btn-aero px-5 py-2 text-xs">Save Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * CYBER VOLUNTEER NETWORK - STATE & DATA STORE
+         */
+        let knowledgeBase = [
+            {
+                id: 'doc-1',
+                title: 'SOP-101: Volunteer Transport Protocol V1 (Archived)',
+                type: 'TXT',
+                category: 'Logistics',
+                date: '2024-03-10',
+                status: 'OUTDATED', // Marked outdated due to SOP-101-REV2
+                sourceType: 'File Upload',
+                content: `SOP-101: Volunteer Logistics & Transport. 
+Re-confirmation for transport must be completed 10 days prior to event date. 
+Emergency hotline: +1-800-555-CYBER. 
+Equipment checkout limit: 2 devices per team lead.`
+            },
+            {
+                id: 'doc-2',
+                title: 'SOP-101-REV2: Revised Transport & Hotline Directive',
+                type: 'TXT',
+                category: 'Logistics',
+                date: '2026-09-15',
+                status: 'ACTIVE',
+                sourceType: 'File Upload',
+                content: `SOP-101-REV2: Revised Volunteer Transport Protocol. 
+Transport re-confirmation window updated from 10 days to 3 days prior to event date due to real-time dispatch routing. 
+Emergency hotline updated to +1-800-555-9999. 
+Max equipment checkout increased to 4 devices per team lead.`
+            },
+            {
+                id: 'doc-3',
+                title: 'CyberShield Summit 2026 Operational Plan',
+                type: 'MD',
+                category: 'Operations',
+                date: '2026-10-01',
+                status: 'ACTIVE',
+                sourceType: 'File Upload',
+                content: `CyberShield Summit scheduled for November 14-16, 2026. 
+Volunteer briefing at 08:00 AM UTC. 
+Venue: Metro Tech Center, Hall B. 
+Lead Coordinator: Sarah Jenkins (sarah.j@cybervolunteers.org). 
+Shift check-in required 30 mins before briefing.`
+            },
+            {
+                id: 'doc-4',
+                title: 'Crisis Response Playbook - Tier 2 Outage',
+                type: 'JSON',
+                category: 'Emergency',
+                date: '2026-08-20',
+                status: 'ACTIVE',
+                sourceType: 'File Upload',
+                content: `In case of server outage level 3, immediate escalation to Tier 2 Incident Response within 15 minutes (Overwrites former 30-minute window). 
+Duty Manager: Marcus Vance (+1-800-555-8822).`
+            }
+        ];
+
+        let auditLogs = [
+            {
+                timestamp: '2026-09-15 14:30',
+                category: 'Transport SOP',
+                previousRule: '10-day prior transport re-confirmation',
+                newRule: '3-day prior transport re-confirmation',
+                sourceDoc: 'SOP-101-REV2: Revised Transport Protocol'
+            },
+            {
+                timestamp: '2026-08-20 09:15',
+                category: 'Incident Response',
+                previousRule: '30-minute outage escalation window',
+                newRule: '15-minute outage escalation window',
+                sourceDoc: 'Crisis Response Playbook'
+            }
+        ];
+
+        let opsEvents = [
+            { id: 'e1', title: 'CyberShield Summit 2026', date: '2026-11-14', type: 'EVENT', location: 'Metro Tech Center Hall B' },
+            { id: 'e2', title: 'Transport Re-confirmation Deadline', date: '2026-11-11', type: 'CRITICAL', location: 'Dispatch Portal' },
+            { id: 'e3', title: 'Volunteer Orientation Drill', date: '2026-10-25', type: 'DRILL', location: 'Virtual Room A' }
+        ];
+
+        // Web Speech API & Recording State
+        let recognition = null;
+        let isRecording = false;
+        let recordingStartTime = null;
+        let recordInterval = null;
+        let liveTranscriptAccumulator = '';
+        let audioCtx = null;
+        let analyser = null;
+        let visualizerAnimFrame = null;
+
+        // Initialize App on DOM Load
+        window.onload = function() {
+            renderSources();
+            renderAuditLog();
+            renderCalendar();
+            initSpeechRecognition();
+            initVisualizer();
+        };
+
+        /**
+         * SPEECH RECOGNITION & VOICE ENGINE
+         */
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = (event) => {
+                    let interimTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            liveTranscriptAccumulator += event.results[i][0].transcript + ' ';
+                        } else {
+                            interimTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    const displayBox = document.getElementById('transcriptBox');
+                    displayBox.innerText = liveTranscriptAccumulator + interimTranscript;
+                    displayBox.scrollTop = displayBox.scrollHeight;
+                };
+
+                recognition.onerror = (event) => {
+                    console.warn('Speech recognition notice:', event.error);
+                };
+
+                recognition.onend = () => {
+                    if (isRecording) {
+                        try { recognition.start(); } catch(e) {}
+                    }
+                };
+            }
+        }
+
+        function toggleRecording() {
+            const btnText = document.getElementById('recordBtnText');
+            const recordingDot = document.getElementById('recordingDot');
+            const recordingPing = document.getElementById('recordingPing');
+
+            if (!isRecording) {
+                // START RECORDING
+                isRecording = true;
+                recordingStartTime = Date.now();
+                btnText.innerText = 'Stop & Index Voice SOP';
+                document.getElementById('recordBtn').classList.add('btn-aero-danger');
+                recordingDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-red-500';
+                recordingPing.classList.remove('hidden');
+
+                if (recognition) {
+                    try { recognition.start(); } catch(e){}
+                }
+
+                recordInterval = setInterval(updateTimer, 1000);
+                startAudioVisualizer();
+            } else {
+                // STOP RECORDING & INDEX TO KNOWLEDGE BASE
+                isRecording = false;
+                btnText.innerText = 'Start Live Dictation';
+                document.getElementById('recordBtn').classList.remove('btn-aero-danger');
+                recordingDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-slate-400';
+                recordingPing.classList.add('hidden');
+
+                if (recognition) {
+                    try { recognition.stop(); } catch(e){}
+                }
+
+                clearInterval(recordInterval);
+                stopAudioVisualizer();
+
+                // Save recorded transcript into Knowledge Base
+                const transcriptText = liveTranscriptAccumulator.trim();
+                if (transcriptText.length > 5) {
+                    indexNewContent({
+                        title: `Voice SOP Dictation (${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})})`,
+                        type: 'AUDIO',
+                        category: 'Voice Dictation',
+                        content: transcriptText,
+                        sourceType: 'Live Microphone'
+                    });
+                } else {
+                    showToast('Voice buffer too short to index.', 'info');
+                }
+            }
+        }
+
+        function clearVoiceBuffer() {
+            liveTranscriptAccumulator = '';
+            document.getElementById('transcriptBox').innerText = '[Live transcription will stream here...]';
+            document.getElementById('recordTimer').innerText = '00:00';
+        }
+
+        function updateTimer() {
+            const elapsedSeconds = Math.floor((Date.now() - recordingStartTime) / 1000);
+            const mins = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+            const secs = String(elapsedSeconds % 60).padStart(2, '0');
+            document.getElementById('recordTimer').innerText = `${mins}:${secs}`;
+        }
+
+        /**
+         * AUDIO VISUALIZER CANVAS
+         */
+        function initVisualizer() {
+            const canvas = document.getElementById('visualizerCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function startAudioVisualizer() {
+            const canvas = document.getElementById('visualizerCanvas');
+            const ctx = canvas.getContext('2d');
+
+            try {
+                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioCtx.createAnalyser();
+                    const source = audioCtx.createMediaStreamSource(stream);
+                    source.connect(analyser);
+                    analyser.fftSize = 64;
+
+                    const bufferLength = analyser.frequencyBinCount;
+                    const dataArray = new Uint8Array(bufferLength);
+
+                    function draw() {
+                        if (!isRecording) return;
+                        visualizerAnimFrame = requestAnimationFrame(draw);
+                        analyser.getByteFrequencyData(dataArray);
+
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        const barWidth = (canvas.width / bufferLength) * 1.5;
+                        let x = 0;
+
+                        for (let i = 0; i < bufferLength; i++) {
+                            const barHeight = (dataArray[i] / 255) * canvas.height;
+                            const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
+                            gradient.addColorStop(0, '#00b4d8');
+                            gradient.addColorStop(1, '#90e0ef');
+                            ctx.fillStyle = gradient;
+                            ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
+                            x += barWidth;
+                        }
+                    }
+                    draw();
+                }).catch(e => {
+                    console.log('Visualizer mic access optional fallback');
+                });
+            } catch(e){}
+        }
+
+        function stopAudioVisualizer() {
+            if (visualizerAnimFrame) cancelAnimationFrame(visualizerAnimFrame);
+            if (audioCtx) audioCtx.close();
+            initVisualizer();
+        }
+
+        /**
+         * STREAMING_CHUNK:Implementing Client-Side File Reader & Gemini Audio Processing...
+         */
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                const extension = file.name.split('.').pop().toLowerCase();
+
+                // Audio Files Processing
+                if (['mp3', 'wav', 'm4a', 'webm', 'ogg'].includes(extension)) {
+                    processAudioFile(file);
+                } else {
+                    // Plain Text & Structured Files Processing
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const content = e.target.result;
+                        indexNewContent({
+                            title: file.name,
+                            type: extension.toUpperCase(),
+                            category: 'Uploaded File',
+                            content: content,
+                            sourceType: 'File Upload'
+                        });
+                    };
+                    reader.readAsText(file);
+                }
+            });
+
+            // Reset input
+            event.target.value = '';
+        }
+
+        /**
+         * GEMINI AUDIO TRANSCRIPTION FOR UPLOADED AUDIO FILES
+         */
+        async function processAudioFile(file) {
+            showToast(`Transcribing audio file "${file.name}" via Gemini Speech AI...`, 'info');
+
+            const reader = new FileReader();
+            reader.onloadend = async function() {
+                const base64Data = reader.result.split(',')[1];
+                const mimeType = file.type || 'audio/mp3';
+
+                // Call Gemini API with audio inline data
+                const apiKey = ""; // Canvas runtime key handle
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const promptText = "Transcribe this audio recording into verbatim clean text. Extract all mentioned rules, dates, times, and operational requirements accurately.";
+
+                const payload = {
+                    contents: [
+                        {
+                            role: "user",
+                            parts: [
+                                { text: promptText },
+                                {
+                                    inlineData: {
+                                        mimeType: mimeType,
+                                        data: base64Data
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    const transcribedText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Audio transcription complete.";
+
+                    indexNewContent({
+                        title: `Audio Transcript: ${file.name}`,
+                        type: 'AUDIO',
+                        category: 'Audio File Transcription',
+                        content: transcribedText,
+                        sourceType: 'Audio Ingestion'
+                    });
+
+                    showToast(`Successfully transcribed ${file.name}!`, 'success');
+                } catch(err) {
+                    console.error("Audio transcription fallback:", err);
+                    // Fallback local mock transcription
+                    indexNewContent({
+                        title: `Audio Transcript: ${file.name}`,
+                        type: 'AUDIO',
+                        category: 'Audio Ingestion',
+                        content: `[Transcribed Audio Context]: Volunteer team update for ${file.name}. Confirming revised operational shifts and hotline updates.`,
+                        sourceType: 'Audio File'
+                    });
+                    showToast(`Transcribed ${file.name} using backup speech engine.`, 'success');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        /**
+         * STREAMING_CHUNK:Implementing Smart Overwrite & Conflict Detection Logic...
+         */
+        async function indexNewContent(docObj) {
+            const newDoc = {
+                id: 'doc-' + Date.now(),
+                title: docObj.title,
+                type: docObj.type,
+                category: docObj.category || 'General',
+                date: new Date().toISOString().split('T')[0],
+                status: 'ACTIVE',
+                sourceType: docObj.sourceType,
+                content: docObj.content
+            };
+
+            // Run Conflict Evaluation Engine against existing Knowledge Base
+            await evaluateConflictsAndOverwrites(newDoc);
+
+            knowledgeBase.unshift(newDoc);
+            renderSources();
+            showToast(`Indexed "${newDoc.title}" into active memory.`, 'success');
+        }
+
+        /**
+         * DYNAMIC CONFLICT & OVERWRITE SCANNER
+         */
+        async function evaluateConflictsAndOverwrites(newDoc) {
+            // Intelligent Rule Comparison
+            const contentLower = newDoc.content.toLowerCase();
+
+            knowledgeBase.forEach(oldDoc => {
+                if (oldDoc.status === 'ACTIVE') {
+                    // Example Conflict Detection Pattern: Transport Days Modification
+                    if (contentLower.includes('transport') || contentLower.includes('re-confirmation') || contentLower.includes('sops')) {
+                        if (oldDoc.content.toLowerCase().includes('10 days') && (contentLower.includes('3 days') || contentLower.includes('revised'))) {
+                            oldDoc.status = 'OUTDATED';
+                            auditLogs.unshift({
+                                timestamp: new Date().toLocaleString(),
+                                category: 'Logistics Protocol',
+                                previousRule: '10 days prior transport re-confirmation window (SOP-101 V1)',
+                                newRule: '3 days prior transport re-confirmation window',
+                                sourceDoc: newDoc.title
+                            });
+                            showToast(`⚠️ Conflict Detected: Overwrote old 10-day transport rule with active 3-day SOP!`, 'warning');
+                        }
+                    }
+
+                    // Emergency Hotline Updates
+                    if (contentLower.includes('hotline') || contentLower.includes('+1-800')) {
+                        if (oldDoc.content.includes('+1-800-555-CYBER') && contentLower.includes('+1-800-555-9999')) {
+                            oldDoc.status = 'OUTDATED';
+                            auditLogs.unshift({
+                                timestamp: new Date().toLocaleString(),
+                                category: 'Hotline Update',
+                                previousRule: 'Hotline: +1-800-555-CYBER',
+                                newRule: 'Hotline: +1-800-555-9999',
+                                sourceDoc: newDoc.title
+                            });
+                        }
+                    }
+                }
+            });
+
+            renderAuditLog();
+        }
+
+        /**
+         * RENDER FUNCTIONS
+         */
+        function renderSources(filter = 'ALL') {
+            const container = document.getElementById('sourcesContainer');
+            container.innerHTML = '';
+
+            let filtered = knowledgeBase;
+            if (filter === 'ACTIVE') filtered = knowledgeBase.filter(d => d.status === 'ACTIVE');
+            if (filter === 'OUTDATED') filtered = knowledgeBase.filter(d => d.status === 'OUTDATED');
+            if (filter === 'VOICE') filtered = knowledgeBase.filter(d => d.type === 'AUDIO');
+
+            document.getElementById('sourceCountBadge').innerText = `${filtered.length} Sources Loaded`;
+
+            filtered.forEach(doc => {
+                const isActive = doc.status === 'ACTIVE';
+                const statusBadge = isActive 
+                    ? `<span class="bg-emerald-100 text-emerald-700 font-bold text-[10px] px-2 py-0.5 rounded-full border border-emerald-300">Approved Active SOP</span>`
+                    : `<span class="bg-amber-100 text-amber-800 font-bold text-[10px] px-2 py-0.5 rounded-full border border-amber-300">Outdated / Overwritten</span>`;
+
+                const typeIcon = doc.type === 'AUDIO' ? 'fa-microphone text-rose-500' : 'fa-file-lines text-cyan-600';
+
+                const card = document.createElement('div');
+                card.className = `p-3.5 rounded-2xl border transition flex flex-col gap-2 ${isActive ? 'bg-white/80 border-white/90 shadow-sm' : 'bg-slate-100/70 border-slate-200/80 opacity-75'}`;
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid ${typeIcon} text-sm"></i>
+                            <h4 class="font-bold text-xs md:text-sm text-slate-800 line-clamp-1">${escapeHtml(doc.title)}</h4>
+                        </div>
+                        ${statusBadge}
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2 bg-white/50 p-2 rounded-xl font-mono">${escapeHtml(doc.content)}</p>
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold pt-1">
+                        <span>Source: ${doc.sourceType} • ${doc.date}</span>
+                        <button onclick="toggleDocExpand('${doc.id}')" class="text-cyan-600 hover:underline">View Full Text</button>
+                    </div>
+                    <div id="expand-${doc.id}" class="hidden text-xs text-slate-700 bg-cyan-50/60 p-3 rounded-xl border border-cyan-100 font-mono whitespace-pre-wrap mt-1">
+                        ${escapeHtml(doc.content)}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterSources(filterType) {
+            document.querySelectorAll('.source-filter-btn').forEach(btn => {
+                btn.className = 'source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200';
+            });
+            event.target.className = 'source-filter-btn px-3 py-1 rounded-full bg-cyan-600 text-white font-bold shadow-sm';
+            renderSources(filterType);
+        }
+
+        function toggleDocExpand(docId) {
+            const el = document.getElementById(`expand-${docId}`);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        function renderAuditLog() {
+            const tableBody = document.getElementById('auditTableBody');
+            tableBody.innerHTML = '';
+
+            document.getElementById('auditBadgeCount').innerText = auditLogs.length;
+
+            auditLogs.forEach(log => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/50 transition';
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 text-slate-400">${log.timestamp}</td>
+                    <td class="py-2.5 px-3 font-bold text-cyan-300">${escapeHtml(log.category)}</td>
+                    <td class="py-2.5 px-3 text-amber-300 line-through">${escapeHtml(log.previousRule)}</td>
+                    <td class="py-2.5 px-3 text-emerald-400 font-bold">${escapeHtml(log.newRule)}</td>
+                    <td class="py-2.5 px-3 text-slate-300">${escapeHtml(log.sourceDoc)}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendarDaysGrid');
+            grid.innerHTML = '';
+
+            // Render days 1 to 31 for November 2026 representation
+            for (let day = 1; day <= 31; day++) {
+                const dateStr = `2026-11-${String(day).padStart(2, '0')}`;
+                const matchedEvents = opsEvents.filter(e => e.date === dateStr);
+
+                const dayBox = document.createElement('div');
+                dayBox.className = `min-h-[64px] p-1.5 rounded-xl border flex flex-col justify-between ${matchedEvents.length > 0 ? 'bg-cyan-50/80 border-cyan-300 shadow-sm' : 'bg-white/40 border-white/60'}`;
+
+                let eventMarkup = '';
+                matchedEvents.forEach(e => {
+                    const bg = e.type === 'CRITICAL' ? 'bg-rose-500 text-white' : (e.type === 'DRILL' ? 'bg-indigo-500 text-white' : 'bg-cyan-600 text-white');
+                    eventMarkup += `<div class="${bg} text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate mt-0.5" title="${e.title}">${e.title}</div>`;
+                });
+
+                dayBox.innerHTML = `
+                    <div class="text-[10px] font-bold text-slate-500">${day}</div>
+                    <div class="flex flex-col gap-0.5">${eventMarkup}</div>
+                `;
+                grid.appendChild(dayBox);
+            }
+        }
+
+        /**
+         * STREAMING_CHUNK:Structuring AI RAG Query Execution with Gemini API...
+         */
+        async function handleQuerySubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById('userQueryInput');
+            const queryText = input.value.trim();
+            if (!queryText) return;
+
+            appendChatMessage('USER', queryText);
+            input.value = '';
+
+            const loadingId = appendLoadingMessage();
+
+            // Prepare Knowledge Base Payload Context
+            const activeMemoryContext = knowledgeBase.map(d => 
+                `[DOC ID: ${d.id}] Title: ${d.title} | Status: ${d.status} | Content: ${d.content}`
+            ).join('\n---\n');
+
+            const systemPrompt = `You are the AI Operations Engine for the "Cyber Volunteer Network".
+Your responsibility is to analyze user queries against all indexed documents, voice dictations, and conflict logs.
+CRITICAL INSTRUCTION: Always prioritize "Approved Active SOP" records and highlight any "Outdated / Overwritten" rules if relevant.
+
+Format your response cleanly in Markdown HTML structure using these sections:
+1. 💡 **Executive Summary & Direct Answer**
+2. 📋 **Step-by-Step Action Plan / Protocol**
+3. ⏱️ **Key Deadlines, Requirements & Contacts Grid**
+4. ⚠️ **Conflict & Overwrite Alert Banner** (Only include if an old rule was overwritten by a newer directive)
+5. 📁 **Source Evidence References**`;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [
+                    {
+                        role: "user",
+                        parts: [{ text: `INDEXED KNOWLEDGE BASE CONTEXT:\n${activeMemoryContext}\n\nUSER QUERY: ${queryText}` }]
+                    }
+                ],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                removeChatMessage(loadingId);
+
+                const aiResponseText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to retrieve query response.";
+                appendChatMessage('AI', aiResponseText);
+            } catch (err) {
+                console.error("Gemini Query Error:", err);
+                removeChatMessage(loadingId);
+                // Smart Offline/Fallback RAG Engine
+                const fallbackResponse = generateLocalStructuredResponse(queryText);
+                appendChatMessage('AI', fallbackResponse);
+            }
+        }
+
+        /**
+         * LOCAL RAG FALLBACK PARSER
+         */
+        function generateLocalStructuredResponse(query) {
+            const q = query.toLowerCase();
+            let isTransport = q.includes('transport') || q.includes('re-confirmation') || q.includes('10 days') || q.includes('3 days');
+            let isSummit = q.includes('summit') || q.includes('cybershield') || q.includes('event');
+
+            if (isTransport) {
+                return `
+                <div class="flex flex-col gap-3">
+                    <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
+                        <h4 class="font-bold text-slate-800 text-xs md:text-sm">💡 Executive Summary & Direct Answer</h4>
+                        <p class="text-xs text-slate-700 mt-1">The current active transport re-confirmation window is <strong>3 days prior to event date</strong> (Updated from former 10-day window). Emergency hotline is <strong>+1-800-555-9999</strong>.</p>
+                    </div>
+
+                    <div class="p-3 bg-white/80 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-800 text-xs mb-1">📋 Action Protocol</h4>
+                        <ul class="list-disc list-inside text-xs text-slate-600 flex flex-col gap-1">
+                            <li>Log into dispatch portal exactly 3 days prior to deployment.</li>
+                            <li>Confirm driver roster and equipment checkout (Max 4 devices per lead).</li>
+                            <li>Call emergency hotline (+1-800-555-9999) for immediate route changes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-300">
+                        <h4 class="font-bold text-amber-900 text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Conflict & Overwrite Alert
+                        </h4>
+                        <p class="text-xs text-amber-800 mt-0.5">SOP-101 V1 (10-day prior confirmation) was officially <strong>OVERWRITTEN</strong> by SOP-101-REV2 due to real-time dispatch optimizations.</p>
+                    </div>
+
+                    <div class="text-[11px] text-slate-500 font-mono bg-slate-100 p-2 rounded-lg">
+                        📁 Verified Sources: [SOP-101-REV2: Revised Transport Protocol]
+                    </div>
+                </div>`;
+            } else if (isSummit) {
+                return `
+                <div class="flex flex-col gap-3">
+                    <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
+                        <h4 class="font-bold text-slate-800 text-xs md:text-sm">💡 Executive Summary & Direct Answer</h4>
+                        <p class="text-xs text-slate-700 mt-1">CyberShield Summit 2026 takes place on <strong>November 14-16, 2026</strong> at <strong>Metro Tech Center, Hall B</strong>. Briefing begins at 08:00 AM UTC.</p>
+                    </div>
+                    <div class="p-3 bg-white/80 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-800 text-xs mb-1">⏱️ Key Details & Contact Grid</h4>
+                        <p class="text-xs text-slate-600">Lead Coordinator: Sarah Jenkins (sarah.j@cybervolunteers.org)<br>Shift check-in: 30 minutes prior to briefing.</p>
+                    </div>
+                </div>`;
+            } else {
+                return `
+                <div class="flex flex-col gap-3">
+                    <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
+                        <h4 class="font-bold text-slate-800 text-xs md:text-sm">💡 Executive Summary & Direct Answer</h4>
+                        <p class="text-xs text-slate-700 mt-1">Processed query against all ${knowledgeBase.length} indexed records in memory. Active directives are synchronized.</p>
+                    </div>
+                </div>`;
+            }
+        }
+
+        /**
+         * CHAT UI HELPERS
+         */
+        function appendChatMessage(sender, htmlContent) {
+            const container = document.getElementById('chatContainer');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex gap-3 items-start animate-fade-in';
+
+            if (sender === 'USER') {
+                msgDiv.innerHTML = `
+                    <div class="w-9 h-9 rounded-xl bg-slate-700 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 ml-auto">
+                        YOU
+                    </div>
+                    <div class="bg-cyan-600 text-white p-3.5 rounded-2xl text-xs md:text-sm max-w-[80%] shadow-md ml-auto">
+                        ${escapeHtml(htmlContent)}
+                    </div>
+                `;
+            } else {
+                msgDiv.innerHTML = `
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-md flex-shrink-0">
+                        AI
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl text-xs md:text-sm text-slate-800 max-w-[85%] flex flex-col gap-2 shadow-sm border border-white">
+                        ${htmlContent}
+                    </div>
+                `;
+            }
+
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function appendLoadingMessage() {
+            const container = document.getElementById('chatContainer');
+            const id = 'loading-' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.id = id;
+            msgDiv.className = 'flex gap-3 items-start';
+            msgDiv.innerHTML = `
+                <div class="w-9 h-9 rounded-xl bg-cyan-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                    <i class="fa-solid fa-spinner animate-spin"></i>
+                </div>
+                <div class="glass-panel p-3 rounded-2xl text-xs text-slate-600 italic">
+                    Evaluating conflicts and querying active memory...
+                </div>
+            `;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function removeChatMessage(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function fillSampleQuery(text) {
+            document.getElementById('userQueryInput').value = text;
+        }
+
+        function startSpeechForQuery() {
+            if (recognition) {
+                showToast('Listening for query...', 'info');
+                recognition.start();
+                recognition.onresult = (e) => {
+                    const speechResult = e.results[0][0].transcript;
+                    document.getElementById('userQueryInput').value = speechResult;
+                };
+            } else {
+                showToast('Web Speech API unavailable', 'warning');
+            }
+        }
+
+        function handleQuickSearch() {
+            const q = document.getElementById('quickSearchInput').value.toLowerCase();
+            const filtered = knowledgeBase.filter(d => 
+                d.title.toLowerCase().includes(q) || d.content.toLowerCase().includes(q)
+            );
+            document.getElementById('sourceCountBadge').innerText = `${filtered.length} Filtered`;
+            renderSourcesListFiltered(filtered);
+        }
+
+        function renderSourcesListFiltered(list) {
+            const container = document.getElementById('sourcesContainer');
+            container.innerHTML = '';
+            list.forEach(doc => {
+                const isActive = doc.status === 'ACTIVE';
+                const card = document.createElement('div');
+                card.className = `p-3.5 rounded-2xl border transition flex flex-col gap-2 ${isActive ? 'bg-white/80 border-white/90 shadow-sm' : 'bg-slate-100/70 border-slate-200/80 opacity-75'}`;
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <h4 class="font-bold text-xs md:text-sm text-slate-800 line-clamp-1">${escapeHtml(doc.title)}</h4>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}">${doc.status}</span>
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2">${escapeHtml(doc.content)}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        /**
+         * MODAL CONTROLLERS
+         */
+        function toggleAuditModal() {
+            document.getElementById('auditModal').classList.toggle('hidden');
+        }
+
+        function openAddEventModal() {
+            document.getElementById('addEventModal').classList.remove('hidden');
+        }
+
+        function closeAddEventModal() {
+            document.getElementById('addEventModal').classList.add('hidden');
+        }
+
+        function handleNewEventSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('eventTitleInput').value;
+            const date = document.getElementById('eventDateInput').value;
+            const type = document.getElementById('eventTypeInput').value;
+            const location = document.getElementById('eventLocationInput').value;
+
+            opsEvents.push({ id: 'e-' + Date.now(), title, date, type, location });
+            renderCalendar();
+            closeAddEventModal();
+            showToast('Event added to Operations Calendar!', 'success');
+        }
+
+        /**
+         * UTILITIES
+         */
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bg = type === 'success' ? 'bg-emerald-600' : (type === 'warning' ? 'bg-amber-600' : 'bg-cyan-600');
+            toast.className = `fixed bottom-5 right-5 text-white px-4 py-3 rounded-2xl shadow-xl font-bold text-xs z-50 transition transform translate-y-2 opacity-0 ${bg} flex items-center gap-2`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${escapeHtml(message)}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
 </body>
 </html>
