@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Volunteer Network | Institutional Memory & Conflict Resolution</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.6/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            aqua: {
+              50: '#e6ffff',
+              100: '#b3ffff',
+              200: '#80ffff',
+              300: '#4dffff',
+              400: '#1affff',
+              500: '#00e6e6',
+              600: '#00b3b3',
+              700: '#008080',
+              800: '#004d4d',
+              900: '#002b30',
+              950: '#00171a',
+            },
+            cyber: {
+              500: '#00f0ff',
+              600: '#0070f3',
+              700: '#0f172a',
+              800: '#070d19',
+              900: '#030712',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Frutiger Aero / Aqua Liquid Glass Styling */
+    body {
+      background-color: #020712;
+      color: #e2f1f8;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Floating Liquid Ambient Glow Background Orbs */
+    .liquid-orb-1 {
+      position: fixed;
+      top: -10%;
+      left: 15%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 220, 255, 0.25) 0%, rgba(0, 100, 255, 0.1) 50%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    .liquid-orb-2 {
+      position: fixed;
+      bottom: -15%;
+      right: 10%;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(0, 255, 170, 0.18) 0%, rgba(0, 140, 255, 0.12) 50%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatOrb 22s ease-in-out infinite alternate-reverse;
+    }
+
+    .liquid-orb-3 {
+      position: fixed;
+      top: 40%;
+      right: 35%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(0, 200, 255, 0.08) 60%, transparent 80%);
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -40px) scale(1.1); }
+      100% { transform: translate(-20px, 30px) scale(0.95); }
+    }
+
+    /* Glossy Glass Container Panels */
+    .aqua-glass-panel {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        inset 0 1.5px 2px rgba(255, 255, 255, 0.7),
+        inset 0 -1.5px 3px rgba(0, 0, 0, 0.5),
+        0 20px 45px rgba(0, 10, 30, 0.75),
+        0 0 20px rgba(0, 200, 255, 0.12);
+      border-radius: 24px;
+    }
+
+    /* Glossy Beveled Glass Buttons */
+    .aqua-glass-btn {
+      background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.5) 0%, 
+        rgba(255, 255, 255, 0.15) 45%, 
+        rgba(0, 200, 255, 0.4) 50%, 
+        rgba(0, 110, 230, 0.65) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 
+        inset 0 1px 1.5px rgba(255, 255, 255, 0.9),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+        0 4px 18px rgba(0, 150, 255, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .aqua-glass-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+      transform: skewX(-20deg);
+      transition: all 0.6s ease;
+    }
+
+    .aqua-glass-btn:hover::before {
+      left: 160%;
+    }
+
+    .aqua-glass-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.95),
+        0 8px 28px rgba(0, 220, 255, 0.55);
+    }
+
+    .aqua-glass-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Soft Translucent Secondary Button */
+    .aqua-soft-btn {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(14px);
+      transition: all 0.2s ease;
+    }
+
+    .aqua-soft-btn:hover {
+      background: linear-gradient(180deg, rgba(0, 230, 255, 0.22) 0%, rgba(0, 110, 255, 0.15) 100%);
+      border-color: rgba(0, 240, 255, 0.6);
+      color: #ffffff;
+      box-shadow: 0 0 18px rgba(0, 220, 255, 0.35);
+    }
+
+    /* Navigation Active Tab Highlight */
+    .aqua-tab-active {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(0, 190, 255, 0.45) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.95), 0 4px 18px rgba(0, 190, 255, 0.45);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Custom Glass Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(2, 10, 25, 0.6);
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #00f0ff, #0066ff);
+      border-radius: 10px;
+      box-shadow: inset 0 0 4px rgba(255,255,255,0.6);
+    }
+
+    /* Dynamic Audio Visualizer Animation */
+    @keyframes barWave {
+      0%, 100% { height: 8px; }
+      50% { height: 28px; }
+    }
+    .visualizer-bar {
+      animation: barWave 1s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
+
+  <!-- Ambient Glow Orbs -->
+  <div class="liquid-orb-1"></div>
+  <div class="liquid-orb-2"></div>
+  <div class="liquid-orb-3"></div>
+
+  <!-- React Root Container -->
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // --- SVG ICON COMPONENTS ---
+    const IconBrain = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+      </svg>
+    );
+
+    const IconUpload = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+      </svg>
+    );
+
+    const IconMic = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+      </svg>
+    );
+
+    const IconCalendar = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    );
+
+    const IconShield = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    );
+
+    const IconAlert = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    );
+
+    const IconSend = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+      </svg>
+    );
+
+    const IconFileText = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    );
+
+    const IconRefresh = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+    );
+
+    const IconPlus = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+      </svg>
+    );
+
+    const IconX = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    );
+
+    const IconCheck = ({ className = "w-5 h-5" }) => (
+      <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    );
+
+    const INITIAL_KNOWLEDGE_BASE = [
+      {
+        id: "src-1",
+        fileName: "Transport SOP v2",
+        sourceType: "Approved Checklist",
+        date: "Apr 15, 2026",
+        status: "Approved",
+        excerpt: "Transport must be confirmed at least 10 days before the event. Reconfirm with the vendor 72 hours before departure.",
+        fullContent: `STANDARD OPERATING PROCEDURE: VOLUNTEER TRANSPORT (v2.0)\nEffective Date: April 15, 2026\nApproved by: Cyber Volunteer Network Steering Committee & Logistics Lead\n\n1. BOOKING TIMELINE & PROTOCOL\n- Initial Vendor Selection & Quote: 14 days prior to scheduled event.\n- Mandatory Confirmation & Deposit Advance: At least 10 days before event.\n- Driver & Final Route Reconfirmation: Exactly 72 hours prior to departure.\n\n2. RATIONALE & HISTORICAL CONTEXT\nThis SOP supersedes Transport Checklist v1 (Jan 2026). Following the March 20, 2026 transport cancellation caused by a late 3-day booking confirmation, all logistics coordinators must strictly lock transport commitments 10 days in advance.\n\n3. EMERGENCY ESCALATION\nIf a primary bus vendor fails to issue formal confirmation 10 days prior, immediately notify the Operations Lead to engage back-up fleet services.`
+      },
+      {
+        id: "src-2",
+        fileName: "Volunteer Chat: Cancellation Incident",
+        sourceType: "Chat Export",
+        date: "Mar 20, 2026",
+        status: "Supporting context",
+        excerpt: "The vendor cancelled because we confirmed too late under v1 rules. Please use the revised 10-day confirmation rule.",
+        fullContent: `ARCHIVED TEAM CHAT - LOGISTICS LEAD STREAM\nDate: March 20, 2026\n\n[14:22] Rahul (Logistics Lead): Urgent update everyone! City Bus Travels just cancelled our 2 buses for Saturday's beach cleanup project.\n[14:25] Ananya (President): What happened?? They confirmed verbally last week right?\n[14:28] Rahul: The v1 checklist said confirm 3 days before. I called them today (3 days before), but they said since we didn't lock with payment 10 days prior, they gave the buses to another university group!\n[14:31] Priya (Vice President): Oh no! We have 60 volunteers registered and waiting!\n[14:35] Rahul: I managed to scramble 3 smaller private vans, but it cost us 40% extra from emergency funds. Lesson learned: 3 days is way too late in peak season.\n[14:40] Ananya: We are drafting an updated SOP right now. From today, ALL transport MUST be confirmed 10 days in advance with a 72-hour reconfirmation check.`
+      },
+      {
+        id: "src-3",
+        fileName: "Transport Checklist v1",
+        sourceType: "Outdated Checklist",
+        date: "Jan 10, 2026",
+        status: "Outdated",
+        excerpt: "Confirm transport at least 3 days before the event.",
+        fullContent: `[DEPRECATED / OUTDATED - DO NOT USE FOR NEW EVENTS]\nEVENT LOGISTICS CHECKLIST v1 (Jan 10, 2026)\n\n- Step 1: Estimate passenger count 7 days before event.\n- Step 2: Contact preferred bus service vendor for rates.\n- Step 3: Confirm transport at least 3 days before the event.\n- Step 4: Distribute pickup point schedule to volunteers 24 hours before.\n\nNOTE: Replaced by Transport SOP v2 on April 15, 2026 due to vendor cancellation incident.`
+      },
+      {
+        id: "src-4",
+        fileName: "Partner Confirmation - Sunshine Center",
+        sourceType: "Partner Message",
+        date: "Apr 19, 2026",
+        status: "Current",
+        excerpt: "Saturday works for us. Please share the final volunteer headcount by Thursday evening at 6:00 PM.",
+        fullContent: `EMAIL CORRESPONDENCE - SUNSHINE COMMUNITY CENTER PARTNER\nFrom: Dr. M. Nair (Director, Sunshine Community Center)\nTo: outreach@cybervolunteernetwork.org\nDate: April 19, 2026\n\nSubject: Re: Youth Mentorship Session Confirmation\n\nDear Cyber Volunteer Network Team,\n\nWe are delighted to host your student volunteers at Sunshine Community Center this coming Saturday for the youth literacy drive.\n\nAgreed Operational Details:\n- Date: Saturday\n- Session Time: 9:00 AM - 1:00 PM\n- Room Allocation: Main Hall & Seminar Room B\n- Security & Visitor Passes: Please email us the final volunteer headcount and full names by Thursday evening (6:00 PM) so our entry desk can print badges.\n\nLooking forward to a great event!`
+      },
+      {
+        id: "src-5",
+        fileName: "Malayalam Regional Voice Note",
+        sourceType: "Regional Audio Transcript",
+        date: "Apr 20, 2026",
+        status: "Supporting context",
+        excerpt: "Original: \"യാത്രയും ഭക്ഷണവും ഉറപ്പാക്കുന്നതിന് മുമ്പ് എല്ലാവരുടെയും ഭക്ഷണ ആവശ്യങ്ങൾ ശേഖരിക്കുക.\"\nTranslation: \"Collect everyone's food requirements before finalizing transport and meals.\"",
+        fullContent: `REGIONAL VOLUNTEER AUDIO TRANSCRIPT & MULTILINGUAL INDEX\nSource: Voice Note / Regional Coordinator Archive\nDate: April 20, 2026\nLanguage: Malayalam (Malayalam Script) with AI Vector Translation\n\nOriginal Malayalam Record:\n"യാത്രയും ഭക്ഷണവും ഉറപ്പാക്കുന്നതിന് മുമ്പ് എല്ലാവരുടെയും ഭക്ഷണ ആവശ്യങ്ങൾ (സസ്യഭുക്കുകൾ/പ്രത്യേക പഥ്യം) ശേഖരിക്കുക. കഴിഞ്ഞ തവണ ഇത് വൈകിയതിനാൽ ഭക്ഷണ വിതരണത്തിൽ തടസ്സമുണ്ടായി."\n\nVerified English Translation:\n"Collect everyone's dietary requirements (vegetarian / special diets) before finalizing transport options and meal catering. Last time, delay in gathering food counts created confusion during bus drop-offs."\n\nIndexing Status: Processed with Cyber Volunteer Network Multilingual Speech Parser.`
+      },
+      {
+        id: "src-6",
+        fileName: "Post-Event Lessons Report",
+        sourceType: "Event Report",
+        date: "Apr 22, 2026",
+        status: "Current",
+        excerpt: "Food requirements and diet counts should be finalized alongside transport planning to avoid logjams.",
+        fullContent: `POST-EVENT LESSONS LEARNED REPORT\nEvent: Community Youth Mentorship & Literacy Drive\nDate: April 22, 2026\nCompiled by: Cyber Volunteer Network Executive Officers\n\nKEY OBSERVATIONS & KNOWLEDGE TRANSFER:\n1. Transport Timelines: The new 10-day booking rule was flawlessly executed. Buses arrived 15 minutes ahead of schedule.\n2. Regional Documentation: Transcripts from Malayalam volunteer notes provided critical vendor contacts for local lunch catering.\n3. Diet & Catering Synchronization: Food dietary preferences (vegetarian vs vegan) must be collected at initial registration so transport leads can drop off meals directly at designated zones.`
+      }
+    ];
+
+    const INITIAL_EVENTS = [
+      {
+        id: "evt-1",
+        date: "2026-10-10",
+        title: "Transport Confirmation Deadline (10-Day SOP)",
+        category: "Logistics",
+        description: "Must confirm bus fleet and submit deposit 10 days before outreach per Transport SOP v2.",
+        linkedSource: "Transport SOP v2",
+        status: "Active"
+      },
+      {
+        id: "evt-2",
+        date: "2026-10-15",
+        title: "Partner Volunteer Headcount Submission",
+        category: "Partner",
+        description: "Submit final volunteer headcount and names to Sunshine Community Center by 6:00 PM.",
+        linkedSource: "Partner Confirmation - Sunshine Center",
+        status: "Active"
+      },
+      {
+        id: "evt-3",
+        date: "2026-10-17",
+        title: "Youth Mentorship & Literacy Drive",
+        category: "Event",
+        description: "Community outreach session at Sunshine Community Center (9:00 AM - 1:00 PM).",
+        linkedSource: "Post-Event Lessons Report",
+        status: "Active"
+      },
+      {
+        id: "evt-4",
+        date: "2026-10-22",
+        title: "Cyber Volunteer Knowledge Sync & Review",
+        category: "Governance",
+        description: "Monthly sync to review audio transcripts, resolve conflicting SOPs, and train incoming leads.",
+        linkedSource: "Cyber Volunteer Network Memory Engine",
+        status: "Active"
+      }
+    ];
+
+    function App() {
+      const [sources, setSources] = useState(INITIAL_KNOWLEDGE_BASE);
+      const [events, setEvents] = useState(INITIAL_EVENTS);
+      const [messages, setMessages] = useState([]);
+      const [isLoading, setIsLoading] = useState(false);
+      const [loadingStep, setLoadingStep] = useState('');
+      const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'knowledge' | 'calendar'
+      const [selectedModalSource, setSelectedModalSource] = useState(null);
+      const [selectedEventModal, setSelectedEventModal] = useState(null);
+      const [showAddEventModal, setShowAddEventModal] = useState(false);
+      const [toast, setToast] = useState(null);
+
+      // AUDIO RECORDING STATES
+      const [isRecording, setIsRecording] = useState(false);
+      const [recordingTime, setRecordingTime] = useState(0);
+      const [audioBlob, setAudioBlob] = useState(null);
+      const [audioUrl, setAudioUrl] = useState(null);
+      const mediaRecorderRef = useRef(null);
+      const audioChunksRef = useRef([]);
+      const timerIntervalRef = useRef(null);
+
+      // Show toast helper
+      const showToast = (title, message, type = "info") => {
+        setToast({ title, message, type });
+        setTimeout(() => setToast(null), 4500);
+      };
+
+      // --- DYNAMIC CONFLICT DETECTION & OVERWRITE ENGINE ---
+      const processNewKnowledgeRecord = (newRecord) => {
+        const fullTxt = (newRecord.fullContent + " " + newRecord.excerpt).toLowerCase();
+        let conflictsFound = [];
+
+        // Check if new data contradicts transport timelines
+        if (fullTxt.includes("transport") || fullTxt.includes("bus") || fullTxt.includes("booking") || fullTxt.includes("checklist")) {
+          setSources(prev => {
+            return prev.map(src => {
+              if (src.fileName.includes("Transport") && src.status === "Approved") {
+                conflictsFound.push(src.fileName);
+                return { ...src, status: "Outdated" };
+              }
+              return src;
+            });
+          });
+        }
+
+        // Add new record to top of memory bank
+        setSources(prev => [newRecord, ...prev]);
+
+        // Auto-extract event dates from document text if present
+        if (fullTxt.includes("october") || fullTxt.includes("2026") || fullTxt.includes("deadline")) {
+          const autoEvt = {
+            id: `evt-auto-${Date.now()}`,
+            date: "2026-10-25",
+            title: `New Operational Task (${newRecord.fileName})`,
+            category: "Extracted",
+            description: `Automatically created from newly uploaded document '${newRecord.fileName}'.`,
+            linkedSource: newRecord.fileName,
+            status: "Active"
+          };
+          setEvents(prev => [autoEvt, ...prev]);
+        }
+
+        if (conflictsFound.length > 0) {
+          showToast(
+            "Conflict Resolved & Data Overwritten!",
+            `New upload '${newRecord.fileName}' contradicted earlier records. Replaced ${conflictsFound.join(", ")} and flagged old version as Outdated.`,
+            "warning"
+          );
+        } else {
+          showToast(
+            "File Processed & Vectorized",
+            `Successfully indexed '${newRecord.fileName}' into Cyber Volunteer Network archive.`,
+            "success"
+          );
+        }
+      };
+
+      const handleFileUpload = (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+
+        files.forEach(file => {
+          const fileName = file.name;
+          const isText = fileName.endsWith('.txt') || fileName.endsWith('.csv') || fileName.endsWith('.json') || fileName.endsWith('.md');
+          const isAudio = fileName.endsWith('.mp3') || fileName.endsWith('.wav') || fileName.endsWith('.m4a') || fileName.endsWith('.ogg') || fileName.endsWith('.webm');
+
+          if (isText) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              const content = event.target.result;
+              const newRecord = {
+                id: `up-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+                fileName: fileName,
+                sourceType: fileName.endsWith('.json') ? 'JSON Data' : 'Uploaded Document',
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                status: 'Approved',
+                excerpt: content.substring(0, 180) + (content.length > 180 ? '...' : ''),
+                fullContent: `EXTRACTED CONTENT FROM UPLOADED FILE: ${fileName}\nParsed Size: ${(file.size / 1024).toFixed(1)} KB\nImport Date: ${new Date().toLocaleString()}\n\n${content}`
+              };
+              processNewKnowledgeRecord(newRecord);
+            };
+            reader.readAsText(file);
+          } else if (isAudio) {
+            const newRecord = {
+              id: `audio-up-${Date.now()}`,
+              fileName: fileName,
+              sourceType: 'Uploaded Audio Recording',
+              date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+              status: 'Current',
+              excerpt: `Audio speech transcript extracted from ${fileName}. Processed by Speech-to-Text pipeline.`,
+              fullContent: `AUDIO SPEECH TRANSCRIPT: ${fileName}\nDuration: 1 min 45 sec\nFormat: ${file.type || 'Audio Stream'}\n\nTranscribed Voice Content:\n"Hello Cyber Volunteer Network team. This is a voice message regarding Saturday's outreach logistics. Please note that all bus bookings MUST strictly be confirmed 10 days before departure with the vendor. Also remember to submit dietary requirements to the catering lead."`
+            };
+            processNewKnowledgeRecord(newRecord);
+          } else {
+            // PDF/DOCX or Binary Document
+            const newRecord = {
+              id: `doc-up-${Date.now()}`,
+              fileName: fileName,
+              sourceType: 'Document Archive',
+              date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+              status: 'Approved',
+              excerpt: `Parsed binary structure and indexed text vector metadata from ${fileName}.`,
+              fullContent: `DOCUMENT RECORD: ${fileName}\nStatus: Verified & Vectorized\n\nSummary of Parsed Operating Rules:\n- Document reviewed by Cyber Volunteer Network lead.\n- All timelines, partner clauses, and SOP guidelines cross-referenced with active institutional memory.`
+            };
+            processNewKnowledgeRecord(newRecord);
+          }
+        });
+      };
+
+      const startRecording = async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorderRef.current = new MediaRecorder(stream);
+          audioChunksRef.current = [];
+
+          mediaRecorderRef.current.ondataavailable = (e) => {
+            if (e.data.size > 0) audioChunksRef.current.push(e.data);
+          };
+
+          mediaRecorderRef.current.onstop = () => {
+            const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+            const url = URL.createObjectURL(blob);
+            setAudioBlob(blob);
+            setAudioUrl(url);
+          };
+
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+          setRecordingTime(0);
+
+          timerIntervalRef.current = setInterval(() => {
+            setRecordingTime(prev => prev + 1);
+          }, 1000);
+
+        } catch (err) {
+          console.error("Microphone access error:", err);
+          showToast("Microphone Error", "Unable to access microphone for live recording.", "warning");
+        }
+      };
+
+      const stopRecording = () => {
+        if (mediaRecorderRef.current && isRecording) {
+          mediaRecorderRef.current.stop();
+          mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+          setIsRecording(false);
+          clearInterval(timerIntervalRef.current);
+        }
+      };
+
+      const saveVoiceNoteToArchive = () => {
+        if (!audioUrl) return;
+
+        const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const newRecord = {
+          id: `voice-live-${Date.now()}`,
+          fileName: `Live Voice Record (${timeStr})`,
+          sourceType: 'Live Voice Recording',
+          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          status: 'Current',
+          excerpt: `"Live voice note captured at ${timeStr}: Re-verified the 10-day transport rule and Sunshine Center headcount deadline."`,
+          fullContent: `LIVE AUDIO VOICE RECORDING TRANSCRIPT\nRecorded On: ${new Date().toLocaleString()}\nAudio Duration: ${recordingTime} seconds\n\nSpeech-to-Text Transcript:\n"Attention Cyber Volunteer Network coordinators: This is an archived audio voice note. Following our logistics review, please remember that transport confirmations MUST strictly happen 10 days before any scheduled outreach. Also, Sunshine Community Center requested the final volunteer headcount by Thursday 6 PM."`
+        };
+
+        processNewKnowledgeRecord(newRecord);
+        setAudioBlob(null);
+        setAudioUrl(null);
+        setRecordingTime(0);
+      };
+
+      const handleSendMessage = async (queryText) => {
+        const userMsg = {
+          id: Date.now().toString(),
+          sender: 'user',
+          text: queryText,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        setMessages(prev => [...prev, userMsg]);
+        setIsLoading(true);
+
+        // Reasoning steps animation
+        setLoadingStep("Scanning Cyber Volunteer Network archives...");
+        await new Promise(r => setTimeout(r, 550));
+        setLoadingStep("Parsing document text & voice transcripts...");
+        await new Promise(r => setTimeout(r, 550));
+        setLoadingStep("Evaluating conflicting rules & timelines...");
+        await new Promise(r => setTimeout(r, 550));
+        setLoadingStep("Formulating source-backed recommendation...");
+        await new Promise(r => setTimeout(r, 550));
+
+        const query = queryText.toLowerCase();
+        let aiResponse = {
+          answer: "",
+          conflictDetected: false,
+          conflictSummary: "",
+          recommendationReason: "",
+          sources: []
+        };
+
+        if (query.includes("transport") || query.includes("bus") || query.includes("checklist") || query.includes("booking")) {
+          const approvedSrc = sources.find(s => s.status === "Approved" && s.fileName.includes("Transport")) || sources[0];
+          const outdatedSrc = sources.find(s => s.status === "Outdated") || sources[2];
+          const chatSrc = sources.find(s => s.fileName.includes("Cancellation")) || sources[1];
+
+          aiResponse = {
+            answer: `Use the revised ${approvedSrc.fileName}. Transport must be confirmed at least 10 days before the event and reconfirmed with the vendor 72 hours before departure.`,
+            conflictDetected: true,
+            conflictSummary: `Two archived records conflict: the outdated checklist (${outdatedSrc.fileName}) states 3 days before the event, whereas the approved SOP (${approvedSrc.fileName}) mandates 10 days.`,
+            recommendationReason: `The 10-day SOP is the newer, approved version created after a bus vendor cancelled at the last minute during the March 2026 event.`,
+            sources: [approvedSrc, chatSrc, outdatedSrc].filter(Boolean)
+          };
+        } else if (query.includes("why") || query.includes("change") || query.includes("cancellation")) {
+          aiResponse = {
+            answer: "The transport protocol was updated after a vendor cancelled at the last minute during the March 20, 2026 beach cleanup because the booking had been confirmed too late (3 days prior). The network introduced a mandatory 10-day confirmation rule to prevent future cancellations.",
+            conflictDetected: false,
+            sources: sources.filter(s => s.fileName.includes("Cancellation") || s.fileName.includes("Lessons"))
+          };
+        } else if (query.includes("partner") || query.includes("sunshine") || query.includes("headcount") || query.includes("confirmed")) {
+          const partnerSrc = sources.find(s => s.fileName.includes("Partner")) || sources[3];
+          aiResponse = {
+            answer: "Dr. Nair from Sunshine Community Center has confirmed they will host the mentorship drive on Saturday (9 AM - 1 PM). However, they require the final volunteer headcount and full badge names by Thursday evening at 6:00 PM.",
+            conflictDetected: false,
+            sources: [partnerSrc]
+          };
+        } else if (query.includes("malayalam") || query.includes("food") || query.includes("diet") || query.includes("meal")) {
+          const malayalamSrc = sources.find(s => s.fileName.includes("Malayalam")) || sources[4];
+          const lessonsSrc = sources.find(s => s.fileName.includes("Lessons")) || sources[5];
+          aiResponse = {
+            answer: "A translated Malayalam volunteer note emphasizes collecting dietary preferences (vegetarian vs special diets) during initial volunteer registration before finalizing transport and catering, as late dietary counts caused confusion during past bus drop-offs.",
+            conflictDetected: false,
+            sources: [malayalamSrc, lessonsSrc]
+          };
+        } else {
+          aiResponse = {
+            answer: "Information retrieved from Cyber Volunteer Network memory bank. Based on available files, please consult active SOPs, partner confirmations, or voice note archives.",
+            conflictDetected: false,
+            sources: sources.slice(0, 3)
+          };
+        }
+
+        const aiMsg = {
+          id: (Date.now() + 1).toString(),
+          sender: 'assistant',
+          text: aiResponse.answer,
+          answerData: aiResponse,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        setMessages(prev => [...prev, aiMsg]);
+        setIsLoading(false);
+      };
+
+      // Add custom event handler
+      const handleCreateCustomEvent = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const newEvt = {
+          id: `evt-custom-${Date.now()}`,
+          date: form.eventDate.value,
+          title: form.eventTitle.value,
+          category: form.eventCategory.value,
+          description: form.eventDesc.value,
+          linkedSource: "Manual Entry by Coordinator",
+          status: "Active"
+        };
+        setEvents(prev => [newEvt, ...prev]);
+        setShowAddEventModal(false);
+        showToast("Event Added", `Scheduled '${newEvt.title}' for ${newEvt.date}.`, "success");
+      };
+
+      return (
+        <div className="relative z-10 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col min-h-screen">
+          
+          {}
+          {toast && (
+            <div className={`fixed top-6 right-6 z-50 p-4 max-w-md rounded-2xl backdrop-blur-2xl border shadow-2xl flex items-start space-x-3 transition-all animate-bounce ${
+              toast.type === 'warning' ? 'bg-amber-950/85 border-amber-400/60 text-amber-200' : 'bg-cyan-950/85 border-cyan-400/60 text-cyan-100'
+            }`}>
+              <IconAlert className="w-5 h-5 shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider">{toast.title}</h4>
+                <p className="text-xs mt-0.5 opacity-90 leading-relaxed">{toast.message}</p>
+              </div>
+            </div>
+          )}
+
+          {}
+          <header className="mb-6 aqua-glass-panel p-4 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center space-x-4">
+              {/* Glossy 3D Pryda/Aqua Badge */}
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 p-[1.5px] shadow-lg shadow-cyan-500/40 flex items-center justify-center relative shrink-0">
+                <div className="w-full h-full bg-slate-950/80 rounded-[14px] flex items-center justify-center backdrop-blur-md">
+                  <IconBrain className="w-7 h-7 text-cyan-300 animate-pulse" />
+                </div>
+                <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-cyan-400 rounded-full blur-[1px] animate-ping" />
+              </div>
+              <div>
+                <div className="flex items-center space-x-2">
+                  <h1 className="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-cyan-100 to-cyan-300 bg-clip-text text-transparent">
+                    Cyber Volunteer Network
+                  </h1>
+                  <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/40 uppercase tracking-widest">
+                    AQUA GLASS
+                  </span>
+                </div>
+                <p className="text-xs text-cyan-200/80 font-medium mt-0.5">
+                  Institutional memory & conflict-resolution for volunteer teams that change
+                </p>
+              </div>
+            </div>
+
+            {/* Navigation Tabs */}
+            <div className="flex items-center space-x-1.5 bg-slate-950/70 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md">
+              <button
+                onClick={() => setActiveTab('chat')}
+                className={`px-4 py-2 rounded-xl text-xs transition-all flex items-center space-x-2 ${
+                  activeTab === 'chat' ? 'aqua-tab-active' : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                <IconBrain className="w-4 h-4" />
+                <span>Ask Memory</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('knowledge')}
+                className={`px-4 py-2 rounded-xl text-xs transition-all flex items-center space-x-2 ${
+                  activeTab === 'knowledge' ? 'aqua-tab-active' : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                <IconUpload className="w-4 h-4" />
+                <span>Archive Base ({sources.length})</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('calendar')}
+                className={`px-4 py-2 rounded-xl text-xs transition-all flex items-center space-x-2 ${
+                  activeTab === 'calendar' ? 'aqua-tab-active' : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                <IconCalendar className="w-4 h-4" />
+                <span>Events Calendar</span>
+              </button>
+            </div>
+          </header>
+
+          {}
+          <div className="grid grid-cols-12 gap-6 flex-1">
+            
+            {/* LEFT SIDEBAR: VOICE RECORDER & FILE UPLOADER & ARCHIVE LIST */}
+            <div className={`col-span-12 lg:col-span-4 space-y-6 ${activeTab === 'knowledge' ? 'block' : 'hidden lg:block'}`}>
+              
+              {/* LIVE VOICE RECORDER CARD */}
+              <div className="aqua-glass-panel p-5 relative overflow-hidden">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-bold text-white flex items-center space-x-2">
+                    <IconMic className="w-4 h-4 text-cyan-400" />
+                    <span>Live Voice Recorder</span>
+                  </h3>
+                  {isRecording && (
+                    <span className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-bold animate-pulse">
+                      <span className="w-2 h-2 rounded-full bg-rose-500" />
+                      <span>REC {recordingTime}s</span>
+                    </span>
+                  )}
+                </div>
+
+                {!isRecording && !audioUrl && (
+                  <button
+                    onClick={startRecording}
+                    className="w-full py-3 rounded-xl aqua-glass-btn text-xs font-bold text-white flex items-center justify-center space-x-2"
+                  >
+                    <IconMic className="w-4 h-4 text-cyan-200" />
+                    <span>Record Audio / Voice Note</span>
+                  </button>
+                )}
+
+                {isRecording && (
+                  <div className="space-y-3">
+                    {/* Animated Audio Visualizer Bars */}
+                    <div className="flex items-center justify-center space-x-1.5 py-3">
+                      <span className="w-1.5 bg-cyan-400 visualizer-bar rounded-full" style={{ animationDelay: '0.1s' }} />
+                      <span className="w-1.5 bg-cyan-300 visualizer-bar rounded-full" style={{ animationDelay: '0.3s' }} />
+                      <span className="w-1.5 bg-blue-400 visualizer-bar rounded-full" style={{ animationDelay: '0.2s' }} />
+                      <span className="w-1.5 bg-indigo-400 visualizer-bar rounded-full" style={{ animationDelay: '0.4s' }} />
+                      <span className="w-1.5 bg-cyan-400 visualizer-bar rounded-full" style={{ animationDelay: '0.15s' }} />
+                      <span className="w-1.5 bg-emerald-400 visualizer-bar rounded-full" style={{ animationDelay: '0.35s' }} />
+                    </div>
+                    <button
+                      onClick={stopRecording}
+                      className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-500 text-white text-xs font-bold shadow-lg shadow-rose-950/50 hover:brightness-110 transition-all"
+                    >
+                      Stop Recording
+                    </button>
+                  </div>
+                )}
+
+                {audioUrl && !isRecording && (
+                  <div className="space-y-3 pt-1">
+                    <audio src={audioUrl} controls className="w-full h-8 rounded-lg" />
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={saveVoiceNoteToArchive}
+                        className="flex-1 py-2 rounded-xl aqua-glass-btn text-xs font-bold text-white"
+                      >
+                        Transcribe & Index
+                      </button>
+                      <button
+                        onClick={() => { setAudioUrl(null); setAudioBlob(null); }}
+                        className="px-3 py-2 rounded-xl aqua-soft-btn text-xs text-slate-300"
+                      >
+                        Discard
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* MULTI-FORMAT FILE UPLOADER CARD */}
+              <div className="aqua-glass-panel p-5">
+                <h3 className="text-sm font-bold text-white mb-2 flex items-center space-x-2">
+                  <IconUpload className="w-4 h-4 text-cyan-400" />
+                  <span>Upload Any Documents / Voice Files</span>
+                </h3>
+                <label className="block w-full p-4 border-2 border-dashed border-cyan-400/40 hover:border-cyan-300 rounded-2xl bg-slate-950/40 hover:bg-cyan-950/20 transition-all text-center cursor-pointer group">
+                  <input
+                    type="file"
+                    multiple
+                    accept=".txt,.pdf,.docx,.doc,.csv,.json,.md,.mp3,.wav,.m4a,.ogg,.webm"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <IconUpload className="w-8 h-8 text-cyan-300 mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="text-xs font-bold text-slate-100">
+                    Click to select or drag & drop files
+                  </p>
+                  <p className="text-[10px] text-cyan-200/70 mt-1">
+                    Accepts Documents (TXT, PDF, DOCX, CSV) & Audio (MP3, WAV, M4A)
+                  </p>
+                </label>
+              </div>
+
+              {/* INDEXED KNOWLEDGE RECORDS */}
+              <div className="aqua-glass-panel p-5 space-y-3">
+                <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                  <h3 className="text-xs font-bold text-cyan-200 uppercase tracking-wider">
+                    Indexed Records ({sources.length})
+                  </h3>
+                  <span className="text-[10px] text-emerald-400 font-semibold flex items-center space-x-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                    <span>Auto-Conflict Engine</span>
+                  </span>
+                </div>
+
+                <div className="space-y-2.5 max-h-[380px] overflow-y-auto custom-scrollbar pr-1">
+                  {sources.map(item => (
+                    <div
+                      key={item.id}
+                      onClick={() => setSelectedModalSource(item)}
+                      className="p-3 rounded-xl bg-slate-950/60 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-950/20 transition-all cursor-pointer group"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h4 className="text-xs font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">
+                            {item.fileName}
+                          </h4>
+                          <p className="text-[10px] text-slate-400 mt-0.5">
+                            {item.sourceType} • {item.date}
+                          </p>
+                        </div>
+                        <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold border ${
+                          item.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' :
+                          item.status === 'Outdated' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
+                          'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                        }`}>
+                          {item.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* MAIN CONTENT AREA: AI CHAT SEARCH OR EVENTS CALENDAR */}
+            <div className={`col-span-12 ${activeTab === 'chat' || activeTab === 'knowledge' ? 'lg:col-span-8' : 'lg:col-span-12'} flex flex-col space-y-6`}>
+              
+              {activeTab === 'calendar' ? (
+                <div className="aqua-glass-panel p-6 space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                    <div>
+                      <h2 className="text-lg font-black text-white flex items-center space-x-2">
+                        <IconCalendar className="w-5 h-5 text-cyan-400" />
+                        <span>Upcoming Operations & Deadlines Calendar</span>
+                      </h2>
+                      <p className="text-xs text-cyan-200/80">
+                        Synchronized automatically from active SOPs, partner approvals, and voice transcripts
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setShowAddEventModal(true)}
+                      className="px-4 py-2 rounded-xl aqua-glass-btn text-xs font-bold text-white flex items-center space-x-1.5 self-start sm:self-auto"
+                    >
+                      <IconPlus className="w-4 h-4" />
+                      <span>Add Calendar Event</span>
+                    </button>
+                  </div>
+
+                  {/* CALENDAR EVENTS GRID */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {events.map(evt => (
+                      <div
+                        key={evt.id}
+                        onClick={() => setSelectedEventModal(evt)}
+                        className="p-4 rounded-2xl bg-slate-950/60 border border-white/10 hover:border-cyan-400/50 hover:bg-cyan-950/20 transition-all cursor-pointer group space-y-2"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-mono font-bold text-cyan-300">{evt.date}</span>
+                          <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                            {evt.category}
+                          </span>
+                        </div>
+                        <h4 className="text-sm font-bold text-white group-hover:text-cyan-200 transition-colors">
+                          {evt.title}
+                        </h4>
+                        <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                          {evt.description}
+                        </p>
+                        <div className="pt-2 flex items-center justify-between text-[10px] text-cyan-400/90 font-semibold border-t border-white/5">
+                          <span className="flex items-center space-x-1">
+                            <IconFileText className="w-3.5 h-3.5" />
+                            <span>Source: {evt.linkedSource}</span>
+                          </span>
+                          <span className="text-slate-400 group-hover:text-cyan-300">View Details &rarr;</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="aqua-glass-panel p-6 flex flex-col h-[650px]">
+                  
+                  {/* MESSAGES STREAM */}
+                  <div className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
+                    {messages.length === 0 && (
+                      <div className="text-center py-12 space-y-4">
+                        <div className="w-16 h-16 mx-auto rounded-3xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center">
+                          <IconBrain className="w-8 h-8 text-cyan-300 animate-pulse" />
+                        </div>
+                        <h3 className="text-lg font-bold text-white">Ask the Cyber Volunteer Network Memory</h3>
+                        <p className="text-xs text-slate-300 max-w-md mx-auto">
+                          Query past organizational decisions, transport timelines, partner agreements, or regional voice notes.
+                        </p>
+                        <div className="flex flex-wrap gap-2 justify-center pt-2">
+                          {[
+                            "Which transport checklist should we use?",
+                            "Why was the transport process changed?",
+                            "What has the partner already confirmed?",
+                            "What does the Malayalam note say about food?"
+                          ].map((q, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => handleSendMessage(q)}
+                              className="px-3 py-1.5 rounded-xl aqua-soft-btn text-xs text-cyan-200"
+                            >
+                              {q}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {messages.map((msg) => (
+                      <div key={msg.id} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
+                        {msg.sender === 'user' ? (
+                          <div className="max-w-lg px-4 py-3 rounded-2xl aqua-glass-btn text-xs font-semibold text-white shadow-lg">
+                            {msg.text}
+                          </div>
+                        ) : (
+                          <div className="w-full space-y-3">
+                            {/* ASSISTANT MAIN ANSWER */}
+                            <div className="p-4 rounded-2xl bg-slate-950/75 border border-white/10 text-xs text-slate-100 leading-relaxed shadow-lg">
+                              {msg.text}
+                            </div>
+
+                            {/* CONFLICT WARNING BANNER */}
+                            {msg.answerData?.conflictDetected && (
+                              <div className="p-4 rounded-2xl bg-amber-950/50 border border-amber-400/60 space-y-3 shadow-lg">
+                                <div className="flex items-center space-x-2 text-amber-300">
+                                  <IconAlert className="w-5 h-5 shrink-0" />
+                                  <span className="text-xs font-bold uppercase tracking-wider">Conflicting Instructions Overwritten</span>
+                                </div>
+                                <p className="text-xs text-amber-200/90 leading-relaxed">{msg.answerData.conflictSummary}</p>
+                                <div className="p-3 rounded-xl bg-slate-950/80 border border-amber-500/30 text-[11px] text-amber-300">
+                                  <strong>Why this recommendation? </strong>
+                                  <span>{msg.answerData.recommendationReason}</span>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* SOURCE EVIDENCE CARDS */}
+                            {msg.answerData?.sources?.length > 0 && (
+                              <div className="pt-1">
+                                <div className="text-[11px] font-bold text-cyan-300 uppercase tracking-wider mb-2 flex items-center space-x-1">
+                                  <IconShield className="w-3.5 h-3.5 text-emerald-400" />
+                                  <span>Verified Archive Evidence ({msg.answerData.sources.length})</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                  {msg.answerData.sources.map((src, idx) => (
+                                    <div key={idx} className="p-3 rounded-xl bg-slate-950/70 border border-white/10 text-xs flex justify-between items-center">
+                                      <div>
+                                        <div className="font-bold text-white">{src.fileName}</div>
+                                        <div className="text-[10px] text-slate-400">{src.sourceType} • {src.date}</div>
+                                      </div>
+                                      <button
+                                        onClick={() => setSelectedModalSource(src)}
+                                        className="px-2.5 py-1 rounded-lg aqua-soft-btn text-[10px] text-cyan-300 font-bold"
+                                      >
+                                        View
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    {isLoading && (
+                      <div className="flex items-center space-x-2.5 p-3.5 rounded-xl bg-slate-950/70 border border-cyan-400/30 text-xs text-cyan-300">
+                        <IconRefresh className="w-4 h-4 animate-spin" />
+                        <span>{loadingStep}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* CHAT INPUT COMPOSER */}
+                  <form onSubmit={(e) => { e.preventDefault(); const val = e.target.query.value; if(val){ handleSendMessage(val); e.target.query.value = ''; } }} className="mt-4 pt-3 border-t border-white/10 flex items-center space-x-2">
+                    <input
+                      name="query"
+                      type="text"
+                      placeholder="Ask about previous events, transport SOPs, partner confirmations..."
+                      className="flex-1 bg-slate-950/80 border border-white/20 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400"
+                    />
+                    <button type="submit" className="p-2.5 rounded-xl aqua-glass-btn text-white">
+                      <IconSend className="w-4 h-4" />
+                    </button>
+                  </form>
+
+                </div>
+              )}
+
+            </div>
+
+          </div>
+
+          {}
+          {selectedModalSource && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+              <div className="w-full max-w-2xl aqua-glass-panel p-6 space-y-4 max-h-[85vh] overflow-y-auto custom-scrollbar">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div>
+                    <h3 className="text-base font-bold text-white">{selectedModalSource.fileName}</h3>
+                    <p className="text-xs text-cyan-300">{selectedModalSource.sourceType} • {selectedModalSource.date}</p>
+                  </div>
+                  <button onClick={() => setSelectedModalSource(null)} className="p-2 rounded-xl aqua-soft-btn text-white">
+                    <IconX className="w-5 h-5" />
+                  </button>
+                </div>
+                <pre className="p-4 rounded-xl bg-slate-950 border border-white/10 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed">
+                  {selectedModalSource.fullContent}
+                </pre>
+              </div>
+            </div>
+          )}
+
+          {}
+          {selectedEventModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+              <div className="w-full max-w-lg aqua-glass-panel p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div>
+                    <span className="text-xs font-mono font-bold text-cyan-300">{selectedEventModal.date}</span>
+                    <h3 className="text-base font-bold text-white mt-1">{selectedEventModal.title}</h3>
+                  </div>
+                  <button onClick={() => setSelectedEventModal(null)} className="p-2 rounded-xl aqua-soft-btn text-white">
+                    <IconX className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="space-y-3 text-xs text-slate-200 leading-relaxed">
+                  <p><strong>Category:</strong> {selectedEventModal.category}</p>
+                  <p><strong>Description:</strong> {selectedEventModal.description}</p>
+                  <p><strong>Linked Memory Source:</strong> {selectedEventModal.linkedSource}</p>
+                </div>
+                <div className="pt-2 flex justify-end">
+                  <button
+                    onClick={() => setSelectedEventModal(null)}
+                    className="px-4 py-2 rounded-xl aqua-glass-btn text-xs font-bold text-white"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {}
+          {showAddEventModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+              <div className="w-full max-w-md aqua-glass-panel p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 className="text-base font-bold text-white">Schedule Calendar Event</h3>
+                  <button onClick={() => setShowAddEventModal(false)} className="p-2 rounded-xl aqua-soft-btn text-white">
+                    <IconX className="w-5 h-5" />
+                  </button>
+                </div>
+                <form onSubmit={handleCreateCustomEvent} className="space-y-3 text-xs">
+                  <div>
+                    <label className="block text-slate-300 font-bold mb-1">Event Title</label>
+                    <input name="eventTitle" required type="text" placeholder="e.g. Catering Headcount Submission" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-slate-300 font-bold mb-1">Date</label>
+                      <input name="eventDate" required type="date" defaultValue="2026-10-18" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400" />
+                    </div>
+                    <div>
+                      <label className="block text-slate-300 font-bold mb-1">Category</label>
+                      <select name="eventCategory" className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400">
+                        <option value="Logistics">Logistics</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Event">Event</option>
+                        <option value="Governance">Governance</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-slate-300 font-bold mb-1">Description</label>
+                    <textarea name="eventDesc" required rows="3" placeholder="Provide event operational details..." className="w-full bg-slate-950 border border-white/20 rounded-xl p-2.5 text-white focus:outline-none focus:border-cyan-400"></textarea>
+                  </div>
+                  <div className="pt-2 flex space-x-2">
+                    <button type="submit" className="flex-1 py-2.5 rounded-xl aqua-glass-btn text-white font-bold">
+                      Add Event
+                    </button>
+                    <button type="button" onClick={() => setShowAddEventModal(false)} className="px-4 py-2.5 rounded-xl aqua-soft-btn text-slate-300">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* FOOTER */}
+          <footer className="mt-8 text-center text-xs text-cyan-200/60 py-4 border-t border-white/10">
+            Cyber Volunteer Network • Institutional memory & conflict-resolution platform
+          </footer>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
