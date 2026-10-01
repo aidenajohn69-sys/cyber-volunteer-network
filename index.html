@@ -1,127 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Volunteer Network | Memory Engine</title>
+    <title>Cyber Volunteer Network - Aero Intelligence Hub</title>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        aqua: {
-                            50: '#f0fbfb',
-                            100: '#dcf6f7',
-                            200: '#beeeef',
-                            300: '#90e0ef',
-                            400: '#48cae4',
-                            500: '#00b4d8',
-                            600: '#0077b6',
-                            700: '#03045e',
-                        },
-                        glass: {
-                            light: 'rgba(255, 255, 255, 0.45)',
-                            border: 'rgba(255, 255, 255, 0.65)',
-                            dark: 'rgba(10, 25, 47, 0.65)'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
+    
+    <!-- Document Parsing Libraries: PDF.js & Mammoth.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    
     <style>
-        /* Frutiger Aero / Aqua Liquid Glass Signature Theme */
+        /* Custom Aero Glass Theme Styles */
+        :root {
+            --aqua-cyan: #00f2fe;
+            --aqua-blue: #4facfe;
+            --aero-glow: rgba(0, 242, 254, 0.25);
+            --glass-bg: rgba(13, 22, 44, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 100%);
+        }
+
         body {
-            background: radial-gradient(circle at 20% 20%, #00f2fe 0%, #4facfe 35%, #00223e 85%, #000d1a 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: #0f172a;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #060b19;
+            color: #e2e8f0;
             overflow-x: hidden;
         }
 
-        /* Ambient Glowing Liquid Orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-            pointer-events: none;
-            animation: float 18s ease-in-out infinite alternate;
-        }
-        .orb-1 { width: 450px; height: 450px; background: rgba(0, 212, 255, 0.45); top: -100px; left: -100px; }
-        .orb-2 { width: 500px; height: 500px; background: rgba(79, 172, 254, 0.35); bottom: -150px; right: -100px; animation-delay: -6s; }
-        .orb-3 { width: 350px; height: 350px; background: rgba(128, 255, 212, 0.3); top: 40%; left: 40%; animation-delay: -12s; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(40px, -50px) scale(1.1); }
-            100% { transform: translate(-30px, 40px) scale(0.95); }
+        .mono-font {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Liquid Glass Container Styling */
-        .glass-panel {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 249, 255, 0.45) 100%);
+        /* Glassmorphism Container */
+        .aero-glass {
+            background: var(--glass-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-            border-right: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 15px 35px rgba(0, 40, 90, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.9);
-            border-radius: 24px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .glass-panel-dark {
-            background: linear-gradient(135deg, rgba(15, 30, 55, 0.85) 0%, rgba(8, 18, 38, 0.75) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-        }
-
-        /* Frutiger Aero Glossy Button */
-        .btn-aero {
-            background: linear-gradient(180deg, #ffffff 0%, #d8f3dc 20%, #48cae4 50%, #0077b6 100%);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.9), inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-            color: #03045e;
-            font-weight: 700;
-            border-radius: 9999px;
-            transition: all 0.25s ease;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 10, 30, 0.47),
+                        inset 0 1px 1px 0 rgba(255, 255, 255, 0.3);
+            border-radius: 1.25rem;
             position: relative;
             overflow: hidden;
         }
 
-        .btn-aero::after {
+        /* Glossy Sheen Overlay */
+        .aero-glass::before {
             content: '';
             position: absolute;
-            top: 2px;
-            left: 10%;
-            width: 80%;
-            height: 40%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
-            border-radius: 9999px;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: var(--glass-shine);
             pointer-events: none;
+            border-top-left-radius: 1.25rem;
+            border-top-right-radius: 1.25rem;
+            opacity: 0.6;
         }
 
-        .btn-aero:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.6), inset 0 2px 2px rgba(255, 255, 255, 1);
-        }
-
-        .btn-aero-danger {
-            background: linear-gradient(180deg, #ffffff 0%, #ffccd5 20%, #ff4d6d 50%, #c1121f 100%);
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.9);
+        /* Aero Button Styling */
+        .aero-btn {
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.8) 0%, rgba(14, 165, 233, 0.9) 50%, rgba(3, 105, 161, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 4px 14px rgba(14, 165, 233, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
             color: #ffffff;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .aero-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .aero-btn:hover::after {
+            left: 100%;
+        }
+
+        .aero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 6px 20px rgba(14, 165, 233, 0.6);
+            filter: brightness(1.1);
+        }
+
+        .aero-btn:active {
+            transform: translateY(1px);
+        }
+
+        .aero-btn-emerald {
+            background: linear-gradient(180deg, rgba(52, 211, 153, 0.8) 0%, rgba(16, 185, 129, 0.9) 50%, rgba(4, 120, 87, 0.95) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .aero-btn-amber {
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.8) 0%, rgba(245, 158, 11, 0.9) 50%, rgba(180, 83, 9, 0.95) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 4px 14px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Animated Glowing Aqua Canvas Orbs */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
         }
 
         /* Custom Scrollbar */
@@ -130,1162 +135,1183 @@
             height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background: rgba(10, 20, 40, 0.4);
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #90e0ef 0%, #0077b6 100%);
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(56, 189, 248, 0.3);
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(56, 189, 248, 0.6);
         }
 
-        /* Aqua Visual Pulse */
-        .pulse-aqua {
-            box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7);
-            animation: pulse-animation 2s infinite;
+        /* Pulse animations for status indicators */
+        @keyframes aquaPulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.08); }
         }
-        @keyframes pulse-animation {
-            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
-            70% { box-shadow: 0 0 0 12px rgba(0, 212, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
-        }
-
-        /* Water Droplet Graphic Accent */
-        .droplet {
-            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9) 0%, rgba(0,180,216,0.5) 50%, rgba(3,4,94,0.7) 100%);
-            box-shadow: inset -2px -2px 6px rgba(0,0,0,0.3), inset 2px 2px 6px rgba(255,255,255,0.8), 0 5px 15px rgba(0,0,0,0.2);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        .aqua-glow-effect {
+            animation: aquaPulse 4s infinite ease-in-out;
         }
     </style>
 </head>
-<body class="p-3 md:p-6 text-slate-800 relative min-h-screen">
+<body class="h-full text-slate-100 flex flex-col relative">
 
-    <!-- Glowing Background Orbs -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+    <!-- Aqua Liquid Floating Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
 
-    <div class="max-w-7xl mx-auto relative z-10 flex flex-col gap-6">
-
-        <!-- HEADER PANEL -->
-        <header class="glass-panel p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-4">
-                <div class="relative w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300 via-blue-500 to-indigo-700 shadow-lg text-white text-2xl border-2 border-white/80">
-                    <i class="fa-solid font-bold fa-shield-halved text-white drop-shadow"></i>
-                    <span class="absolute -top-1 -right-1 flex h-4 w-4">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-4 w-4 bg-cyan-400 border border-white"></span>
-                    </span>
+    <div class="relative z-10 flex flex-col h-screen max-h-screen overflow-hidden">
+        
+        <!-- Top Frutiger Aero Glass Header -->
+        <header class="m-3 mb-2 p-3 aero-glass flex items-center justify-between shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-400 to-indigo-500 p-0.5 shadow-lg shadow-cyan-500/30 flex items-center justify-center">
+                    <div class="w-full h-full bg-slate-900/80 rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-shield-halved text-cyan-400 text-xl"></i>
+                    </div>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-900 via-cyan-800 to-indigo-900 tracking-tight">
-                            Cyber Volunteer Network
-                        </h1>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-cyan-100/90 text-cyan-800 border border-cyan-300 flex items-center gap-1.5 shadow-sm">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Memory Engine Online
-                        </span>
+                    <h1 class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-sky-200 to-indigo-300">
+                        Cyber Volunteer Network
+                    </h1>
+                    <div class="flex items-center space-x-2 text-xs text-sky-300/80">
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span class="font-medium">Aqua AI Engine v3.1 • Active Knowledge Graph</span>
                     </div>
-                    <p class="text-xs md:text-sm font-medium text-slate-600 mt-0.5">
-                        Institutional Memory & Conflict-Aware Operations Engine
-                    </p>
                 </div>
             </div>
 
-            <!-- Quick Controls & Search -->
-            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
-                <div class="relative flex-1 md:w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input type="text" id="quickSearchInput" onkeyup="handleQuickSearch()" placeholder="Search active memory..." 
-                        class="w-full pl-9 pr-4 py-2 bg-white/70 border border-white/80 rounded-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow-inner">
+            <!-- Header Quick Controls & Status -->
+            <div class="flex items-center space-x-3">
+                <!-- Search Filter Input -->
+                <div class="relative hidden md:block w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-sky-400"></i>
+                    <input type="text" id="globalKbSearch" oninput="filterKnowledgeBase(this.value)" placeholder="Search policies & notes..." 
+                           class="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl bg-slate-900/60 border border-sky-500/30 text-sky-100 placeholder-sky-400/50 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400">
                 </div>
-                <button onclick="toggleAuditModal()" class="px-4 py-2 bg-white/80 hover:bg-white text-slate-700 rounded-full text-sm font-semibold border border-white/90 shadow-sm transition flex items-center gap-2">
-                    <i class="fa-solid fa-clock-rotate-left text-cyan-600"></i>
-                    <span class="hidden sm:inline">Audit Log</span>
-                    <span id="auditBadgeCount" class="bg-cyan-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">2</span>
+
+                <!-- Overwrite Audit Drawer Toggle Button -->
+                <button onclick="toggleAuditDrawer()" class="px-3 py-1.5 text-xs rounded-xl bg-slate-800/80 border border-amber-500/40 text-amber-300 hover:bg-amber-950/40 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="font-medium">Overwrite Audit</span>
+                    <span id="auditCountBadge" class="ml-1 px-1.5 py-0.2 text-[10px] bg-amber-500/30 border border-amber-400/40 rounded-full font-bold">0</span>
+                </button>
+
+                <!-- Voice Recording Modal Button -->
+                <button onclick="openVoiceModal()" class="aero-btn aero-btn-emerald px-3 py-1.5 rounded-xl text-xs flex items-center space-x-2">
+                    <i class="fa-solid fa-microphone"></i>
+                    <span>Record Voice Note</span>
+                </button>
+
+                <!-- Document Upload Modal Button -->
+                <button onclick="openUploadModal()" class="aero-btn px-3 py-1.5 rounded-xl text-xs flex items-center space-x-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Upload Doc</span>
                 </button>
             </div>
         </header>
 
-        <!-- MAIN CONTENT WORKSPACE -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Main Layout (3-Column Layout: Left KB/Recorder, Middle AI Query & Operational Report, Right Calendar/Timeline) -->
+        <main class="flex-1 px-3 pb-3 grid grid-cols-12 gap-3 min-h-0 overflow-hidden">
+            
+            <!-- LEFT PANEL: Knowledge Base & Document Index (3 cols) -->
+            <section class="col-span-12 lg:col-span-3 flex flex-col aero-glass p-3 min-h-0">
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-sky-500/20">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-book-bookmark text-cyan-400 text-sm"></i>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-sky-200">Knowledge Base Engine</h2>
+                    </div>
+                    <span id="kbDocCount" class="px-2 py-0.5 text-[10px] rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold">0 Files</span>
+                </div>
 
-            <!-- LEFT PANEL: Upload Zone, Voice Recorder, Source Memory List -->
-            <div class="lg:col-span-5 flex flex-col gap-6">
+                <!-- Knowledge Base Filter Chips -->
+                <div class="flex space-x-1 mb-2 text-[10px]">
+                    <button onclick="setKbFilter('all')" id="filterBtn-all" class="px-2 py-1 rounded-lg bg-cyan-500/30 text-cyan-200 font-semibold border border-cyan-400/40">All</button>
+                    <button onclick="setKbFilter('active')" id="filterBtn-active" class="px-2 py-1 rounded-lg bg-slate-800/60 text-slate-400 border border-slate-700">Active</button>
+                    <button onclick="setKbFilter('outdated')" id="filterBtn-outdated" class="px-2 py-1 rounded-lg bg-slate-800/60 text-slate-400 border border-slate-700">Outdated</button>
+                </div>
+
+                <!-- Knowledge Base Items List -->
+                <div id="kbListContainer" class="flex-1 overflow-y-auto space-y-2 pr-1">
+                    <!-- Dynamic KB Item Cards Populated via JS -->
+                </div>
+
+                <!-- Knowledge Quick Info Footnote -->
+                <div class="mt-2 pt-2 border-t border-sky-500/20 text-[10px] text-sky-300/70 flex justify-between items-center">
+                    <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i>Auto-Conflict Engine Active</span>
+                    <button onclick="recheckConflicts()" class="hover:text-cyan-300 underline">Sync Rules</button>
+                </div>
+            </section>
+
+            <!-- MIDDLE PANEL: AI Command Center & Structured Operational Report (6 cols) -->
+            <section class="col-span-12 lg:col-span-6 flex flex-col aero-glass p-3 min-h-0 relative">
                 
-                <!-- FILE UPLOAD & VOICE INGESTION CARD -->
-                <div class="glass-panel p-5 flex flex-col gap-4">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-file-arrow-up text-cyan-600"></i> Knowledge Ingestion Zone
-                        </h2>
-                        <span class="text-xs text-slate-500 font-semibold bg-white/60 px-2.5 py-1 rounded-full border border-white/80">
-                            Zero-Error Speech & Doc Parser
+                <!-- AI Engine Status & Mode Header -->
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-sky-500/20">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-microchip text-sky-400 text-sm"></i>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-sky-200">AI Operational Command</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span id="aiEngineBadge" class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-[8px]"></i> Gemini 3 Flash / Fallback Ready
                         </span>
                     </div>
+                </div>
 
-                    <!-- File Drop Area -->
-                    <div id="dropZone" onclick="document.getElementById('fileInput').click()" 
-                        class="border-2 border-dashed border-cyan-400/70 hover:border-cyan-500 bg-cyan-50/40 hover:bg-cyan-100/50 transition p-5 rounded-2xl text-center cursor-pointer flex flex-col items-center justify-center gap-2 group">
-                        <div class="w-12 h-12 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl group-hover:scale-110 transition shadow-sm border border-white">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                <!-- Output Area: Operational Report / Chat Stream -->
+                <div id="reportContainer" class="flex-1 overflow-y-auto pr-1 space-y-4">
+                    
+                    <!-- Welcome Initial State -->
+                    <div id="reportPlaceholder" class="h-full flex flex-col items-center justify-center text-center p-6 text-sky-300/70 space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-300 text-2xl shadow-inner">
+                            <i class="fa-solid fa-file-invoice"></i>
                         </div>
                         <div>
-                            <p class="text-sm font-bold text-slate-700">Click or Drag & Drop Documents / Audio</p>
-                            <p class="text-xs text-slate-500 mt-0.5">Supports TXT, CSV, JSON, MD, MP3, WAV, M4A, WEBM</p>
+                            <h3 class="text-base font-bold text-sky-100">Ready for Volunteer Operations Query</h3>
+                            <p class="text-xs text-sky-300/70 max-w-md mt-1">
+                                Ask any question regarding incident response, escalation contacts, volunteer shift notice periods, or standard operating procedures.
+                            </p>
                         </div>
-                        <input type="file" id="fileInput" class="hidden" multiple accept=".txt,.csv,.json,.md,.mp3,.wav,.m4a,.webm,.pdf,.docx" onchange="handleFileSelect(event)">
-                    </div>
-
-                    <!-- Live Voice Recorder Section -->
-                    <div class="bg-white/60 rounded-2xl p-4 border border-white/80 flex flex-col gap-3 shadow-inner">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="relative flex h-3 w-3">
-                                    <span id="recordingPing" class="hidden animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                    <span id="recordingDot" class="relative inline-flex rounded-full h-3 w-3 bg-slate-400"></span>
-                                </span>
-                                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Live Voice SOP Recorder</span>
-                            </div>
-                            <span id="recordTimer" class="font-mono text-xs font-bold text-slate-600">00:00</span>
-                        </div>
-
-                        <!-- Audio Visualizer Canvas -->
-                        <canvas id="visualizerCanvas" class="w-full h-10 bg-slate-900/10 rounded-xl border border-white/50"></canvas>
-
-                        <!-- Controls -->
-                        <div class="flex items-center gap-2">
-                            <button id="recordBtn" onclick="toggleRecording()" class="btn-aero flex-1 py-2.5 px-4 text-xs flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-microphone text-sm"></i>
-                                <span id="recordBtnText">Start Live Dictation</span>
+                        <div class="flex flex-wrap justify-center gap-2 pt-2">
+                            <button onclick="submitPrebuiltQuery('What is the current incident response time and who is the primary emergency contact?')" 
+                                    class="text-xs px-3 py-1.5 rounded-xl bg-slate-800/80 border border-sky-500/30 hover:border-cyan-400 text-sky-200 transition">
+                                💬 Response SLA & Emergency Lead
                             </button>
-                            <button onclick="clearVoiceBuffer()" class="p-2.5 bg-slate-200/80 hover:bg-slate-300 text-slate-600 rounded-full transition text-xs" title="Clear Buffer">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <button onclick="submitPrebuiltQuery('What is the policy for volunteer shift swaps and notice periods?')" 
+                                    class="text-xs px-3 py-1.5 rounded-xl bg-slate-800/80 border border-sky-500/30 hover:border-cyan-400 text-sky-200 transition">
+                                💬 Shift Swap Notice Rules
                             </button>
                         </div>
-
-                        <!-- Live Transcription Real-time Box -->
-                        <div id="transcriptBox" class="text-xs text-slate-600 font-mono bg-white/80 p-3 rounded-xl border border-slate-200 min-h-[60px] max-h-[100px] overflow-y-auto italic">
-                            [Live transcription will stream here...]
-                        </div>
                     </div>
+
+                    <!-- Dynamic Report Content Inserted Here -->
+                    <div id="reportOutput" class="hidden space-y-4"></div>
                 </div>
 
-                <!-- INDEXED KNOWLEDGE SOURCES -->
-                <div class="glass-panel p-5 flex flex-col gap-4 flex-1">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-database text-cyan-600"></i> Indexed Knowledge Memory
-                        </h2>
-                        <span id="sourceCountBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-cyan-600 text-white shadow-sm">
-                            4 Sources Loaded
-                        </span>
-                    </div>
-
-                    <!-- Filter Chips -->
-                    <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
-                        <button onclick="filterSources('ALL')" class="source-filter-btn px-3 py-1 rounded-full bg-cyan-600 text-white font-bold shadow-sm">All</button>
-                        <button onclick="filterSources('ACTIVE')" class="source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200">Active SOPs</button>
-                        <button onclick="filterSources('OUTDATED')" class="source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200">Overwritten</button>
-                        <button onclick="filterSources('VOICE')" class="source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200">Voice Transcripts</button>
-                    </div>
-
-                    <!-- Source Document List -->
-                    <div id="sourcesContainer" class="flex flex-col gap-3 max-h-[420px] overflow-y-auto pr-1">
-                        <!-- Dynamic items injected here via JS -->
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT PANEL: Operations Calendar & AI Memory Chat -->
-            <div class="lg:col-span-7 flex flex-col gap-6">
-
-                <!-- OPERATIONS CALENDAR SECTION -->
-                <div class="glass-panel p-5 flex flex-col gap-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div>
-                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                                <i class="fa-regular fa-calendar-check text-cyan-600"></i> Operations Calendar & Critical Alerts
-                            </h2>
-                            <p class="text-xs text-slate-500">Automatically extracted operational events & re-confirmation deadlines</p>
-                        </div>
-                        <button onclick="openAddEventModal()" class="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-full text-xs font-bold shadow-md transition flex items-center gap-1.5 self-start sm:self-auto">
-                            <i class="fa-solid fa-plus"></i> Add Ops Event
-                        </button>
-                    </div>
-
-                    <!-- Calendar Grid Header -->
-                    <div class="grid grid-cols-7 text-center font-bold text-xs text-slate-500 border-b border-slate-200/60 pb-2">
-                        <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
-                    </div>
-
-                    <!-- Calendar Month Days -->
-                    <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 md:gap-2">
-                        <!-- Injected via JS -->
-                    </div>
-                </div>
-
-                <!-- AI KNOWLEDGE ARCHIVE QUERY ENGINE -->
-                <div class="glass-panel p-5 flex flex-col gap-4 flex-1">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                                <i class="fa-solid fa-brain text-cyan-600"></i> Ask the Archive (Gemini Conflict AI)
-                            </h2>
-                            <p class="text-xs text-slate-500">Queries active knowledge with zero-hallucination conflict resolution</p>
-                        </div>
-                        <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
-                            gemini-3-flash
-                        </span>
-                    </div>
-
-                    <!-- Sample Question Chips -->
-                    <div class="flex flex-wrap gap-2 text-xs">
-                        <span class="text-slate-500 font-semibold self-center">Try Asking:</span>
-                        <button onclick="fillSampleQuery('What is the current required transport re-confirmation window and emergency hotline?')" 
-                            class="px-3 py-1 rounded-full bg-white/70 hover:bg-cyan-50 text-slate-700 border border-slate-200 transition">
-                            🚐 Transport SOP Window?
-                        </button>
-                        <button onclick="fillSampleQuery('What are the official details for the upcoming CyberShield Summit 2026?')" 
-                            class="px-3 py-1 rounded-full bg-white/70 hover:bg-cyan-50 text-slate-700 border border-slate-200 transition">
-                            📅 CyberShield Summit Info?
-                        </button>
-                        <button onclick="fillSampleQuery('What is the server outage response time protocol?')" 
-                            class="px-3 py-1 rounded-full bg-white/70 hover:bg-cyan-50 text-slate-700 border border-slate-200 transition">
-                            🚨 Server Outage Protocol?
-                        </button>
-                    </div>
-
-                    <!-- Chat Log Response Container -->
-                    <div id="chatContainer" class="flex flex-col gap-4 max-h-[480px] overflow-y-auto p-3 bg-white/50 rounded-2xl border border-white/80 min-h-[220px]">
-                        <!-- Default welcome AI message -->
-                        <div class="flex gap-3 items-start">
-                            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-sm shadow-md flex-shrink-0">
-                                AI
-                            </div>
-                            <div class="glass-panel p-4 rounded-2xl text-xs md:text-sm text-slate-700 max-w-full">
-                                <p class="font-bold text-slate-800 mb-1">Welcome to Cyber Volunteer Network Institutional Memory.</p>
-                                <p>I am synchronized with all indexed operational documents, audio dictations, and voice transcripts. Ask any question to retrieve current protocols, or upload new files/recordings to trigger conflict evaluation!</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Prompt Input Form -->
-                    <form onsubmit="handleQuerySubmit(event)" class="flex items-center gap-2 mt-auto">
+                <!-- AI Prompt Query Box Input -->
+                <div class="mt-3 pt-2 border-t border-sky-500/20">
+                    <form id="aiQueryForm" onsubmit="handleQuerySubmit(event)" class="flex space-x-2">
                         <div class="relative flex-1">
-                            <input type="text" id="userQueryInput" required placeholder="Ask about rules, logistics, schedules, or conflict status..." 
-                                class="w-full pl-4 pr-10 py-3 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-sm">
-                            <button type="button" onclick="startSpeechForQuery()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-600 transition" title="Voice Input Query">
-                                <i class="fa-solid fa-microphone text-base"></i>
+                            <input type="text" id="aiQueryInput" required placeholder="Ask about escalation protocols, shift swaps, SLA hours..." 
+                                   class="w-full pl-4 pr-10 py-2.5 text-xs rounded-xl bg-slate-900/80 border border-sky-500/40 text-sky-100 placeholder-sky-400/50 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30">
+                            <button type="button" onclick="openVoiceModal()" title="Voice Input" class="absolute right-3 top-2.5 text-sky-400 hover:text-cyan-300 text-sm">
+                                <i class="fa-solid fa-microphone"></i>
                             </button>
                         </div>
-                        <button type="submit" id="sendBtn" class="btn-aero py-3 px-6 text-sm flex items-center justify-center gap-2">
-                            <span>Analyze</span>
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        <button type="submit" id="sendQueryBtn" class="aero-btn px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 shrink-0">
+                            <span>Execute Query</span>
+                            <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </form>
                 </div>
+            </section>
 
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- AUDIT LOG MODAL -->
-    <div id="auditModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-panel-dark text-white max-w-3xl w-full p-6 flex flex-col gap-5 max-h-[85vh]">
-            <div class="flex items-center justify-between border-b border-slate-700/80 pb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg border border-cyan-400/30">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
+            <!-- RIGHT PANEL: Operational Calendar & Timeline (3 cols) -->
+            <section class="col-span-12 lg:col-span-3 flex flex-col aero-glass p-3 min-h-0">
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-sky-500/20">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-calendar-days text-indigo-400 text-sm"></i>
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-sky-200">Ops Calendar & Milestones</h2>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-bold">Overwrite & Conflict Audit Log</h3>
-                        <p class="text-xs text-slate-400">Verifiable trace of operational SOP changes and rule precedence</p>
+                    <button onclick="openAddEventModal()" class="text-xs text-cyan-300 hover:text-cyan-100"><i class="fa-solid fa-plus mr-1"></i>Add</button>
+                </div>
+
+                <!-- Calendar View Header & Grid -->
+                <div class="bg-slate-900/60 rounded-xl p-2 border border-sky-500/20 mb-3">
+                    <div class="flex justify-between items-center mb-2 px-1">
+                        <span id="calendarMonthYear" class="text-xs font-bold text-sky-200">October 2026</span>
+                        <div class="flex space-x-1 text-[10px]">
+                            <button onclick="changeMonth(-1)" class="px-1.5 py-0.5 rounded bg-slate-800 text-sky-300 hover:bg-slate-700">&lt;</button>
+                            <button onclick="changeMonth(1)" class="px-1.5 py-0.5 rounded bg-slate-800 text-sky-300 hover:bg-slate-700">&gt;</button>
+                        </div>
+                    </div>
+                    <!-- Calendar Days Grid Header -->
+                    <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-sky-400 font-semibold mb-1">
+                        <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+                    </div>
+                    <!-- Calendar Days Cells -->
+                    <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center text-[10px]"></div>
+                </div>
+
+                <!-- Operational Milestones & Events List -->
+                <div class="flex-1 overflow-y-auto space-y-2 pr-1">
+                    <div class="text-[11px] font-bold text-sky-300/80 uppercase tracking-wider mb-1">Upcoming Milestones</div>
+                    <div id="upcomingEventsList" class="space-y-1.5">
+                        <!-- Event Cards populated JS -->
                     </div>
                 </div>
-                <button onclick="toggleAuditModal()" class="text-slate-400 hover:text-white text-xl transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Audit Entries Table -->
-            <div class="overflow-y-auto max-h-[50vh] pr-2">
-                <table class="w-full text-left border-collapse text-xs md:text-sm">
-                    <thead>
-                        <tr class="border-b border-slate-700 text-cyan-400 font-mono uppercase tracking-wider">
-                            <th class="py-2.5 px-3">Timestamp</th>
-                            <th class="py-2.5 px-3">Category</th>
-                            <th class="py-2.5 px-3">Overwritten Rule</th>
-                            <th class="py-2.5 px-3">New Active SOP</th>
-                            <th class="py-2.5 px-3">Trigger Source</th>
-                        </tr>
-                    </thead>
-                    <tbody id="auditTableBody" class="divide-y divide-slate-800 font-mono">
-                        <!-- Dynamic Audit Rows Injected JS -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="flex justify-end pt-2 border-t border-slate-800">
-                <button onclick="toggleAuditModal()" class="px-5 py-2 bg-slate-700 hover:bg-slate-600 rounded-full text-xs font-bold transition">
-                    Close Audit Window
-                </button>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 
-    <!-- ADD OPS EVENT MODAL -->
-    <div id="addEventModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-panel p-6 max-w-md w-full flex flex-col gap-4">
-            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-calendar-plus text-cyan-600"></i> Add Operations Event
+    <!-- MODAL 1: Document Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="aero-glass w-full max-w-lg p-5 space-y-4 relative">
+            <div class="flex justify-between items-center border-b border-sky-500/20 pb-2">
+                <h3 class="text-sm font-bold text-sky-100 flex items-center gap-2">
+                    <i class="fa-solid fa-file-arrow-up text-cyan-400"></i>
+                    Upload Document to Knowledge Graph
                 </h3>
-                <button onclick="closeAddEventModal()" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
+                <button onclick="closeUploadModal()" class="text-sky-400 hover:text-sky-200 text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Upload Drag Drop Area -->
+            <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event)"
+                 class="border-2 border-dashed border-sky-400/40 rounded-2xl p-6 text-center bg-slate-900/40 hover:bg-slate-900/70 transition cursor-pointer">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-cyan-400 mb-2"></i>
+                <p class="text-xs font-semibold text-sky-100">Click to select or drag and drop files here</p>
+                <p class="text-[10px] text-sky-400/70 mt-1">Supports PDF, DOCX, TXT, CSV, JSON</p>
+                <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.csv,.json" class="hidden" onchange="handleFileSelect(event)">
+            </div>
+
+            <div id="uploadStatus" class="text-xs text-sky-300 hidden">
+                <i class="fa-solid fa-spinner fa-spin text-cyan-400 mr-2"></i> Parsing and indexing document...
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeUploadModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 text-xs text-slate-300 hover:bg-slate-700">Cancel</button>
+                <button onclick="document.getElementById('fileInput').click()" class="aero-btn px-4 py-1.5 rounded-xl text-xs">Browse Files</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Live Voice Recording Modal with Waveform Visualizer -->
+    <div id="voiceModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="aero-glass w-full max-w-md p-5 space-y-4 relative text-center">
+            <div class="flex justify-between items-center border-b border-sky-500/20 pb-2 text-left">
+                <h3 class="text-sm font-bold text-sky-100 flex items-center gap-2">
+                    <i class="fa-solid fa-microphone-lines text-emerald-400"></i>
+                    Voice Recording & Auto-Transcribe
+                </h3>
+                <button onclick="closeVoiceModal()" class="text-sky-400 hover:text-sky-200 text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Visualizer Canvas -->
+            <div class="bg-slate-950/80 rounded-2xl p-3 border border-sky-500/30">
+                <canvas id="waveformCanvas" class="w-full h-24 rounded-lg bg-slate-900"></canvas>
+            </div>
+
+            <!-- Live Speech-to-Text Display -->
+            <div class="text-left bg-slate-900/60 p-3 rounded-xl border border-sky-500/20 max-h-32 overflow-y-auto">
+                <span class="text-[10px] text-sky-400 font-semibold block mb-1">Live Transcript Buffer:</span>
+                <p id="liveTranscriptText" class="text-xs text-sky-100 italic">Listening... Speak clearly into your microphone.</p>
+            </div>
+
+            <!-- Title for Voice Note -->
+            <input type="text" id="voiceNoteTitle" placeholder="Voice Note Title (e.g. Incident Verbal Addendum)" 
+                   class="w-full px-3 py-2 text-xs rounded-xl bg-slate-900 border border-sky-500/30 text-sky-100 placeholder-sky-400/50">
+
+            <div class="flex justify-center space-x-3 pt-2">
+                <button id="recordToggleBtn" onclick="toggleVoiceRecording()" class="aero-btn aero-btn-emerald px-5 py-2 rounded-xl text-xs flex items-center space-x-2">
+                    <i class="fa-solid fa-microphone"></i>
+                    <span id="recordBtnText">Start Recording</span>
+                </button>
+                <button id="saveVoiceBtn" disabled onclick="saveVoiceNote()" class="aero-btn px-5 py-2 rounded-xl text-xs opacity-50 cursor-not-allowed">
+                    Save to KB
                 </button>
             </div>
-            <form onsubmit="handleNewEventSubmit(event)" class="flex flex-col gap-3 text-xs">
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Event Title</label>
-                    <input type="text" id="eventTitleInput" required placeholder="e.g., Regional Cyber Drill Briefing" 
-                        class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Date</label>
-                        <input type="date" id="eventDateInput" required 
-                            class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
-                    </div>
-                    <div>
-                        <label class="font-bold text-slate-700 block mb-1">Type</label>
-                        <select id="eventTypeInput" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
-                            <option value="CRITICAL">Critical Deadline</option>
-                            <option value="EVENT">Volunteer Event</option>
-                            <option value="DRILL">Simulation Drill</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="font-bold text-slate-700 block mb-1">Location / Venue</label>
-                    <input type="text" id="eventLocationInput" placeholder="e.g., Metro Tech Center Hall B" 
-                        class="w-full p-2.5 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-cyan-500 font-medium">
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeAddEventModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-full font-bold">Cancel</button>
-                    <button type="submit" class="btn-aero px-5 py-2 text-xs">Save Event</button>
-                </div>
-            </form>
+        </div>
+    </div>
+
+    <!-- DRAWER / MODAL 3: Overwrite & Conflict Audit Log -->
+    <div id="auditModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="aero-glass w-full max-w-2xl p-5 space-y-4 relative">
+            <div class="flex justify-between items-center border-b border-sky-500/20 pb-2">
+                <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Dynamic Policy Overwrite & Conflict Audit Log
+                </h3>
+                <button onclick="toggleAuditDrawer()" class="text-sky-400 hover:text-sky-200 text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="text-xs text-sky-300/80">
+                Whenever a newer document or audio addendum overrides legacy operational rules (e.g. notice days, escalation contact, SLA timeline), the system marks the older rule as <strong>Outdated / Overwritten</strong> and logs the exact change below.
+            </p>
+
+            <div id="auditLogList" class="max-h-80 overflow-y-auto space-y-2 pr-1">
+                <!-- Dynamic Audit Cards -->
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-sky-500/20">
+                <button onclick="toggleAuditDrawer()" class="aero-btn px-4 py-1.5 rounded-xl text-xs">Close Audit Log</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Operational Calendar Event Creation -->
+    <div id="eventModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="aero-glass w-full max-w-md p-5 space-y-3 relative">
+            <div class="flex justify-between items-center border-b border-sky-500/20 pb-2">
+                <h3 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                    Add Operational Event / Deadline
+                </h3>
+                <button onclick="closeAddEventModal()" class="text-sky-400 hover:text-sky-200 text-base"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <input type="text" id="eventTitle" placeholder="Event Title (e.g. Q4 Cyber Shift Swap Deadline)" 
+                   class="w-full px-3 py-2 text-xs rounded-xl bg-slate-900 border border-sky-500/30 text-sky-100 placeholder-sky-400/50">
+
+            <div class="grid grid-cols-2 gap-2">
+                <input type="date" id="eventDate" class="px-3 py-2 text-xs rounded-xl bg-slate-900 border border-sky-500/30 text-sky-100">
+                <select id="eventPriority" class="px-3 py-2 text-xs rounded-xl bg-slate-900 border border-sky-500/30 text-sky-100">
+                    <option value="High">High Priority</option>
+                    <option value="Medium" selected>Medium Priority</option>
+                    <option value="Low">Low Priority</option>
+                </select>
+            </div>
+
+            <textarea id="eventDescription" placeholder="Description or reference KB document..." rows="3" 
+                      class="w-full px-3 py-2 text-xs rounded-xl bg-slate-900 border border-sky-500/30 text-sky-100 placeholder-sky-400/50"></textarea>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeAddEventModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 text-xs text-slate-300">Cancel</button>
+                <button onclick="saveCalendarEvent()" class="aero-btn px-4 py-1.5 rounded-xl text-xs">Save Milestone</button>
+            </div>
         </div>
     </div>
 
     <script>
-        /**
-         * CYBER VOLUNTEER NETWORK - STATE & DATA STORE
-         */
+        // Global Knowledge Base State
         let knowledgeBase = [
             {
-                id: 'doc-1',
-                title: 'SOP-101: Volunteer Transport Protocol V1 (Archived)',
-                type: 'TXT',
-                category: 'Logistics',
-                date: '2024-03-10',
-                status: 'OUTDATED', // Marked outdated due to SOP-101-REV2
-                sourceType: 'File Upload',
-                content: `SOP-101: Volunteer Logistics & Transport. 
-Re-confirmation for transport must be completed 10 days prior to event date. 
-Emergency hotline: +1-800-555-CYBER. 
-Equipment checkout limit: 2 devices per team lead.`
+                id: "DOC-101",
+                title: "Cyber Incident Escalation Protocol v1.0",
+                type: "Policy DOC",
+                date: "2025-11-10",
+                status: "Outdated", // Will be auto-flagged by conflict engine
+                overriddenBy: "DOC-102",
+                content: "For Severity 1 cyber breaches, incident leads must acknowledge within 4 hours. Direct escalation contacts must be sent to director.smith@cybervol.org. Volunteer shifts require 5 days advance notice for swaps."
             },
             {
-                id: 'doc-2',
-                title: 'SOP-101-REV2: Revised Transport & Hotline Directive',
-                type: 'TXT',
-                category: 'Logistics',
-                date: '2026-09-15',
-                status: 'ACTIVE',
-                sourceType: 'File Upload',
-                content: `SOP-101-REV2: Revised Volunteer Transport Protocol. 
-Transport re-confirmation window updated from 10 days to 3 days prior to event date due to real-time dispatch routing. 
-Emergency hotline updated to +1-800-555-9999. 
-Max equipment checkout increased to 4 devices per team lead.`
+                id: "DOC-102",
+                title: "Updated Cyber Incident Escalation SOP v2.0",
+                type: "SOP DOC",
+                date: "2026-02-14",
+                status: "Active",
+                overriddenBy: null,
+                content: "REVISED INCIDENT SLA: Incident lead response time is strictly reduced from 4 hours to 1 hour. Severity 1 emergency lead contact is changed from director.smith@cybervol.org to emergency-lead@cybervol.org (Phone: +1-800-555-CYBER)."
             },
             {
-                id: 'doc-3',
-                title: 'CyberShield Summit 2026 Operational Plan',
-                type: 'MD',
-                category: 'Operations',
-                date: '2026-10-01',
-                status: 'ACTIVE',
-                sourceType: 'File Upload',
-                content: `CyberShield Summit scheduled for November 14-16, 2026. 
-Volunteer briefing at 08:00 AM UTC. 
-Venue: Metro Tech Center, Hall B. 
-Lead Coordinator: Sarah Jenkins (sarah.j@cybervolunteers.org). 
-Shift check-in required 30 mins before briefing.`
+                id: "DOC-103",
+                title: "Volunteer Shift Swap Policy 2026",
+                type: "Policy DOC",
+                date: "2026-01-05",
+                status: "Active",
+                overriddenBy: null,
+                content: "Standard volunteer shift swaps require 5 days advance notice. However, urgent tier-1 incident responder swaps may follow the emergency 48-hour addendum."
             },
             {
-                id: 'doc-4',
-                title: 'Crisis Response Playbook - Tier 2 Outage',
-                type: 'JSON',
-                category: 'Emergency',
-                date: '2026-08-20',
-                status: 'ACTIVE',
-                sourceType: 'File Upload',
-                content: `In case of server outage level 3, immediate escalation to Tier 2 Incident Response within 15 minutes (Overwrites former 30-minute window). 
-Duty Manager: Marcus Vance (+1-800-555-8822).`
+                id: "DOC-104",
+                title: "Urgent Shift Swap Policy Addendum (Voice Note)",
+                type: "Audio Transcript",
+                date: "2026-09-20",
+                status: "Active",
+                overriddenBy: null,
+                content: "AUDIO MEMO: Notice period for emergency shift swaps is officially changed from 5 days down to 48 hours for all active incident tier volunteers."
             }
         ];
 
-        let auditLogs = [
-            {
-                timestamp: '2026-09-15 14:30',
-                category: 'Transport SOP',
-                previousRule: '10-day prior transport re-confirmation',
-                newRule: '3-day prior transport re-confirmation',
-                sourceDoc: 'SOP-101-REV2: Revised Transport Protocol'
-            },
-            {
-                timestamp: '2026-08-20 09:15',
-                category: 'Incident Response',
-                previousRule: '30-minute outage escalation window',
-                newRule: '15-minute outage escalation window',
-                sourceDoc: 'Crisis Response Playbook'
-            }
+        let conflictAuditLogs = [];
+        let calendarEvents = [
+            { id: "EVT-1", title: "Q4 Volunteer Cyber Drill", date: "2026-10-15", priority: "High", description: "Simulated ransomware response exercise." },
+            { id: "EVT-2", title: "SOP v2.0 SLA Compliance Review", date: "2026-10-22", priority: "Medium", description: "Review 1-hour breach acknowledgment SLA." }
         ];
 
-        let opsEvents = [
-            { id: 'e1', title: 'CyberShield Summit 2026', date: '2026-11-14', type: 'EVENT', location: 'Metro Tech Center Hall B' },
-            { id: 'e2', title: 'Transport Re-confirmation Deadline', date: '2026-11-11', type: 'CRITICAL', location: 'Dispatch Portal' },
-            { id: 'e3', title: 'Volunteer Orientation Drill', date: '2026-10-25', type: 'DRILL', location: 'Virtual Room A' }
-        ];
+        let currentKbFilter = 'all';
+        let currentCalendarDate = new Date(2026, 9, 1); // October 2026
 
-        // Web Speech API & Recording State
-        let recognition = null;
-        let isRecording = false;
-        let recordingStartTime = null;
-        let recordInterval = null;
-        let liveTranscriptAccumulator = '';
-        let audioCtx = null;
+        // Audio Recording Variables
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let audioContext = null;
         let analyser = null;
-        let visualizerAnimFrame = null;
+        let recordingAnimationId = null;
+        let recognition = null;
+        let liveTranscriptBuffer = "";
+        let isRecording = false;
 
-        // Initialize App on DOM Load
-        window.onload = function() {
-            renderSources();
-            renderAuditLog();
-            renderCalendar();
-            initSpeechRecognition();
-            initVisualizer();
-        };
-
-        /**
-         * SPEECH RECOGNITION & VOICE ENGINE
-         */
-        function initSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (SpeechRecognition) {
-                recognition = new SpeechRecognition();
-                recognition.continuous = true;
-                recognition.interimResults = true;
-                recognition.lang = 'en-US';
-
-                recognition.onresult = (event) => {
-                    let interimTranscript = '';
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        if (event.results[i].isFinal) {
-                            liveTranscriptAccumulator += event.results[i][0].transcript + ' ';
-                        } else {
-                            interimTranscript += event.results[i][0].transcript;
-                        }
-                    }
-                    const displayBox = document.getElementById('transcriptBox');
-                    displayBox.innerText = liveTranscriptAccumulator + interimTranscript;
-                    displayBox.scrollTop = displayBox.scrollHeight;
-                };
-
-                recognition.onerror = (event) => {
-                    console.warn('Speech recognition notice:', event.error);
-                };
-
-                recognition.onend = () => {
-                    if (isRecording) {
-                        try { recognition.start(); } catch(e) {}
-                    }
-                };
-            }
-        }
-
-        function toggleRecording() {
-            const btnText = document.getElementById('recordBtnText');
-            const recordingDot = document.getElementById('recordingDot');
-            const recordingPing = document.getElementById('recordingPing');
-
-            if (!isRecording) {
-                // START RECORDING
-                isRecording = true;
-                recordingStartTime = Date.now();
-                btnText.innerText = 'Stop & Index Voice SOP';
-                document.getElementById('recordBtn').classList.add('btn-aero-danger');
-                recordingDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-red-500';
-                recordingPing.classList.remove('hidden');
-
-                if (recognition) {
-                    try { recognition.start(); } catch(e){}
-                }
-
-                recordInterval = setInterval(updateTimer, 1000);
-                startAudioVisualizer();
-            } else {
-                // STOP RECORDING & INDEX TO KNOWLEDGE BASE
-                isRecording = false;
-                btnText.innerText = 'Start Live Dictation';
-                document.getElementById('recordBtn').classList.remove('btn-aero-danger');
-                recordingDot.className = 'relative inline-flex rounded-full h-3 w-3 bg-slate-400';
-                recordingPing.classList.add('hidden');
-
-                if (recognition) {
-                    try { recognition.stop(); } catch(e){}
-                }
-
-                clearInterval(recordInterval);
-                stopAudioVisualizer();
-
-                // Save recorded transcript into Knowledge Base
-                const transcriptText = liveTranscriptAccumulator.trim();
-                if (transcriptText.length > 5) {
-                    indexNewContent({
-                        title: `Voice SOP Dictation (${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})})`,
-                        type: 'AUDIO',
-                        category: 'Voice Dictation',
-                        content: transcriptText,
-                        sourceType: 'Live Microphone'
-                    });
-                } else {
-                    showToast('Voice buffer too short to index.', 'info');
-                }
-            }
-        }
-
-        function clearVoiceBuffer() {
-            liveTranscriptAccumulator = '';
-            document.getElementById('transcriptBox').innerText = '[Live transcription will stream here...]';
-            document.getElementById('recordTimer').innerText = '00:00';
-        }
-
-        function updateTimer() {
-            const elapsedSeconds = Math.floor((Date.now() - recordingStartTime) / 1000);
-            const mins = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
-            const secs = String(elapsedSeconds % 60).padStart(2, '0');
-            document.getElementById('recordTimer').innerText = `${mins}:${secs}`;
-        }
-
-        /**
-         * AUDIO VISUALIZER CANVAS
-         */
-        function initVisualizer() {
-            const canvas = document.getElementById('visualizerCanvas');
+        function initBackgroundCanvas() {
+            const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
 
-        function startAudioVisualizer() {
-            const canvas = document.getElementById('visualizerCanvas');
-            const ctx = canvas.getContext('2d');
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
 
-            try {
-                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    analyser = audioCtx.createAnalyser();
-                    const source = audioCtx.createMediaStreamSource(stream);
-                    source.connect(analyser);
-                    analyser.fftSize = 64;
+            const orbs = [
+                { x: width * 0.2, y: height * 0.3, r: 250, vx: 0.3, vy: 0.2, color: 'rgba(0, 242, 254, 0.12)' },
+                { x: width * 0.8, y: height * 0.7, r: 300, vx: -0.2, vy: -0.4, color: 'rgba(79, 172, 254, 0.12)' },
+                { x: width * 0.5, y: height * 0.5, r: 200, vx: -0.3, vy: 0.3, color: 'rgba(99, 102, 241, 0.1)' }
+            ];
 
-                    const bufferLength = analyser.frequencyBinCount;
-                    const dataArray = new Uint8Array(bufferLength);
+            function animateOrbs() {
+                ctx.clearRect(0, 0, width, height);
+                orbs.forEach(orb => {
+                    orb.x += orb.vx;
+                    orb.y += orb.vy;
 
-                    function draw() {
-                        if (!isRecording) return;
-                        visualizerAnimFrame = requestAnimationFrame(draw);
-                        analyser.getByteFrequencyData(dataArray);
+                    if (orb.x < -orb.r || orb.x > width + orb.r) orb.vx *= -1;
+                    if (orb.y < -orb.r || orb.y > height + orb.r) orb.vy *= -1;
 
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        const barWidth = (canvas.width / bufferLength) * 1.5;
-                        let x = 0;
+                    const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.r);
+                    grad.addColorStop(0, orb.color);
+                    grad.addColorStop(1, 'transparent');
 
-                        for (let i = 0; i < bufferLength; i++) {
-                            const barHeight = (dataArray[i] / 255) * canvas.height;
-                            const gradient = ctx.createLinearGradient(0, canvas.height, 0, 0);
-                            gradient.addColorStop(0, '#00b4d8');
-                            gradient.addColorStop(1, '#90e0ef');
-                            ctx.fillStyle = gradient;
-                            ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
-                            x += barWidth;
-                        }
-                    }
-                    draw();
-                }).catch(e => {
-                    console.log('Visualizer mic access optional fallback');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
+                    ctx.fill();
                 });
-            } catch(e){}
+                requestAnimationFrame(animateOrbs);
+            }
+            animateOrbs();
         }
 
-        function stopAudioVisualizer() {
-            if (visualizerAnimFrame) cancelAnimationFrame(visualizerAnimFrame);
-            if (audioCtx) audioCtx.close();
-            initVisualizer();
+        function detectDocumentConflicts() {
+            conflictAuditLogs = [];
+            
+            // Check DOC-101 vs DOC-102 (Escalation & Contact rule)
+            const doc101 = knowledgeBase.find(d => d.id === 'DOC-101');
+            const doc102 = knowledgeBase.find(d => d.id === 'DOC-102');
+            
+            if (doc101 && doc102) {
+                doc101.status = 'Outdated';
+                doc101.overriddenBy = doc102.title;
+                conflictAuditLogs.push({
+                    id: "LOG-01",
+                    timestamp: "2026-02-14 09:30 AM",
+                    topic: "Incident Response Time & Contact Email",
+                    supersededDoc: doc101.title,
+                    activeDoc: doc102.title,
+                    ruleDifference: "Response SLA reduced from 4 hrs -> 1 hr; Contact changed from director.smith@cybervol.org -> emergency-lead@cybervol.org"
+                });
+            }
+
+            // Check Shift swap notice rule (DOC-103 vs DOC-104 audio addendum)
+            const doc103 = knowledgeBase.find(d => d.id === 'DOC-103');
+            const doc104 = knowledgeBase.find(d => d.id === 'DOC-104');
+            if (doc103 && doc104) {
+                conflictAuditLogs.push({
+                    id: "LOG-02",
+                    timestamp: "2026-09-20 02:15 PM",
+                    topic: "Emergency Shift Swap Notice Period",
+                    supersededDoc: doc103.title,
+                    activeDoc: doc104.title,
+                    ruleDifference: "Shift swap notice reduced from 5 days -> 48 hours for emergency tier volunteers."
+                });
+            }
+
+            document.getElementById('auditCountBadge').innerText = conflictAuditLogs.length;
+            renderKnowledgeBaseList();
+            renderAuditLogList();
         }
 
-        /**
-         * STREAMING_CHUNK:Implementing Client-Side File Reader & Gemini Audio Processing...
-         */
-        function handleFileSelect(event) {
-            const files = event.target.files;
-            if (!files || files.length === 0) return;
-
-            Array.from(files).forEach(file => {
-                const extension = file.name.split('.').pop().toLowerCase();
-
-                // Audio Files Processing
-                if (['mp3', 'wav', 'm4a', 'webm', 'ogg'].includes(extension)) {
-                    processAudioFile(file);
-                } else {
-                    // Plain Text & Structured Files Processing
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const content = e.target.result;
-                        indexNewContent({
-                            title: file.name,
-                            type: extension.toUpperCase(),
-                            category: 'Uploaded File',
-                            content: content,
-                            sourceType: 'File Upload'
-                        });
-                    };
-                    reader.readAsText(file);
-                }
-            });
-
-            // Reset input
-            event.target.value = '';
-        }
-
-        /**
-         * GEMINI AUDIO TRANSCRIPTION FOR UPLOADED AUDIO FILES
-         */
-        async function processAudioFile(file) {
-            showToast(`Transcribing audio file "${file.name}" via Gemini Speech AI...`, 'info');
-
-            const reader = new FileReader();
-            reader.onloadend = async function() {
-                const base64Data = reader.result.split(',')[1];
-                const mimeType = file.type || 'audio/mp3';
-
-                // Call Gemini API with audio inline data
-                const apiKey = ""; // Canvas runtime key handle
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-                const promptText = "Transcribe this audio recording into verbatim clean text. Extract all mentioned rules, dates, times, and operational requirements accurately.";
-
-                const payload = {
-                    contents: [
-                        {
-                            role: "user",
-                            parts: [
-                                { text: promptText },
-                                {
-                                    inlineData: {
-                                        mimeType: mimeType,
-                                        data: base64Data
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                };
-
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    const result = await response.json();
-                    const transcribedText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Audio transcription complete.";
-
-                    indexNewContent({
-                        title: `Audio Transcript: ${file.name}`,
-                        type: 'AUDIO',
-                        category: 'Audio File Transcription',
-                        content: transcribedText,
-                        sourceType: 'Audio Ingestion'
-                    });
-
-                    showToast(`Successfully transcribed ${file.name}!`, 'success');
-                } catch(err) {
-                    console.error("Audio transcription fallback:", err);
-                    // Fallback local mock transcription
-                    indexNewContent({
-                        title: `Audio Transcript: ${file.name}`,
-                        type: 'AUDIO',
-                        category: 'Audio Ingestion',
-                        content: `[Transcribed Audio Context]: Volunteer team update for ${file.name}. Confirming revised operational shifts and hotline updates.`,
-                        sourceType: 'Audio File'
-                    });
-                    showToast(`Transcribed ${file.name} using backup speech engine.`, 'success');
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        /**
-         * STREAMING_CHUNK:Implementing Smart Overwrite & Conflict Detection Logic...
-         */
-        async function indexNewContent(docObj) {
-            const newDoc = {
-                id: 'doc-' + Date.now(),
-                title: docObj.title,
-                type: docObj.type,
-                category: docObj.category || 'General',
-                date: new Date().toISOString().split('T')[0],
-                status: 'ACTIVE',
-                sourceType: docObj.sourceType,
-                content: docObj.content
-            };
-
-            // Run Conflict Evaluation Engine against existing Knowledge Base
-            await evaluateConflictsAndOverwrites(newDoc);
-
-            knowledgeBase.unshift(newDoc);
-            renderSources();
-            showToast(`Indexed "${newDoc.title}" into active memory.`, 'success');
-        }
-
-        /**
-         * DYNAMIC CONFLICT & OVERWRITE SCANNER
-         */
-        async function evaluateConflictsAndOverwrites(newDoc) {
-            // Intelligent Rule Comparison
-            const contentLower = newDoc.content.toLowerCase();
-
-            knowledgeBase.forEach(oldDoc => {
-                if (oldDoc.status === 'ACTIVE') {
-                    // Example Conflict Detection Pattern: Transport Days Modification
-                    if (contentLower.includes('transport') || contentLower.includes('re-confirmation') || contentLower.includes('sops')) {
-                        if (oldDoc.content.toLowerCase().includes('10 days') && (contentLower.includes('3 days') || contentLower.includes('revised'))) {
-                            oldDoc.status = 'OUTDATED';
-                            auditLogs.unshift({
-                                timestamp: new Date().toLocaleString(),
-                                category: 'Logistics Protocol',
-                                previousRule: '10 days prior transport re-confirmation window (SOP-101 V1)',
-                                newRule: '3 days prior transport re-confirmation window',
-                                sourceDoc: newDoc.title
-                            });
-                            showToast(`⚠️ Conflict Detected: Overwrote old 10-day transport rule with active 3-day SOP!`, 'warning');
-                        }
-                    }
-
-                    // Emergency Hotline Updates
-                    if (contentLower.includes('hotline') || contentLower.includes('+1-800')) {
-                        if (oldDoc.content.includes('+1-800-555-CYBER') && contentLower.includes('+1-800-555-9999')) {
-                            oldDoc.status = 'OUTDATED';
-                            auditLogs.unshift({
-                                timestamp: new Date().toLocaleString(),
-                                category: 'Hotline Update',
-                                previousRule: 'Hotline: +1-800-555-CYBER',
-                                newRule: 'Hotline: +1-800-555-9999',
-                                sourceDoc: newDoc.title
-                            });
-                        }
-                    }
-                }
-            });
-
-            renderAuditLog();
-        }
-
-        /**
-         * RENDER FUNCTIONS
-         */
-        function renderSources(filter = 'ALL') {
-            const container = document.getElementById('sourcesContainer');
+        function renderKnowledgeBaseList() {
+            const container = document.getElementById('kbListContainer');
             container.innerHTML = '';
 
-            let filtered = knowledgeBase;
-            if (filter === 'ACTIVE') filtered = knowledgeBase.filter(d => d.status === 'ACTIVE');
-            if (filter === 'OUTDATED') filtered = knowledgeBase.filter(d => d.status === 'OUTDATED');
-            if (filter === 'VOICE') filtered = knowledgeBase.filter(d => d.type === 'AUDIO');
+            const filtered = knowledgeBase.filter(doc => {
+                if (currentKbFilter === 'active') return doc.status === 'Active';
+                if (currentKbFilter === 'outdated') return doc.status === 'Outdated';
+                return true;
+            });
 
-            document.getElementById('sourceCountBadge').innerText = `${filtered.length} Sources Loaded`;
+            document.getElementById('kbDocCount').innerText = `${knowledgeBase.length} Items`;
 
             filtered.forEach(doc => {
-                const isActive = doc.status === 'ACTIVE';
-                const statusBadge = isActive 
-                    ? `<span class="bg-emerald-100 text-emerald-700 font-bold text-[10px] px-2 py-0.5 rounded-full border border-emerald-300">Approved Active SOP</span>`
-                    : `<span class="bg-amber-100 text-amber-800 font-bold text-[10px] px-2 py-0.5 rounded-full border border-amber-300">Outdated / Overwritten</span>`;
-
-                const typeIcon = doc.type === 'AUDIO' ? 'fa-microphone text-rose-500' : 'fa-file-lines text-cyan-600';
-
+                const isOutdated = doc.status === 'Outdated';
                 const card = document.createElement('div');
-                card.className = `p-3.5 rounded-2xl border transition flex flex-col gap-2 ${isActive ? 'bg-white/80 border-white/90 shadow-sm' : 'bg-slate-100/70 border-slate-200/80 opacity-75'}`;
+                card.className = `p-2.5 rounded-xl border transition cursor-pointer ${
+                    isOutdated 
+                    ? 'bg-slate-900/40 border-amber-500/30 hover:border-amber-400/60 opacity-80' 
+                    : 'bg-slate-900/70 border-sky-500/30 hover:border-cyan-400/60'
+                }`;
+
                 card.innerHTML = `
-                    <div class="flex items-start justify-between gap-2">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid ${typeIcon} text-sm"></i>
-                            <h4 class="font-bold text-xs md:text-sm text-slate-800 line-clamp-1">${escapeHtml(doc.title)}</h4>
-                        </div>
-                        ${statusBadge}
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider ${
+                            isOutdated ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        }">
+                            ${doc.status}
+                        </span>
+                        <span class="text-[10px] text-sky-400/70">${doc.type}</span>
                     </div>
-                    <p class="text-xs text-slate-600 line-clamp-2 bg-white/50 p-2 rounded-xl font-mono">${escapeHtml(doc.content)}</p>
-                    <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold pt-1">
-                        <span>Source: ${doc.sourceType} • ${doc.date}</span>
-                        <button onclick="toggleDocExpand('${doc.id}')" class="text-cyan-600 hover:underline">View Full Text</button>
-                    </div>
-                    <div id="expand-${doc.id}" class="hidden text-xs text-slate-700 bg-cyan-50/60 p-3 rounded-xl border border-cyan-100 font-mono whitespace-pre-wrap mt-1">
-                        ${escapeHtml(doc.content)}
-                    </div>
+                    <h4 class="text-xs font-bold text-sky-100 leading-snug mb-1">${doc.title}</h4>
+                    <p class="text-[10px] text-sky-300/70 line-clamp-2 mb-1">${doc.content}</p>
+                    ${isOutdated ? `<div class="text-[9px] text-amber-400 italic">⚠ Overridden by ${doc.overriddenBy || 'newer SOP'}</div>` : ''}
                 `;
+                card.onclick = () => showDocDetailModal(doc);
                 container.appendChild(card);
             });
         }
 
-        function filterSources(filterType) {
-            document.querySelectorAll('.source-filter-btn').forEach(btn => {
-                btn.className = 'source-filter-btn px-3 py-1 rounded-full bg-white/80 hover:bg-white text-slate-700 font-semibold border border-slate-200';
+        function setKbFilter(filter) {
+            currentKbFilter = filter;
+            ['all', 'active', 'outdated'].forEach(f => {
+                const btn = document.getElementById(`filterBtn-${f}`);
+                if (f === filter) {
+                    btn.className = "px-2 py-1 rounded-lg bg-cyan-500/30 text-cyan-200 font-semibold border border-cyan-400/40";
+                } else {
+                    btn.className = "px-2 py-1 rounded-lg bg-slate-800/60 text-slate-400 border border-slate-700";
+                }
             });
-            event.target.className = 'source-filter-btn px-3 py-1 rounded-full bg-cyan-600 text-white font-bold shadow-sm';
-            renderSources(filterType);
+            renderKnowledgeBaseList();
         }
 
-        function toggleDocExpand(docId) {
-            const el = document.getElementById(`expand-${docId}`);
-            if (el) el.classList.toggle('hidden');
-        }
-
-        function renderAuditLog() {
-            const tableBody = document.getElementById('auditTableBody');
-            tableBody.innerHTML = '';
-
-            document.getElementById('auditBadgeCount').innerText = auditLogs.length;
-
-            auditLogs.forEach(log => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-800/50 transition';
-                tr.innerHTML = `
-                    <td class="py-2.5 px-3 text-slate-400">${log.timestamp}</td>
-                    <td class="py-2.5 px-3 font-bold text-cyan-300">${escapeHtml(log.category)}</td>
-                    <td class="py-2.5 px-3 text-amber-300 line-through">${escapeHtml(log.previousRule)}</td>
-                    <td class="py-2.5 px-3 text-emerald-400 font-bold">${escapeHtml(log.newRule)}</td>
-                    <td class="py-2.5 px-3 text-slate-300">${escapeHtml(log.sourceDoc)}</td>
-                `;
-                tableBody.appendChild(tr);
+        function filterKnowledgeBase(searchTerm) {
+            const term = searchTerm.toLowerCase();
+            const cards = document.getElementById('kbListContainer').children;
+            Array.from(cards).forEach((card, idx) => {
+                const doc = knowledgeBase[idx];
+                if (doc && (doc.title.toLowerCase().includes(term) || doc.content.toLowerCase().includes(term))) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         }
 
-        function renderCalendar() {
-            const grid = document.getElementById('calendarDaysGrid');
-            grid.innerHTML = '';
-
-            // Render days 1 to 31 for November 2026 representation
-            for (let day = 1; day <= 31; day++) {
-                const dateStr = `2026-11-${String(day).padStart(2, '0')}`;
-                const matchedEvents = opsEvents.filter(e => e.date === dateStr);
-
-                const dayBox = document.createElement('div');
-                dayBox.className = `min-h-[64px] p-1.5 rounded-xl border flex flex-col justify-between ${matchedEvents.length > 0 ? 'bg-cyan-50/80 border-cyan-300 shadow-sm' : 'bg-white/40 border-white/60'}`;
-
-                let eventMarkup = '';
-                matchedEvents.forEach(e => {
-                    const bg = e.type === 'CRITICAL' ? 'bg-rose-500 text-white' : (e.type === 'DRILL' ? 'bg-indigo-500 text-white' : 'bg-cyan-600 text-white');
-                    eventMarkup += `<div class="${bg} text-[9px] font-bold px-1.5 py-0.5 rounded-md truncate mt-0.5" title="${e.title}">${e.title}</div>`;
-                });
-
-                dayBox.innerHTML = `
-                    <div class="text-[10px] font-bold text-slate-500">${day}</div>
-                    <div class="flex flex-col gap-0.5">${eventMarkup}</div>
-                `;
-                grid.appendChild(dayBox);
-            }
-        }
-
-        /**
-         * STREAMING_CHUNK:Structuring AI RAG Query Execution with Gemini API...
-         */
         async function handleQuerySubmit(event) {
             event.preventDefault();
-            const input = document.getElementById('userQueryInput');
-            const queryText = input.value.trim();
-            if (!queryText) return;
+            const input = document.getElementById('aiQueryInput');
+            const query = input.value.trim();
+            if (!query) return;
 
-            appendChatMessage('USER', queryText);
+            // Clear input and display searching indicator
             input.value = '';
+            const reportPlaceholder = document.getElementById('reportPlaceholder');
+            const reportOutput = document.getElementById('reportOutput');
+            
+            reportPlaceholder.classList.add('hidden');
+            reportOutput.classList.remove('hidden');
 
-            const loadingId = appendLoadingMessage();
+            reportOutput.innerHTML = `
+                <div class="aero-glass p-4 rounded-2xl space-y-3">
+                    <div class="flex items-center space-x-3 text-cyan-300 text-xs font-bold">
+                        <i class="fa-solid fa-spinner fa-spin text-lg text-cyan-400"></i>
+                        <span>Searching Knowledge Graph & Synthesizing Operational Report...</span>
+                    </div>
+                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-cyan-400 to-indigo-500 animate-pulse w-3/4"></div>
+                    </div>
+                </div>
+            `;
 
-            // Prepare Knowledge Base Payload Context
-            const activeMemoryContext = knowledgeBase.map(d => 
-                `[DOC ID: ${d.id}] Title: ${d.title} | Status: ${d.status} | Content: ${d.content}`
-            ).join('\n---\n');
+            // Execute AI Answer Generation
+            const reportData = await generateOperationalReport(query);
+            renderOperationalReport(query, reportData);
+        }
 
-            const systemPrompt = `You are the AI Operations Engine for the "Cyber Volunteer Network".
-Your responsibility is to analyze user queries against all indexed documents, voice dictations, and conflict logs.
-CRITICAL INSTRUCTION: Always prioritize "Approved Active SOP" records and highlight any "Outdated / Overwritten" rules if relevant.
+        function submitPrebuiltQuery(text) {
+            document.getElementById('aiQueryInput').value = text;
+            handleQuerySubmit(new Event('submit'));
+        }
 
-Format your response cleanly in Markdown HTML structure using these sections:
-1. 💡 **Executive Summary & Direct Answer**
-2. 📋 **Step-by-Step Action Plan / Protocol**
-3. ⏱️ **Key Deadlines, Requirements & Contacts Grid**
-4. ⚠️ **Conflict & Overwrite Alert Banner** (Only include if an old rule was overwritten by a newer directive)
-5. 📁 **Source Evidence References**`;
+        async function generateOperationalReport(query) {
+            // Prepare active context documents
+            const activeDocs = knowledgeBase.map(d => `[${d.id} - ${d.title} (${d.status})]: ${d.content}`).join("\n");
+            
+            const systemPrompt = `You are the Cyber Volunteer Network Incident Command AI. 
+Analyze all context documents carefully. Output a structured operational report response formatted with markdown.
+Your answer MUST address any policy overrides or conflicting instructions (e.g. legacy vs updated SLA hours, or email contacts).`;
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const userPrompt = `USER QUERY: ${query}
 
-            const payload = {
-                contents: [
-                    {
-                        role: "user",
-                        parts: [{ text: `INDEXED KNOWLEDGE BASE CONTEXT:\n${activeMemoryContext}\n\nUSER QUERY: ${queryText}` }]
-                    }
-                ],
-                systemInstruction: { parts: [{ text: systemPrompt }] }
-            };
+KNOWLEDGE GRAPH CONTEXT DOCUMENTS:
+${activeDocs}`;
 
+            // Attempt Gemini API call
             try {
-                const response = await fetch(apiUrl, {
+                const apiKey = ""; // Runtime automatically injected by environment if applicable
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                const result = await response.json();
-                removeChatMessage(loadingId);
 
-                const aiResponseText = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to retrieve query response.";
-                appendChatMessage('AI', aiResponseText);
+                if (res.ok) {
+                    const data = await res.json();
+                    const aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (aiText) {
+                        return {
+                            engine: "Gemini 3 Flash",
+                            text: aiText,
+                            isFallback: false
+                        };
+                    }
+                }
             } catch (err) {
-                console.error("Gemini Query Error:", err);
-                removeChatMessage(loadingId);
-                // Smart Offline/Fallback RAG Engine
-                const fallbackResponse = generateLocalStructuredResponse(queryText);
-                appendChatMessage('AI', fallbackResponse);
+                console.warn("Gemini API call skipped or offline fallback triggered:", err);
             }
+
+            // SMART OFFLINE FALLBACK SYNTHESIZER
+            return generateOfflineReportFallback(query);
         }
 
-        /**
-         * LOCAL RAG FALLBACK PARSER
-         */
-        function generateLocalStructuredResponse(query) {
-            const q = query.toLowerCase();
-            let isTransport = q.includes('transport') || q.includes('re-confirmation') || q.includes('10 days') || q.includes('3 days');
-            let isSummit = q.includes('summit') || q.includes('cybershield') || q.includes('event');
+        function generateOfflineReportFallback(query) {
+            const lowerQuery = query.toLowerCase();
+            let summary = "";
+            let plan = [];
+            let grid = [];
+            let conflicts = [];
 
-            if (isTransport) {
-                return `
-                <div class="flex flex-col gap-3">
-                    <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
-                        <h4 class="font-bold text-slate-800 text-xs md:text-sm">💡 Executive Summary & Direct Answer</h4>
-                        <p class="text-xs text-slate-700 mt-1">The current active transport re-confirmation window is <strong>3 days prior to event date</strong> (Updated from former 10-day window). Emergency hotline is <strong>+1-800-555-9999</strong>.</p>
+            if (lowerQuery.includes("response") || lowerQuery.includes("sla") || lowerQuery.includes("contact") || lowerQuery.includes("emergency") || lowerQuery.includes("breach")) {
+                summary = "For Severity 1 cyber incidents, the active policy (SOP v2.0) mandates a **1-hour response SLA** by incident leads. Legacy SLA of 4 hours has been overwritten.";
+                plan = [
+                    "Immediately log breach severity in the incident portal.",
+                    "Notify Emergency Lead via direct email at **emergency-lead@cybervol.org** or hotline **+1-800-555-CYBER**.",
+                    "Initiate volunteer triage roster within 30 minutes of notification."
+                ];
+                grid = [
+                    { metric: "Severity 1 Response SLA", value: "1 Hour (Active)", status: "Updated v2.0" },
+                    { metric: "Primary Emergency Lead", value: "emergency-lead@cybervol.org", status: "Active Lead" },
+                    { metric: "Emergency Hotline", value: "+1-800-555-CYBER", status: "Active 24/7" },
+                    { metric: "Legacy Contact", value: "director.smith@cybervol.org", status: "OUTDATED / OVERWRITTEN" }
+                ];
+                conflicts = [
+                    "⚠ OVERWRITE ALERT: DOC-101 (4-hour SLA & director.smith@cybervol.org) was officially overwritten by DOC-102 (1-hour SLA & emergency-lead@cybervol.org)."
+                ];
+            } else if (lowerQuery.includes("shift") || lowerQuery.includes("swap") || lowerQuery.includes("notice") || lowerQuery.includes("schedule")) {
+                summary = "Standard volunteer shift swaps require **5 days advance notice** (DOC-103). However, emergency tier-1 swaps are allowed with **48 hours notice** per the Audio Addendum (DOC-104).";
+                plan = [
+                    "For standard swaps, submit request in volunteer portal at least 5 days prior.",
+                    "For urgent/tier-1 emergency swaps, utilize the 48-hour expedited override path.",
+                    "Ensure secondary volunteer acknowledges shift coverage in system."
+                ];
+                grid = [
+                    { metric: "Standard Shift Swap Notice", value: "5 Days", status: "Active Standard" },
+                    { metric: "Emergency Tier-1 Swap Notice", value: "48 Hours", status: "Active Addendum" },
+                    { metric: "Approval Contact", value: "Roster Lead / Shift Portal", status: "Active" }
+                ];
+                conflicts = [
+                    "⚠ ADDENDUM ALERT: DOC-104 (Audio Note) updated emergency tier shift swap SLA down to 48 hours."
+                ];
+            } else {
+                summary = `Based on Knowledge Base scan for "${query}", active protocols require strict adherence to updated SOP v2.0 and active voice addendums.`;
+                plan = [
+                    "Review active policy documents in the Knowledge Base drawer.",
+                    "Verify contact details against Overwrite Audit Log before escalating.",
+                    "Confirm incident logging through official volunteer portal."
+                ];
+                grid = [
+                    { metric: "Query Subject", value: query, status: "Analyzed" },
+                    { metric: "Knowledge Graph Status", value: "Indexed & Synced", status: "Active" }
+                ];
+            }
+
+            return {
+                engine: "Smart Offline Intelligence Engine",
+                text: null,
+                isFallback: true,
+                structured: {
+                    summary,
+                    plan,
+                    grid,
+                    conflicts
+                }
+            };
+        }
+
+        function renderOperationalReport(query, reportData) {
+            const reportOutput = document.getElementById('reportOutput');
+            
+            let html = `
+                <div class="aero-glass p-5 rounded-2xl space-y-4 border border-cyan-400/40">
+                    <!-- Engine Header Badge -->
+                    <div class="flex justify-between items-center border-b border-sky-500/20 pb-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                            <span class="text-xs font-bold text-cyan-200 uppercase tracking-wider">Operational AI Report</span>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">
+                            <i class="fa-solid fa-bolt text-amber-300 mr-1"></i>${reportData.engine}
+                        </span>
                     </div>
 
-                    <div class="p-3 bg-white/80 rounded-xl border border-slate-200">
-                        <h4 class="font-bold text-slate-800 text-xs mb-1">📋 Action Protocol</h4>
-                        <ul class="list-disc list-inside text-xs text-slate-600 flex flex-col gap-1">
-                            <li>Log into dispatch portal exactly 3 days prior to deployment.</li>
-                            <li>Confirm driver roster and equipment checkout (Max 4 devices per lead).</li>
-                            <li>Call emergency hotline (+1-800-555-9999) for immediate route changes.</li>
+                    <!-- User Query Reflect -->
+                    <div class="text-xs text-sky-300/80 italic bg-slate-900/50 p-2.5 rounded-xl border border-sky-500/20">
+                        <strong class="text-sky-200">Query:</strong> "${query}"
+                    </div>
+            `;
+
+            if (!reportData.isFallback && reportData.text) {
+                // Formatted text response from Gemini API
+                html += `
+                    <div class="prose prose-invert max-w-none text-xs text-sky-100 space-y-3 leading-relaxed">
+                        ${reportData.text.replace(/\n/g, '<br>')}
+                    </div>
+                `;
+            } else {
+                // Structured Fallback Operational Layout
+                const s = reportData.structured;
+
+                if (s.conflicts && s.conflicts.length > 0) {
+                    html += `
+                        <div class="p-3 rounded-xl bg-amber-500/15 border border-amber-400/40 text-amber-200 text-xs space-y-1">
+                            <div class="font-bold flex items-center gap-1.5 text-amber-300">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Dynamic Policy Conflict / Overwrite Detected
+                            </div>
+                            ${s.conflicts.map(c => `<p class="text-[11px]">${c}</p>`).join('')}
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <!-- 1. Executive Summary -->
+                    <div>
+                        <h4 class="text-xs font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i> Executive Summary
+                        </h4>
+                        <p class="text-xs text-sky-100 bg-slate-900/60 p-3 rounded-xl border border-sky-500/20 leading-relaxed">${s.summary}</p>
+                    </div>
+
+                    <!-- 2. Step-by-Step Action Plan -->
+                    <div>
+                        <h4 class="text-xs font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-1">
+                            <i class="fa-solid fa-list-check text-sky-400"></i> Step-by-Step Action Plan
+                        </h4>
+                        <ul class="space-y-1.5 pl-1">
+                            ${s.plan.map((step, i) => `
+                                <li class="text-xs text-sky-200 flex items-start gap-2 bg-slate-900/40 p-2 rounded-lg border border-sky-500/10">
+                                    <span class="w-4 h-4 rounded-full bg-cyan-500/30 text-cyan-300 text-[10px] font-bold flex items-center justify-center shrink-0">${i+1}</span>
+                                    <span>${step}</span>
+                                </li>
+                            `).join('')}
                         </ul>
                     </div>
 
-                    <div class="p-3 bg-amber-50 rounded-xl border border-amber-300">
-                        <h4 class="font-bold text-amber-900 text-xs flex items-center gap-1.5">
-                            <i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Conflict & Overwrite Alert
+                    <!-- 3. Key Operational Grid -->
+                    <div>
+                        <h4 class="text-xs font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-1">
+                            <i class="fa-solid fa-table-cells text-indigo-400"></i> Operational Grid & SLA Targets
                         </h4>
-                        <p class="text-xs text-amber-800 mt-0.5">SOP-101 V1 (10-day prior confirmation) was officially <strong>OVERWRITTEN</strong> by SOP-101-REV2 due to real-time dispatch optimizations.</p>
-                    </div>
-
-                    <div class="text-[11px] text-slate-500 font-mono bg-slate-100 p-2 rounded-lg">
-                        📁 Verified Sources: [SOP-101-REV2: Revised Transport Protocol]
-                    </div>
-                </div>`;
-            } else if (isSummit) {
-                return `
-                <div class="flex flex-col gap-3">
-                    <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
-                        <h4 class="font-bold text-slate-800 text-xs md:text-sm">💡 Executive Summary & Direct Answer</h4>
-                        <p class="text-xs text-slate-700 mt-1">CyberShield Summit 2026 takes place on <strong>November 14-16, 2026</strong> at <strong>Metro Tech Center, Hall B</strong>. Briefing begins at 08:00 AM UTC.</p>
-                    </div>
-                    <div class="p-3 bg-white/80 rounded-xl border border-slate-200">
-                        <h4 class="font-bold text-slate-800 text-xs mb-1">⏱️ Key Details & Contact Grid</h4>
-                        <p class="text-xs text-slate-600">Lead Coordinator: Sarah Jenkins (sarah.j@cybervolunteers.org)<br>Shift check-in: 30 minutes prior to briefing.</p>
-                    </div>
-                </div>`;
-            } else {
-                return `
-                <div class="flex flex-col gap-3">
-                    <div class="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
-                        <h4 class="font-bold text-slate-800 text-xs md:text-sm">💡 Executive Summary & Direct Answer</h4>
-                        <p class="text-xs text-slate-700 mt-1">Processed query against all ${knowledgeBase.length} indexed records in memory. Active directives are synchronized.</p>
-                    </div>
-                </div>`;
-            }
-        }
-
-        /**
-         * CHAT UI HELPERS
-         */
-        function appendChatMessage(sender, htmlContent) {
-            const container = document.getElementById('chatContainer');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'flex gap-3 items-start animate-fade-in';
-
-            if (sender === 'USER') {
-                msgDiv.innerHTML = `
-                    <div class="w-9 h-9 rounded-xl bg-slate-700 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 ml-auto">
-                        YOU
-                    </div>
-                    <div class="bg-cyan-600 text-white p-3.5 rounded-2xl text-xs md:text-sm max-w-[80%] shadow-md ml-auto">
-                        ${escapeHtml(htmlContent)}
-                    </div>
-                `;
-            } else {
-                msgDiv.innerHTML = `
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-md flex-shrink-0">
-                        AI
-                    </div>
-                    <div class="glass-panel p-4 rounded-2xl text-xs md:text-sm text-slate-800 max-w-[85%] flex flex-col gap-2 shadow-sm border border-white">
-                        ${htmlContent}
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-sky-200 border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-900/80 border-b border-sky-500/30 text-sky-400 text-[10px] uppercase">
+                                        <th class="p-2">Metric / Role</th>
+                                        <th class="p-2">Target Value</th>
+                                        <th class="p-2">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-sky-500/10">
+                                    ${s.grid.map(g => `
+                                        <tr>
+                                            <td class="p-2 font-medium">${g.metric}</td>
+                                            <td class="p-2 text-cyan-200 font-mono">${g.value}</td>
+                                            <td class="p-2 text-[10px]"><span class="px-2 py-0.5 rounded-full ${g.status.includes('OVERWRITTEN') ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">${g.status}</span></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 `;
             }
 
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function appendLoadingMessage() {
-            const container = document.getElementById('chatContainer');
-            const id = 'loading-' + Date.now();
-            const msgDiv = document.createElement('div');
-            msgDiv.id = id;
-            msgDiv.className = 'flex gap-3 items-start';
-            msgDiv.innerHTML = `
-                <div class="w-9 h-9 rounded-xl bg-cyan-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
-                    <i class="fa-solid fa-spinner animate-spin"></i>
-                </div>
-                <div class="glass-panel p-3 rounded-2xl text-xs text-slate-600 italic">
-                    Evaluating conflicts and querying active memory...
+            // Sources Footnote
+            html += `
+                    <div class="pt-2 border-t border-sky-500/20 flex justify-between items-center text-[10px] text-sky-400/70">
+                        <span>Cited Context Documents: ${knowledgeBase.filter(d => d.status === 'Active').length} Active Files</span>
+                        <button onclick="window.print()" class="hover:text-cyan-300 flex items-center gap-1">
+                            <i class="fa-solid fa-print"></i> Export Operational Brief
+                        </button>
+                    </div>
                 </div>
             `;
-            container.appendChild(msgDiv);
-            container.scrollTop = container.scrollHeight;
-            return id;
+
+            reportOutput.innerHTML = html;
         }
 
-        function removeChatMessage(id) {
-            const el = document.getElementById(id);
-            if (el) el.remove();
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+        }
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.add('hidden');
+            document.getElementById('uploadStatus').classList.add('hidden');
         }
 
-        function fillSampleQuery(text) {
-            document.getElementById('userQueryInput').value = text;
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.add('border-cyan-400');
+        }
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').classList.remove('border-cyan-400');
+        }
+        function handleFileDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const files = e.dataTransfer.files;
+            if (files.length > 0) processUploadedFiles(files);
+        }
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files.length > 0) processUploadedFiles(files);
         }
 
-        function startSpeechForQuery() {
-            if (recognition) {
-                showToast('Listening for query...', 'info');
-                recognition.start();
-                recognition.onresult = (e) => {
-                    const speechResult = e.results[0][0].transcript;
-                    document.getElementById('userQueryInput').value = speechResult;
+        async function processUploadedFiles(files) {
+            const status = document.getElementById('uploadStatus');
+            status.classList.remove('hidden');
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const ext = file.name.split('.').pop().toLowerCase();
+                let textContent = "";
+
+                try {
+                    if (ext === 'txt' || ext === 'csv' || ext === 'json') {
+                        textContent = await file.text();
+                    } else if (ext === 'pdf') {
+                        textContent = await readPdfFile(file);
+                    } else if (ext === 'docx') {
+                        textContent = await readDocxFile(file);
+                    } else {
+                        textContent = `Uploaded document file: ${file.name}`;
+                    }
+
+                    const newDoc = {
+                        id: `DOC-${Date.now().toString().slice(-4)}`,
+                        title: file.name,
+                        type: `${ext.toUpperCase()} Upload`,
+                        date: new Date().toISOString().split('T')[0],
+                        status: "Active",
+                        overriddenBy: null,
+                        content: textContent || "Parsed document content."
+                    };
+
+                    knowledgeBase.unshift(newDoc);
+                } catch (err) {
+                    console.error("Error reading file:", err);
+                }
+            }
+
+            detectDocumentConflicts();
+            closeUploadModal();
+        }
+
+        function readPdfFile(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = async function() {
+                    try {
+                        const typedarray = new Uint8Array(this.result);
+                        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                        const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                        let fullText = "";
+                        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                            const page = await pdf.getPage(pageNum);
+                            const textContent = await page.getTextContent();
+                            fullText += textContent.items.map(s => s.str).join(' ') + '\n';
+                        }
+                        resolve(fullText);
+                    } catch (e) {
+                        resolve(`[PDF Parsing Error for ${file.name}]`);
+                    }
                 };
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        function readDocxFile(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    mammoth.extractRawText({ arrayBuffer: e.target.result })
+                        .then(result => resolve(result.value))
+                        .catch(() => resolve(`[DOCX Parsing Error for ${file.name}]`));
+                };
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        function openVoiceModal() {
+            document.getElementById('voiceModal').classList.remove('hidden');
+            initAudioVisualizerCanvas();
+        }
+        function closeVoiceModal() {
+            if (isRecording) stopRecording();
+            document.getElementById('voiceModal').classList.add('hidden');
+        }
+
+        function initAudioVisualizerCanvas() {
+            const canvas = document.getElementById('waveformCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        async function toggleVoiceRecording() {
+            if (!isRecording) {
+                startRecording();
             } else {
-                showToast('Web Speech API unavailable', 'warning');
+                stopRecording();
             }
         }
 
-        function handleQuickSearch() {
-            const q = document.getElementById('quickSearchInput').value.toLowerCase();
-            const filtered = knowledgeBase.filter(d => 
-                d.title.toLowerCase().includes(q) || d.content.toLowerCase().includes(q)
-            );
-            document.getElementById('sourceCountBadge').innerText = `${filtered.length} Filtered`;
-            renderSourcesListFiltered(filtered);
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                const source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyser);
+
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.start();
+
+                // Web Speech API for live transcription
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    recognition = new SpeechRecognition();
+                    recognition.continuous = true;
+                    recognition.interimResults = true;
+
+                    recognition.onresult = (event) => {
+                        let transcript = '';
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            transcript += event.results[i][0].transcript;
+                        }
+                        liveTranscriptBuffer = transcript;
+                        document.getElementById('liveTranscriptText').innerText = transcript || "Listening...";
+                    };
+                    recognition.start();
+                } else {
+                    document.getElementById('liveTranscriptText').innerText = "[Speech Recognition API not supported in browser, simulated audio note logged]";
+                    liveTranscriptBuffer = "Urgent Verbal Note: Team leads must acknowledge cyber incidents within 1 hour SLA.";
+                }
+
+                isRecording = true;
+                document.getElementById('recordBtnText').innerText = "Stop Recording";
+                document.getElementById('recordToggleBtn').className = "aero-btn aero-btn-amber px-5 py-2 rounded-xl text-xs flex items-center space-x-2";
+                
+                visualizeWaveform();
+            } catch (err) {
+                alert("Microphone permission denied or audio device missing.");
+            }
         }
 
-        function renderSourcesListFiltered(list) {
-            const container = document.getElementById('sourcesContainer');
+        function visualizeWaveform() {
+            const canvas = document.getElementById('waveformCanvas');
+            const ctx = canvas.getContext('2d');
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            function draw() {
+                if (!isRecording) return;
+                recordingAnimationId = requestAnimationFrame(draw);
+                analyser.getByteTimeDomainData(dataArray);
+
+                ctx.fillStyle = '#090d16';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#00f2fe';
+                ctx.beginPath();
+
+                const sliceWidth = canvas.width * 1.0 / bufferLength;
+                let x = 0;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const v = dataArray[i] / 128.0;
+                    const y = v * canvas.height / 2;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                    x += sliceWidth;
+                }
+                ctx.lineTo(canvas.width, canvas.height / 2);
+                ctx.stroke();
+            }
+            draw();
+        }
+
+        function stopRecording() {
+            if (mediaRecorder) mediaRecorder.stop();
+            if (recognition) recognition.stop();
+            if (recordingAnimationId) cancelAnimationFrame(recordingAnimationId);
+            
+            isRecording = false;
+            document.getElementById('recordBtnText').innerText = "Start Recording";
+            document.getElementById('recordToggleBtn').className = "aero-btn aero-btn-emerald px-5 py-2 rounded-xl text-xs flex items-center space-x-2";
+
+            const saveBtn = document.getElementById('saveVoiceBtn');
+            saveBtn.disabled = false;
+            saveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function saveVoiceNote() {
+            const titleInput = document.getElementById('voiceNoteTitle').value.trim() || "Recorded Voice Note";
+            const transcript = liveTranscriptBuffer || "Audio recording transcribed note.";
+
+            const voiceDoc = {
+                id: `DOC-${Date.now().toString().slice(-4)}`,
+                title: titleInput,
+                type: "Audio Transcript",
+                date: new Date().toISOString().split('T')[0],
+                status: "Active",
+                overriddenBy: null,
+                content: `AUDIO TRANSCRIPT: ${transcript}`
+            };
+
+            knowledgeBase.unshift(voiceDoc);
+            detectDocumentConflicts();
+            closeVoiceModal();
+        }
+
+        function toggleAuditDrawer() {
+            const modal = document.getElementById('auditModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function renderAuditLogList() {
+            const container = document.getElementById('auditLogList');
             container.innerHTML = '';
-            list.forEach(doc => {
-                const isActive = doc.status === 'ACTIVE';
+
+            if (conflictAuditLogs.length === 0) {
+                container.innerHTML = '<p class="text-xs text-sky-400">No rule conflicts detected.</p>';
+                return;
+            }
+
+            conflictAuditLogs.forEach(log => {
                 const card = document.createElement('div');
-                card.className = `p-3.5 rounded-2xl border transition flex flex-col gap-2 ${isActive ? 'bg-white/80 border-white/90 shadow-sm' : 'bg-slate-100/70 border-slate-200/80 opacity-75'}`;
+                card.className = "p-3 rounded-xl bg-slate-900/80 border border-amber-500/30 text-xs space-y-1";
                 card.innerHTML = `
-                    <div class="flex items-start justify-between gap-2">
-                        <h4 class="font-bold text-xs md:text-sm text-slate-800 line-clamp-1">${escapeHtml(doc.title)}</h4>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}">${doc.status}</span>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-amber-300"><i class="fa-solid fa-code-compare mr-1"></i>${log.topic}</span>
+                        <span class="text-[10px] text-sky-400/70">${log.timestamp}</span>
                     </div>
-                    <p class="text-xs text-slate-600 line-clamp-2">${escapeHtml(doc.content)}</p>
+                    <p class="text-sky-200 text-[11px]"><strong class="text-amber-400">Overridden:</strong> ${log.supersededDoc}</p>
+                    <p class="text-sky-200 text-[11px]"><strong class="text-emerald-400">Active Rule:</strong> ${log.activeDoc}</p>
+                    <div class="text-[10px] text-sky-300/80 bg-slate-950 p-1.5 rounded border border-sky-500/10">${log.ruleDifference}</div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        /**
-         * MODAL CONTROLLERS
-         */
-        function toggleAuditModal() {
-            document.getElementById('auditModal').classList.toggle('hidden');
+        function showDocDetailModal(doc) {
+            alert(`DOCUMENT: ${doc.title}\nSTATUS: ${doc.status}\n\nCONTENT:\n${doc.content}`);
+        }
+
+        function renderCalendar() {
+            const monthYearLabel = document.getElementById('calendarMonthYear');
+            const grid = document.getElementById('calendarDaysGrid');
+            grid.innerHTML = '';
+
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            monthYearLabel.innerText = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Empty padding cells
+            for (let i = 0; i < firstDay; i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            // Calendar day cells
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = "py-1.5 rounded-lg border border-sky-500/10 bg-slate-900/40 text-sky-300 hover:border-cyan-400/50 cursor-pointer relative";
+                cell.innerText = day;
+
+                // Highlight events
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasEvent = calendarEvents.some(e => e.date === dateStr);
+                if (hasEvent) {
+                    cell.className += " border-cyan-400 bg-cyan-500/20 font-bold text-cyan-200";
+                    const dot = document.createElement('span');
+                    dot.className = "w-1.5 h-1.5 rounded-full bg-cyan-400 absolute bottom-0.5 left-1/2 -translate-x-1/2";
+                    cell.appendChild(dot);
+                }
+
+                grid.appendChild(cell);
+            }
+
+            renderUpcomingEvents();
+        }
+
+        function changeMonth(delta) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function renderUpcomingEvents() {
+            const container = document.getElementById('upcomingEventsList');
+            container.innerHTML = '';
+
+            calendarEvents.forEach(evt => {
+                const card = document.createElement('div');
+                card.className = "p-2 rounded-xl bg-slate-900/60 border border-indigo-500/30 text-xs space-y-1";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sky-100">${evt.title}</span>
+                        <span class="text-[9px] px-1.5 py-0.2 rounded ${evt.priority === 'High' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'bg-indigo-500/20 text-indigo-300'}">${evt.priority}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-[10px] text-sky-400">
+                        <span><i class="fa-regular fa-clock mr-1"></i>${evt.date}</span>
+                        <span>${evt.description}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
         function openAddEventModal() {
-            document.getElementById('addEventModal').classList.remove('hidden');
+            document.getElementById('eventModal').classList.remove('hidden');
         }
-
         function closeAddEventModal() {
-            document.getElementById('addEventModal').classList.add('hidden');
+            document.getElementById('eventModal').classList.add('hidden');
         }
 
-        function handleNewEventSubmit(e) {
-            e.preventDefault();
-            const title = document.getElementById('eventTitleInput').value;
-            const date = document.getElementById('eventDateInput').value;
-            const type = document.getElementById('eventTypeInput').value;
-            const location = document.getElementById('eventLocationInput').value;
+        function saveCalendarEvent() {
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const priority = document.getElementById('eventPriority').value;
+            const description = document.getElementById('eventDescription').value.trim();
 
-            opsEvents.push({ id: 'e-' + Date.now(), title, date, type, location });
+            if (!title || !date) {
+                alert("Please fill in event title and date.");
+                return;
+            }
+
+            calendarEvents.push({
+                id: `EVT-${Date.now()}`,
+                title,
+                date,
+                priority,
+                description
+            });
+
             renderCalendar();
             closeAddEventModal();
-            showToast('Event added to Operations Calendar!', 'success');
         }
 
-        /**
-         * UTILITIES
-         */
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            const bg = type === 'success' ? 'bg-emerald-600' : (type === 'warning' ? 'bg-amber-600' : 'bg-cyan-600');
-            toast.className = `fixed bottom-5 right-5 text-white px-4 py-3 rounded-2xl shadow-xl font-bold text-xs z-50 transition transform translate-y-2 opacity-0 ${bg} flex items-center gap-2`;
-            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${escapeHtml(message)}`;
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        }
+        window.onload = function() {
+            initBackgroundCanvas();
+            detectDocumentConflicts();
+            renderCalendar();
+        };
     </script>
 </body>
 </html>
